@@ -12,6 +12,7 @@
 - [Next JS](https://nextjs.org/docs/getting-started)
 - [Mongoose](https://mongoosejs.com/docs/api.html)
 - [MUI Bootstrap](https://mui.com/material-ui/getting-started/overview/)
+- [FullCalendar](https://fullcalendar.io/docs)
 - [Twilio](https://www.twilio.com/docs)
 
 ## Installation
