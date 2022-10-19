@@ -1,5 +1,3 @@
 import useAsyncFetch from './useAsyncFetch';
 
-export {
-    useAsyncFetch
-};
+export { useAsyncFetch };

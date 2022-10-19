@@ -1,6 +1,6 @@
 export const Collections = {
-    groups: 'groups',
-    users: 'users',
-    events: 'events',
-    availabilities: 'availabilities'
-}
+  groups: 'groups',
+  users: 'users',
+  events: 'events',
+  availabilities: 'availabilities',
+};
