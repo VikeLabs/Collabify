@@ -3,6 +3,7 @@ import { Alert, Skeleton } from '@mui/material';
 import { useAsyncFetch } from '../../hooks';
 import { GROUP } from '../../constants';
 import { useRouter } from 'next/router';
+import { getTodaysDate } from '../../helper/getTodaysDate'
 
 export default function GroupHome() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function GroupHome() {
       <button
         onClick={() =>
           navigator.clipboard.writeText(
-            `localhost:3000/${groupName}/availability`
+            `localhost:3000/${groupName}/availability/${getTodaysDate()}`
           )
         }
       >

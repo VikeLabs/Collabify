@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { Collections } from '../constants';
 
 const AvailabilitySchema = new mongoose.Schema({
-  week: { type: Number, required: true }, // The number of week it is in the year
+  weekOf: { type: String, required: true }, // The number of week it is in the year
   times: { type: Array, required: true },
   name: { type: String, required: true },
   number: { type: String, required: true },
