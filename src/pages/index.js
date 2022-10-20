@@ -14,6 +14,17 @@ export default function Home() {
   if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
 
   const createGroup = () => {
+    // Error handling
+    if (name.length < 2) {
+      // setHasError(() => 'name error message'); // TODO: set name error messages
+      return;
+    }
+
+    if (description == '') {
+      // setHasError(() => 'description error message'); // TODO: set description error messages
+      return;
+    }
+
     fetch(GROUP, {
       method: 'POST',
       body: JSON.stringify({
@@ -31,10 +42,16 @@ export default function Home() {
     <div>
       <h1>Create group</h1>
 
-      <input placeholder='Name' onChange={(e) => setName(e.target.value)} />
+      <input
+        style={hasError ? { color: 'red' } : {}}
+        placeholder='Name'
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
       <input
         placeholder='Description'
         onChange={(e) => setDescription(e.target.value)}
+        required
       />
 
       <button onClick={() => createGroup()}>Create Group</button>
