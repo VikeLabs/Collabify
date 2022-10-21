@@ -2,10 +2,12 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import { useTheme } from '@mui/styles';
 
 import { ContainerCalendar } from "./styles";
 
 export const AvailabilityCalendar = ({weekOf, times, updateTimes}) => {
+  const theme = useTheme()
 
   const handleSelect = (selectInfo) => {
     updateTimes( arr => [...arr, selectInfo]);
@@ -40,7 +42,7 @@ export const AvailabilityCalendar = ({weekOf, times, updateTimes}) => {
       select={handleSelect}
       eventClick={handleClick}
       eventOverlap={false}
-      eventBackgroundColor={'#1FD351'}
+      eventBackgroundColor={theme.palette.availability.main}
       selectOverlap={false}
       longPressDelay={1000}
       eventLongPressDelay={1000}
