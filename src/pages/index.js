@@ -17,20 +17,8 @@ export default function Home() {
 
   if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
 
-  const [nameError, setNameError] = useState(''); // name err
-  const [descError, setDescError] = useState(''); // description err
-
   const createGroup = () => {
-    // Form validation
-    if (name.length < 2) {
-      setNameError(() => 'Enter valid name');
-    }
-    if (description == '') {
-      setDescError(() => 'A description is required');
-    }
-
-    // seperate return to display all helper text before terminating the function
-    if (nameError !== '' || descError !== '') return null;
+    if (name === '' || description == '') return null; // no request without `name` and `description`
 
     // Make request when enough information provided
     fetch(GROUP, {
@@ -60,8 +48,6 @@ export default function Home() {
           required
           onChange={(e) => setName(() => e.target.value)}
           value={name}
-          error={nameError !== '' ? true : false}
-          helperText={nameError !== '' ? nameError : null}
         />
         {/* Description input */}
         <TextField
@@ -72,8 +58,6 @@ export default function Home() {
           required
           onChange={(e) => setDescription(() => e.target.value)}
           value={description}
-          error={descError !== '' ? true : false}
-          helperText={descError !== '' ? descError : null}
         />
       </div>
       {/* Submit button */}
