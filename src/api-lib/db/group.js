@@ -3,9 +3,8 @@ import { Group } from '../model';
 export const createGroup = async ({ group }) => {
   // Creates group
   // If theres an error function will return true
-  let error = false;
   const model = new Group(group);
-  error = await model
+  const error = await model
     .save()
     .then(() => {
       return false;
@@ -19,6 +18,8 @@ export const createGroup = async ({ group }) => {
 };
 
 export const getGroup = async ({ groupName }) => {
+  // Gets the group by the group name
+  // Doesn't return error because it gets handled on api side (result.length > 0)
   const result = await Group.find({ name: groupName });
 
   return result;
