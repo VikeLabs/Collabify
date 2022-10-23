@@ -1,0 +1,14 @@
+/* all the following styles are just for testings */
+.createGroup {
+  color: var(--blue);
+}
+
+.inputFields {
+  display: flex;
+  gap: 1em;
+}
+
+.submitButton {
+  margin-top: 0.5em;
+  background-color: var(--orange);
+}

@@ -12,7 +12,7 @@
 - Contributing
   - [Workflow](#Workflow)
   - [Directories Structure](#Directories-Structure)
-  - [Code style](#Code-style)
+  - [Code Style](#Code-Style)
 - [Developers](#Developers)
 
 ## Quick start
@@ -55,6 +55,7 @@ If nothing is prompted, go to your web browser and visit `localhost:3000`
 For the tech we are using:
 
 - [Next JS](https://nextjs.org/docs/getting-started)
+  - [CSS Modules with Next JS](https://nextjs.org/docs/basic-features/built-in-css-support)
 - [Mongoose](https://mongoosejs.com/docs/api.html)
 - [MUI Bootstrap](https://mui.com/material-ui/getting-started/overview/)
 - [FullCalendar](https://fullcalendar.io/docs)
@@ -115,11 +116,45 @@ To prevent from becoming a self-fulfilling meme(s), here are the general rules!
 
 ### Directories Structure
 
-- TBD
+- All `stylesheets` live in the `/src/styles/` dir. Adding a dir for each pages, for example:
+  All stylesheets being used in the homepage would go into `src/styles/home/` dir.
 
 ### Code Style
 
-- TBD
+#### Absolute imports
+
+Absolute import path has been set up, the `src` dir is the starting point. For example, if
+you are working in `./src/pages/_app.js` and need to import the `globals.css` stylesheet from
+`./src/styles/`:
+
+```js
+import 'styles/globals.css';
+```
+
+For a more detailed [explanation](https://nextjs.org/docs/advanced-features/module-path-aliases).
+
+#### CSS Modules
+
+**NEXT.js** supports `CSS Modules` out of the box. It works very similar to regular CSS, you
+do not have to worry about potentially clashing class names. For a detail explanation, checkout
+the [doc](#Documentations-and-Additional-Resources) section.
+
+A quick example:
+
+```js
+// At the top of the file the index.js file
+import style from 'styles/home/home.module.css'; // note the required `.module` extension
+// ...
+return <div className={style.anExample}>{/* ... */}</div>;
+```
+
+```css
+/* in home.module.css */
+/* for javascript support, use camelCase */
+.anExample {
+  /* regular css code */
+}
+```
 
 ## Developers
 
