@@ -1,4 +1,4 @@
-import { Alert, Skeleton } from '@mui/material';
+import { Alert, Skeleton } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 // mui
@@ -6,7 +6,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 import { GROUP } from '../constants';
-import { create } from '@mui/material/styles/createTransitions';
+import { create } from '@mui/material/styles/createTransitions'; // `create` not used
+
+import style from 'styles/home/style.module.css';
 
 export default function Home() {
   const router = useRouter();
@@ -35,12 +37,9 @@ export default function Home() {
   };
 
   return (
-    <section id='create-group--form'>
+    <section className={style.createGroup}>
       <h1>Create group</h1>
-      <div
-        id='form--create-a-group'
-        style={inputFieldStyle}
-      >
+      <div className={style.inputFields}>
         {/* Name input */}
         <TextField
           label='Group name'
@@ -62,23 +61,13 @@ export default function Home() {
       </div>
       {/* Submit button */}
       <Button
-        style={buttonStyle}
         variant='contained'
         disabled={name == '' || description == '' ? true : false}
         onClick={createGroup}
+        className={style.submitButton}
       >
         Create Group
       </Button>
     </section>
   );
 }
-
-const inputFieldStyle = {
-  // FIX: what styling tech we using?
-  display: 'flex',
-  gap: '0.5em',
-  marginTop: '5px',
-};
-const buttonStyle = {
-  marginTop: '1em',
-};
