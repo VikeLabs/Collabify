@@ -119,7 +119,17 @@ To prevent from becoming a self-fulfilling meme(s), here are the general rules!
 
 ### Code Style
 
-- TBD
+#### Absolute imports
+
+Absolute import path has been set up, the `src` dir is the starting point. For example, if
+you are working in `./src/pages/_app.js` and need to import the `globals.css` stylesheet from
+`./src/styles`:
+
+```JavaScript
+import 'styles/globals.css'
+```
+
+For a more detailed [explanation](https://nextjs.org/docs/advanced-features/module-path-aliases).
 
 ## Developers
 
