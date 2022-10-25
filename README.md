@@ -32,6 +32,9 @@ the following content:
 
 ```sh
 MONGODB_URI="[URI]"
+FROM_NUMBER="[MESSAGE BEN FOR IT]"
+TWILIO_ACCOUNT_SID="[MESSAGE BEN FOR IT]"
+TWILIO_AUTH_TOKEN="[MESSAGE BEN FOR IT]"
 ```
 
 To get this `URI`, follow this
