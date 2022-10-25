@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { Collections } from '../constants';
 
 const EventSchema = new mongoose.Schema({
-  time: { type: String, required: true },
+  time: { type: Object, required: true },
   title: { type: String, required: true },
   description: { type: String },
 });
