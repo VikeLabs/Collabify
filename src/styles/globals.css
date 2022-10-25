@@ -1,9 +1,15 @@
 :root {
-  --deep-blue: #2753b8;
-  --blue: #2d5abc;
-  --blueish-black: #4b4a67;
-  --sky-blue: #8ecae6;
-  --turqouise: #219ebc;
-  --orange: #ffb703;
-  --redish-orange: #fb8500;
+  --primary-main: #4B4A67;
+  --secondary-main: #219EBC;
+  --secondary-light: #8ECAE6;
+  --tertiary-main: #FB8500;
+  --tertiary-light: #FFB703;
+  --background-main: #2D5ABC;
+  --background-light: #D6ECF6;
+  --background-dark: #2753B8;
+  --availability-darkest: #228b22;
+  --availability-dark: #228b22;
+  --availability-main: #54D93B;
+  --availability-light: #77dd77;
+  --availability-lightest: #aef5ae;
 }
