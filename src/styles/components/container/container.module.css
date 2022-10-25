@@ -1,0 +1,26 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 1em;
+}
+
+.child {
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.header {
+  text-transform: uppercase;
+  text-align: center;
+  background-color: var(--blueish-black);
+  color: white;
+  padding: 0.3em 0;
+}
+
+.content {
+  padding: 1em;
+  background-color: var(--sky-blue);
+}
