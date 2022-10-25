@@ -5,10 +5,6 @@
 
 .inputFields {
   display: flex;
+  flex-direction: column;
   gap: 1em;
-}
-
-.submitButton {
-  margin-top: 0.5em;
-  background-color: var(--orange);
 }
