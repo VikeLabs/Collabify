@@ -1,10 +1,27 @@
 .container {
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
+  width: 80vw;
+  height: 80vh;
+  margin-left: 10vw;
+  margin-top: 5vh;
   border-radius: 1em;
+  background-color: var(--background-light);
+  box-shadow: 4px 4px 18px #b3b3b3;
+}
+
+.headerContainer {
+  position: relative;
+  width: calc(80vw + 1.2em);
+  border-radius: 0.5em;
+  right: 0.6em;
+  background-color: var(--primary-main);
+  padding: 0.5em 2em;
+  box-shadow: 4px 4px 18px #b3b3b3;
+}
+
+.header {
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
 }
 
 .child {
@@ -12,15 +29,6 @@
   overflow: hidden;
 }
 
-.header {
-  text-transform: uppercase;
-  text-align: center;
-  background-color: var(--blueish-black);
-  color: white;
-  padding: 0.3em 0;
-}
-
 .content {
   padding: 1em;
-  background-color: var(--sky-blue);
 }
