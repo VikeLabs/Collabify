@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import style from 'styles/components/container/container.module.css';
+import style from 'styles/components/container.module.css';
 
 export const Container = ({ header, children }) => {
   return (

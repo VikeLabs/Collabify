@@ -2,15 +2,14 @@ import { Alert, Skeleton } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { Container } from 'components/Container/Container';
+import { Container } from 'components/Container';
 // mui
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 import { GROUP } from '../constants';
-import { create } from '@mui/material/styles/createTransitions'; // `create` not used
 
-import style from 'styles/home/style.module.css';
+import style from 'styles/pages/home.module.css';
 
 export default function Home() {
   const router = useRouter();
