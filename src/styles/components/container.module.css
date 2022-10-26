@@ -28,3 +28,7 @@
 .child {
     overflow: hidden;
 }
+
+.content {
+  padding: 1em;
+}
