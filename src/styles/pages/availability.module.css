@@ -1,0 +1,33 @@
+/*** Availability page ***/
+/* Headings */
+.availabilityHeading {
+    color: #00bcd4;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+/* Text */
+.availabilityText {
+    font-size: 75%;
+    font-weight: 100;
+}
+
+/* Save button */
+.saveButton {
+    font-size: 110%;
+    margin: 2rem auto 1rem auto;
+}
+
+/* Information text field */
+.infoTextField {
+    width: 48%;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
+}
+
+@media only screen and (max-width: 1200px) {
+    .infoTextField {
+        width: 95%;
+        margin-top: 1rem
+    }
+}
