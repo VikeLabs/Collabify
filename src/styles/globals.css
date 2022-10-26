@@ -13,3 +13,7 @@
   --availability-light: #77dd77;
   --availability-lightest: #aef5ae;
 }
+
+body {
+  background-image: url('../images/app_background.png');
+}
