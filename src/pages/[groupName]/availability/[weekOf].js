@@ -5,8 +5,7 @@ import { useState } from 'react';
 import {AvailabilityCalendar} from '../../../components/AvailabilityCalendar';
 import { AVAILABILITY } from '../../../constants';
 import { Container } from 'components/container/Container';
-import headingStyle from 'styles/components/heading.module.css'
-import textStyle from 'styles/components/text.module.css'
+import style from 'styles/components/availability.module.css'
 import utilities from 'styles/components/utilities.module.css'
 
 export default function Availability() {
@@ -79,14 +78,14 @@ export default function Availability() {
         {hasError && (
           <Alert severity='error'>{hasError.message}</Alert>
         )}
-        <Typography variant='h5' className={[headingStyle.availabilityHeading, utilities.marginBottom1]}>AVAILABILITY: 
-        <span className={textStyle.availabilityText}> Click on the start time and drag to the end time</span>
+        <Typography variant='h5' className={[style.availabilityHeading, utilities.marginBottom1]}>AVAILABILITY: 
+        <span className={style.availabilityText}> Click on the start time and drag to the end time</span>
         </Typography>
 
         <AvailabilityCalendar weekOf={weekOf} times={times} updateTimes={updateTimes}/>
         <div>
           <div className={utilities.widthFit}>
-            <Typography variant='h5' className={[headingStyle.availabilityHeading, utilities.marginTop1, utilities.marginBottom1]}>INFORMATION:</Typography>
+            <Typography variant='h5' className={[style.availabilityHeading, utilities.marginTop1, utilities.marginBottom1]}>INFORMATION:</Typography>
             <div className={[utilities.displayFlex, utilities.flexRow, utilities.flexWrap]}>
               <TextField
                 required
