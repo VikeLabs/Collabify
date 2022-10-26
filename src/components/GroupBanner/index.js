@@ -4,13 +4,13 @@ import style from 'styles/components/groupBanner.module.css';
 
 export const GroupBanner = ({ backgroundColor, icon='Today', iconBackgroundColor }) => {
     const IconComponent = MuiIcons[icon]
-  return (
-    <section className={style.container} style={{backgroundColor}}>
-      <div className={style.iconContainer} style={{backgroundColor: iconBackgroundColor}}>
-        <IconComponent />
-      </div>
-    </section>
-  );
+    return (
+        <section className={style.container} style={{backgroundColor}}>
+            <div className={style.iconContainer} style={{backgroundColor: iconBackgroundColor}}>
+                <IconComponent />
+            </div>
+        </section>
+    );
 };
 
 GroupBanner.propTypes = {
