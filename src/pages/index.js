@@ -2,7 +2,7 @@ import { Alert, Skeleton } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { Container } from 'components/container/Container';
+import { Container } from 'components/Container/Container';
 // mui
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
