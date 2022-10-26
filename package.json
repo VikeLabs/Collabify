@@ -7,7 +7,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "format": "prettier --write \"{,!(node_modules)/**/}*.{js,jsx}\""
+        "format": "prettier --write \"{,!(node_modules)/**/}*.{js,jsx}\"",
+        "test": "mocha 'test/**/*.test.js' --recursive"
     },
     "dependencies": {
         "@emotion/react": "^11.10.4",
@@ -21,6 +22,8 @@
         "@material-ui/core": "^4.12.4",
         "@mui/material": "^5.10.8",
         "@mui/styles": "^5.10.10",
+        "chai": "^4.3.6",
+        "mocha": "^10.1.0",
         "mongoose": "^6.6.5",
         "next": "12.3.1",
         "next-transpile-modules": "^9.1.0",
