@@ -92,6 +92,10 @@
     height: fit-content;
 }
 
+.width45 {
+    width: 45%;
+}
+
 /* Display */
 .displayFlex {
     display: flex;
@@ -104,4 +108,13 @@
 
 .flexWrap {
     flex-wrap: wrap;
+}
+
+.justifySpaceEvenly {
+    justify-content: space-evenly;
+}
+
+/* Text align */
+.textCenter {
+    text-align: center;
 }

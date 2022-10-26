@@ -6,7 +6,7 @@
   margin-top: 5vh;
   border-radius: 1em;
   background-color: var(--background-light);
-  box-shadow: 4px 4px 18px #b3b3b3;
+  box-shadow: 2px 2px 12px #57575790;
 }
 
 .headerContainer {
@@ -16,7 +16,7 @@
   right: 0.6em;
   background-color: var(--primary-main);
   padding: 0.5em 2em;
-  box-shadow: 4px 4px 18px #b3b3b3;
+  box-shadow: 2px 2px 12px #57575790;
 }
 
 .header {
@@ -28,8 +28,4 @@
 .child {
   border-radius: 5px;
   overflow: hidden;
-}
-
-.content {
-  padding: 1em;
 }

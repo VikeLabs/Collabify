@@ -16,4 +16,6 @@
 
 body {
   background-image: url('../images/app_background.png');
+  background-repeat: repeat-x;
+  background-repeat: repeat-y;
 }
