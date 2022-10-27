@@ -1,10 +1,10 @@
 import { Alert, Skeleton } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-
+// Components
 import { Container } from 'components/Container';
-// mui
-import TextField from '@mui/material/TextField';
+import { GroupInfo, Icons } from 'components/Home';
+// MUI
 import Button from '@mui/material/Button';
 
 import { GROUP } from '../constants';
@@ -45,32 +45,15 @@ export default function Home() {
       <section className={style.createGroup}>
         <div className={style.inputFields}>
           {/* ICON */}
-          <h2 className={style.header}>icon:</h2>
-          <GetIcons
+          <Icons
             activeIcon={activeIcon}
             setActiveIcon={setActiveIcon}
           />
-
-          {/* Name input */}
-          <h2 className={style.header}>information:</h2>
-          <TextField
-            label='Group name'
-            id='outlined-basic'
-            className={style.input}
-            required
-            onChange={(e) => setName(() => e.target.value)}
-            value={name}
-          />
-          {/* Description input */}
-          <TextField
-            label='Description'
-            // id='outlined-multiline-flexible' // <- this is to make the text area expand its height when needed
-            id='outlined-basic'
-            // multiline // <- uncomment if you want multiline, looks weird though
-            className={style.input}
-            required
-            onChange={(e) => setDescription(() => e.target.value)}
-            value={description}
+          <GroupInfo
+            name={name}
+            setName={setName}
+            description={description}
+            setDescription={setDescription}
           />
         </div>
         {/* Submit button */}
@@ -88,21 +71,3 @@ export default function Home() {
 }
 
 /* Icon placeholder */
-function GetIcons({ setActiveIcon, activeIcon }) {
-  const icons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
-  const allIcons = () => {
-    return icons.map((icon) => {
-      return (
-        <li
-          key={icon}
-          className={activeIcon === icon ? style.iconSelected : style.icon}
-          onClick={() => setActiveIcon(() => icon)}
-        >
-          {icon}
-        </li>
-      );
-    });
-  };
-
-  return <ul className={style.allIcons}>{allIcons()}</ul>;
-}
