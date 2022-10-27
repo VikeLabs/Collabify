@@ -1,10 +1,10 @@
 import { Alert, Skeleton } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-
+// Components
 import { Container } from 'components/Container';
-// mui
-import TextField from '@mui/material/TextField';
+import { GroupInfo, Icons } from 'components/Home';
+// MUI
 import Button from '@mui/material/Button';
 
 import { GROUP } from '../constants';
@@ -14,6 +14,9 @@ import style from 'styles/pages/home.module.css';
 export default function Home() {
   const router = useRouter();
 
+  // Icons related
+  const [activeIcon, setActiveIcon] = useState(null);
+  // Information related
   const [hasError, setHasError] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -41,23 +44,16 @@ export default function Home() {
     <Container header='create a group'>
       <section className={style.createGroup}>
         <div className={style.inputFields}>
-          {/* Name input */}
-          <TextField
-            label='Group name'
-            id='outlined-basic'
-            required
-            onChange={(e) => setName(() => e.target.value)}
-            value={name}
+          {/* ICON */}
+          <Icons
+            activeIcon={activeIcon}
+            setActiveIcon={setActiveIcon}
           />
-          {/* Description input */}
-          <TextField
-            label='Description'
-            // id='outlined-multiline-flexible' // <- this is to make the text area expand its height when needed
-            id='outlined-basic'
-            // multiline // <- uncomment if you want multiline, looks weird though
-            required
-            onChange={(e) => setDescription(() => e.target.value)}
-            value={description}
+          <GroupInfo
+            name={name}
+            setName={setName}
+            description={description}
+            setDescription={setDescription}
           />
         </div>
         {/* Submit button */}
@@ -73,3 +69,5 @@ export default function Home() {
     </Container>
   );
 }
+
+/* Icon placeholder */
