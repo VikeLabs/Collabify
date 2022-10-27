@@ -14,6 +14,9 @@ import style from 'styles/pages/home.module.css';
 export default function Home() {
   const router = useRouter();
 
+  // Icons related
+  const [activeIcon, setActiveIcon] = useState(null);
+  // Information related
   const [hasError, setHasError] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -41,10 +44,19 @@ export default function Home() {
     <Container header='create a group'>
       <section className={style.createGroup}>
         <div className={style.inputFields}>
+          {/* ICON */}
+          <h2 className={style.header}>icon:</h2>
+          <GetIcons
+            activeIcon={activeIcon}
+            setActiveIcon={setActiveIcon}
+          />
+
           {/* Name input */}
+          <h2 className={style.header}>information:</h2>
           <TextField
             label='Group name'
             id='outlined-basic'
+            className={style.input}
             required
             onChange={(e) => setName(() => e.target.value)}
             value={name}
@@ -55,6 +67,7 @@ export default function Home() {
             // id='outlined-multiline-flexible' // <- this is to make the text area expand its height when needed
             id='outlined-basic'
             // multiline // <- uncomment if you want multiline, looks weird though
+            className={style.input}
             required
             onChange={(e) => setDescription(() => e.target.value)}
             value={description}
@@ -72,4 +85,24 @@ export default function Home() {
       </section>
     </Container>
   );
+}
+
+/* Icon placeholder */
+function GetIcons({ setActiveIcon, activeIcon }) {
+  const icons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  const allIcons = () => {
+    return icons.map((icon) => {
+      return (
+        <li
+          key={icon}
+          className={activeIcon === icon ? style.iconSelected : style.icon}
+          onClick={() => setActiveIcon(() => icon)}
+        >
+          {icon}
+        </li>
+      );
+    });
+  };
+
+  return <ul className={style.allIcons}>{allIcons()}</ul>;
 }

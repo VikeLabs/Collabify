@@ -1,10 +1,58 @@
-/* all the following styles are just for testings */
 .createGroup {
   color: var(--blue);
+  padding: 1.5em 1.3em;
 }
 
+.header {
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--secondary-main);
+}
+
+/** ICONS **/
+.allIcons {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr); /* # of icons is 9 in figma */
+  place-items: center;
+  grid-gap: 0.4em;
+}
+
+.icon,
+.iconSelected {
+  /* not needed start */
+  --size: 3.5rem;
+  height: var(--size);
+  width: var(--size);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* not needed end */
+
+  transition: all 150ms linear;
+  cursor: pointer;
+  color: white;
+}
+
+.icon {
+  background: var(--tertiary-light);
+}
+
+.iconSelected {
+  background: var(--tertiary-main);
+}
+
+/** INPUT FIELDS **/
 .inputFields {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+
+.input {
+  box-shadow: 0px 2px 5px hsla(0deg, 0%, 40%, 30%);
+}
+
+.submitButton {
+  margin-top: 1em;
 }
