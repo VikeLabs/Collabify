@@ -51,6 +51,8 @@
 
 .input {
   box-shadow: 0px 2px 5px hsla(0deg, 0%, 40%, 30%);
+  /* border-radius: 5px; */ /* To match MUI input field */
+  /* background: white; */ /* TODO: discuss with team: any combination of colors would make this look really weird imo :/ */
 }
 
 .submitButton {
