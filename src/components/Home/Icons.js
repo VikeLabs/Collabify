@@ -29,5 +29,5 @@ export const Icons = ({ setActiveIcon, activeIcon }) => {
 
 Icons.propTypes = {
   setActiveIcon: PropTypes.func.isRequired,
-  activeIcon: PropTypes.number.isRequired, // this will most likely be changed.
+  activeIcon: PropTypes.number, // this will most likely be changed.
 };
