@@ -1,5 +1,5 @@
 import dbConnect from '../../api-lib/dbConnect';
-import { addAvailabilityToGroup } from '../../api-lib/db';
+import { addAvailabilityToGroup, getAvailabilitiesFromGroup } from '../../api-lib/db';
 import { sendDatabaseError, sendRequestError } from '../../api-lib/helper';
 
 export default async function handler(req, res) {
@@ -22,6 +22,21 @@ export default async function handler(req, res) {
         sendRequestError(res, error);
       }
       break;
+
+      case 'GET':
+        try{
+          const { groupName } = JSON.parse(body);
+  
+          const { error, availabilities } = await getAvailabilitiesFromGroup({
+            groupName
+          });
+          if(error === true) sendDatabaseError(res);
+          else res.status(200).send(availabilities);
+        } catch(error) {
+          sendRequestError(res, error);
+        }
+        break; 
+
     default:
       res.status(405).json({ message: 'Method Not Allowed' });
       break;
