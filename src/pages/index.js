@@ -58,14 +58,16 @@ export default function Home() {
         </div>
         {/* TODO: ask the team about the white space*/}
         {/* Submit button */}
-        <Button
-          variant='contained'
-          disabled={name == '' || description == '' ? true : false}
-          onClick={createGroup}
-          className={style.submitButton}
-        >
-          Create Group
-        </Button>
+        <div className={style.submit}>
+          <Button
+            variant='contained'
+            disabled={name == '' || description == '' ? true : false}
+            onClick={createGroup}
+            className={style.submitButton}
+          >
+            Create Group
+          </Button>
+        </div>
       </section>
     </Container>
   );
