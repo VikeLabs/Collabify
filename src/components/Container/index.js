@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
 import style from 'styles/components/container.module.css';
 
-export const Container = ({ header, children }) => {
+export const Container = ({ header='', children }) => {
   return (
     <section className={style.container}>
       <header className={style.headerContainer}>
@@ -14,9 +13,4 @@ export const Container = ({ header, children }) => {
       </div>
     </section>
   );
-};
-
-Container.propTypes = {
-  header: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
 };

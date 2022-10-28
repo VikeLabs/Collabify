@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    width: 95%;
+    margin-left: 1em;
+    margin-bottom: 2em;
+}
+
+.linkContainer {
+    display: flex;
+    background-color: #c9dee8;
+    width: 100%;
+    border-radius: 0.5em;
+    padding: 0.5em;
+}
+
