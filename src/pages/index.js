@@ -24,7 +24,7 @@ export default function Home() {
   if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
 
   const createGroup = () => {
-    if (name === '' || description == '') return null; // no request without `name` and `description`
+    if (name === '' || description === '') return null; // no request without `name` and `description`
 
     // Make request when enough information provided
     fetch(GROUP, {
@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <Container header='create a group'>
       <section className={style.createGroup}>
-        <div className={style.inputFields}>
+        <div className={style.groupInfo}>
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
@@ -56,6 +56,7 @@ export default function Home() {
             setDescription={setDescription}
           />
         </div>
+        {/* TODO: ask the team about the white space*/}
         {/* Submit button */}
         <Button
           variant='contained'
