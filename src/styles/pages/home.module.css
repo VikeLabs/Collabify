@@ -4,7 +4,7 @@
 }
 
 .header {
-  font-weight: 400;
+  font-weight: 600;
   text-transform: uppercase;
   color: var(--secondary-main);
 }
@@ -15,6 +15,11 @@
   grid-template-columns: repeat(9, 1fr); /* # of icons is 9 in figma */
   place-items: center;
   grid-gap: 0.4em;
+  max-width: 900px;
+  /* centering the icons */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .icon,
@@ -42,19 +47,30 @@
   background: var(--tertiary-main);
 }
 
-/** INPUT FIELDS **/
-.inputFields {
+.groupInfo {
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
+/** INPUT FIELDS **/
 
+.inputFields {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+
+@media only screen and (min-width: 1200px) {
+  .inputFields {
+    flex-direction: row;
+  }
+}
 .input {
-  box-shadow: 0px 2px 5px hsla(0deg, 0%, 40%, 30%);
-  /* border-radius: 5px; */ /* To match MUI input field */
-  /* background: white; */ /* TODO: discuss with team: any combination of colors would make this look really weird imo :/ */
+  width: 100%;
 }
 
 .submitButton {
   margin-top: 1em;
+  padding: 1em 1.3em;
 }
