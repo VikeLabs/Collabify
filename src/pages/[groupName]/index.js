@@ -4,6 +4,7 @@ import { useAsyncFetch } from '../../hooks';
 import { GROUP } from '../../constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
+import { GroupPageSkeleton } from './skeleton';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
 import { CopyAllOutlined } from '@mui/icons-material';
@@ -17,7 +18,7 @@ export default function GroupHome() {
 
   const [group, isLoading, hasError] = useAsyncFetch(`${GROUP}/${groupName}`);
 
-  if (isLoading) return <Skeleton animation='wave' />;
+  if (isLoading) return <GroupPageSkeleton />;
 
   if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
 
