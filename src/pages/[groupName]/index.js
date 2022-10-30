@@ -1,9 +1,4 @@
-import {
-  Alert,
-  Box,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { Alert, Box, IconButton, Typography } from '@mui/material';
 
 import { useAsyncFetch } from '../../hooks';
 import { GROUP } from '../../constants';
@@ -36,7 +31,8 @@ export default function GroupHome() {
 
   return (
     <Container header={group?.name}>
-      <GroupBanner icon='Today' />
+      {/* TODO: icon dynamically */}
+      <GroupBanner icon='rugby' />
       <br />
       <GroupCalendar
         events={[]}
