@@ -32,7 +32,7 @@ export default function Home() {
       body: JSON.stringify({
         name,
         description,
-        icon: 'book',
+        icon: activeIcon,
         background: 'orange',
       }),
     })
