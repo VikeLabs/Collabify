@@ -23,7 +23,8 @@ export const theme = createTheme({
             dark: "#48B613",
             main: "#54D93B",
             light: "#77dd77",
-            lightest: "#aef5ae"
+            lightest: "#aef5ae",
+            none: "#cfd8dc"
         }
     },
 });

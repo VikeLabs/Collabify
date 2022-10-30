@@ -60,3 +60,52 @@
 .textField {
     width: 95%;
 }
+
+.helperText {
+    color: #4B4A67; /* primary.main */
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.helperContainer {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+}
+
+.helperColorContainer {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    box-shadow: 0 10px 15px -3px #bdbdbd, 0 4px 6px -4px #bdbdbd;
+    margin-right: 10px;
+    margin-bottom: 40px;
+}
+
+.helperColorContainer:first-child {
+    background: #FB8500;
+}
+
+.helperColorContainer ~ .helperColorContainer {
+    background: #228b22;
+}
+
+.helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+    background: #48B613;
+}
+
+.helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+    background: #77dd77;
+}
+
+.helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+    background: #aef5ae;
+}
+
+.helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+    background: #cfd8dc;
+}
+
+.helperColorText {
+    margin-right: 20px;
+}

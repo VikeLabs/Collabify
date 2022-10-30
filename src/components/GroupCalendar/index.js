@@ -4,9 +4,10 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import moment from "moment";
 import { useTheme } from '@mui/material';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EventModal from "./EventModal";
 import CreateEventModal from "./CreateEventModal";
+import style from 'styles/components/groupCalendar.module.css';
 
 export const GroupCalendar = ({times, updateTimes}) => {
   const theme = useTheme()
@@ -26,6 +27,36 @@ export const GroupCalendar = ({times, updateTimes}) => {
     start: '',
     end: ''
   })
+
+  // This function only runs once when the page first render
+  useEffect(() => {
+    // Render text under calendar title
+    if (document.getElementsByClassName(style.helperText).length === 0) {
+      const fcHeaderToolbar = document.getElementsByClassName('fc-header-toolbar')[0];
+      fcHeaderToolbar.insertAdjacentHTML('afterend', `<p class=${style.helperText}>Click and drag to create event</p>`)
+    }
+    
+    // Render helper container that shows color legend
+    if (document.getElementsByClassName(style.helperContainer).length === 0) {
+      const helperText = document.getElementsByClassName(style.helperText)[0];
+      helperText.insertAdjacentHTML('afterend', `
+      <div class=${style.helperContainer}>
+        <div class=${style.helperColorContainer}></div>
+        <p class=${style.helperColorText}>EVENT</p>
+        <div class=${style.helperColorContainer}></div>
+        <p class=${style.helperColorText}>100%</p>
+        <div class=${style.helperColorContainer}></div>
+        <p class=${style.helperColorText}>75%</p>
+        <div class=${style.helperColorContainer}></div>
+        <p class=${style.helperColorText}>50%</p>
+        <div class=${style.helperColorContainer}></div>
+        <p class=${style.helperColorText}>25%</p>
+        <div class=${style.helperColorContainer}></div>
+        <p class=${style.helperColorText}>0%</p>
+      </div>
+      `)
+    }
+  }, [])
 
   const handleSelect = (selectInfo) => {
     setModalSelectInfo({
