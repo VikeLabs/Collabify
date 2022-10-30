@@ -2,7 +2,7 @@ import { Skeleton } from '@mui/material';
 import { Container } from 'components/Container';
 import style from 'styles/pages/groupHome.module.css';
 
-export function GroupPageSkeleton() {
+export function GroupSkeleton() {
   return (
     <Container header='loading...'>
       <Skeleton

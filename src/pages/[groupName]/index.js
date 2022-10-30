@@ -2,8 +2,6 @@ import {
   Alert,
   Box,
   IconButton,
-  Skeleton,
-  TextField,
   Typography,
 } from '@mui/material';
 
@@ -11,11 +9,11 @@ import { useAsyncFetch } from '../../hooks';
 import { GROUP } from '../../constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
-import { GroupPageSkeleton } from './skeleton';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
 import { CopyAllOutlined } from '@mui/icons-material';
 import { getTodaysDate } from 'helper/getTodaysDate';
+import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
 
@@ -25,7 +23,7 @@ export default function GroupHome() {
 
   const [group, isLoading, hasError] = useAsyncFetch(`${GROUP}/${groupName}`);
 
-  if (isLoading) return <GroupPageSkeleton />;
+  if (isLoading) return <GroupSkeleton />;
 
   if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
 
