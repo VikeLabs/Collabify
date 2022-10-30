@@ -1,44 +1,44 @@
 {
-    "name": "colab-calendar",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint",
-        "format": "prettier --write \"{,!(node_modules)/**/}*.{js,jsx}\"",
-        "test": "mocha 'test/**/*.test.js' --recursive"
-    },
-    "dependencies": {
-        "@emotion/react": "^11.10.4",
-        "@emotion/styled": "^11.10.4",
-        "@fullcalendar/common": "^5.11.3",
-        "@fullcalendar/daygrid": "^5.11.3",
-        "@fullcalendar/interaction": "^5.11.3",
-        "@fullcalendar/moment": "^5.11.3",
-        "@fullcalendar/react": "^5.11.2",
-        "@fullcalendar/timegrid": "^5.11.3",
-        "@material-ui/core": "^4.12.4",
-        "@mui/icons-material": "^5.10.9",
-        "@mui/material": "^5.10.8",
-        "@mui/styles": "^5.10.10",
-        "chai": "^4.3.6",
-        "mocha": "^10.1.0",
-        "moment": "^2.29.4",
-        "mongoose": "^6.6.5",
-        "next": "12.3.1",
-        "next-transpile-modules": "^9.1.0",
-        "prop-types": "^15.8.1",
-        "react": "18.2.0",
-        "react-dom": "18.2.0",
-        "styled-components": "^5.3.6",
-        "twilio": "^3.83.0"
-    },
-    "devDependencies": {
-        "@babel/preset-react": "^7.18.6",
-        "eslint": "8.25.0",
-        "eslint-config-next": "12.3.1",
-        "prettier": "^2.7.1"
-    }
+  "name": "colab-calendar",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write \"./src/**/*.{js,jsx,css}\"",
+    "test": "mocha 'test/**/*.test.js' --recursive"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@fullcalendar/common": "^5.11.3",
+    "@fullcalendar/daygrid": "^5.11.3",
+    "@fullcalendar/interaction": "^5.11.3",
+    "@fullcalendar/moment": "^5.11.3",
+    "@fullcalendar/react": "^5.11.2",
+    "@fullcalendar/timegrid": "^5.11.3",
+    "@material-ui/core": "^4.12.4",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.8",
+    "@mui/styles": "^5.10.10",
+    "chai": "^4.3.6",
+    "mocha": "^10.1.0",
+    "moment": "^2.29.4",
+    "mongoose": "^6.6.5",
+    "next": "12.3.1",
+    "next-transpile-modules": "^9.1.0",
+    "prop-types": "^15.8.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "styled-components": "^5.3.6",
+    "twilio": "^3.83.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.18.6",
+    "eslint": "8.25.0",
+    "eslint-config-next": "12.3.1",
+    "prettier": "^2.7.1"
+  }
 }
