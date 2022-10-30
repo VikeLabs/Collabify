@@ -1,9 +1,15 @@
 import mongoose from 'mongoose';
-
 /** 
 Source : 
 https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/utils/dbConnect.js 
 **/
+
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = require('dotenv');
+  const path = require('path');
+  dotenv.config({ path: path.resolve(__dirname, '..', '..', './.env.local') });
+  console.log(path.resolve(__dirname, './'));
+}
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
