@@ -10,9 +10,9 @@ export const MuiIcon = ({ icon }) => {
   const style = { color: theme.palette.primary.main };
 
   // Error: Not one of the icon selected during team meeting
-  if (!getAllIcons().includes(icon)) {
-    throw new Error(`${icon} is allowed`);
-  }
+  // if (!getAllIcons().includes(icon)) {
+  //   throw new Error(`${icon} is not allowed`);
+  // }
 
   const IconComponent = Icons[icon];
   return <IconComponent style={style} />;

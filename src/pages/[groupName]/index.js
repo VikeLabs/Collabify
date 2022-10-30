@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Alert, Box, IconButton, Typography } from '@mui/material';
 
 import { useAsyncFetch } from '../../hooks';
@@ -18,6 +19,12 @@ export default function GroupHome() {
 
   const [group, isLoading, hasError] = useAsyncFetch(`${GROUP}/${groupName}`);
 
+  // TODO: Delete once done debug
+  useEffect(() => {
+    console.log(isLoading); // functions properly
+  }, [isLoading]);
+  // TODO: Delete once done debug ^^^
+
   if (isLoading) return <GroupSkeleton />;
 
   if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
@@ -29,9 +36,17 @@ export default function GroupHome() {
     alert('Link Copied!');
   };
 
+  /*
+   * BUG:
+   * Flow: GroupBanner takes in an icon prop, pass that prop to MuiIcon component.
+   * if the icon is not one of the icon selected from the meeting, it throws and error.
+   * Everytime this renders, I can see that the icon prop is taking in an `undefined` value.
+   * This component should have been caught by the `isLoading` value from `useAsyncFetch`
+   * */
   return (
     <Container header={group?.name}>
       <GroupBanner icon={group?.icon} />
+      {/* This line above is causing the error, even though it should not be rendered while `isLoading` is true*/}
       <br />
       <GroupCalendar
         events={[]}
