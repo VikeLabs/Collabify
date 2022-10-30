@@ -15,7 +15,7 @@ export default function Home() {
   const router = useRouter();
 
   // Icons related
-  const [activeIcon, setActiveIcon] = useState(null);
+  const [activeIcon, setActiveIcon] = useState('');
   // Information related
   const [hasError, setHasError] = useState(false);
   const [name, setName] = useState('');
@@ -56,7 +56,6 @@ export default function Home() {
             setDescription={setDescription}
           />
         </div>
-        {/* TODO: ask the team about the white space*/}
         {/* Submit button */}
         <div className={style.submit}>
           <Button
