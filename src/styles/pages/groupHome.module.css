@@ -1,15 +1,64 @@
 .container {
-    display: flex;
-    width: 95%;
-    margin-left: 1em;
-    margin-bottom: 2em;
+  display: flex;
+  width: 95%;
+  margin-left: 1em;
+  margin-bottom: 2em;
 }
 
 .linkContainer {
-    display: flex;
-    background-color: #c9dee8;
-    width: 100%;
-    border-radius: 0.5em;
-    padding: 0.5em;
+  display: flex;
+  background-color: #c9dee8;
+  width: 100%;
+  border-radius: 0.5em;
+  padding: 0.5em;
 }
 
+/* Skeleton */
+.currentWeekSkeleton {
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 3.125rem;
+}
+
+.calendarUpperBarSkeleton {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1.875rem;
+}
+
+.weekBtnSkeleton {
+  width: 4.375rem;
+  height: 3.125rem;
+}
+
+.calendarSkeleton {
+  height: 350px;
+  margin-top: 1.875rem;
+}
+
+.linkTextSkeleton {
+  margin-top: 1.875rem;
+  height: 3.125rem;
+  width: 70%;
+  margin-left: 1rem;
+}
+
+.linkDisplaySkeleton {
+  display: flex;
+  flex-direction: row;
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+.linkIconSkeleton {
+  height: 2rem;
+  width: 1.5rem;
+}
+
+.linkSkeleton {
+  margin-left: 1rem;
+  width: 90%;
+  height: 2rem;
+}
