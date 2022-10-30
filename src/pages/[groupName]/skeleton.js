@@ -1,6 +1,5 @@
 import { Skeleton } from '@mui/material';
 import { Container } from 'components/Container';
-import utilities from 'styles/utilities.module.css'
 import style from 'styles/pages/groupHome.module.css'
 
 export function GroupPageSkeleton () {
