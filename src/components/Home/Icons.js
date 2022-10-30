@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { getAllIcons, Icon } from 'assets/icons';
+import { getAllIcons, MuiIcon } from 'components/MuiIcon';
 
 import style from 'styles/pages/home.module.css';
 
@@ -13,7 +13,7 @@ export const Icons = ({ setActiveIcon, activeIcon }) => {
           className={activeIcon === icon ? style.iconSelected : style.icon}
           onClick={() => setActiveIcon(() => icon)}
         >
-          <Icon icon={icon} />
+          <MuiIcon icon={icon} />
         </li>
       );
     });

@@ -1,10 +1,11 @@
-import { Alert, CircularProgress, Box } from '@mui/material'; // `Skeleton` not used
+import { Alert } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
 import { GroupInfo, Icons } from 'components/Home';
+import { getAllIcons } from 'components/MuiIcon';
 // MUI
 import Button from '@mui/material/Button';
 
@@ -16,10 +17,10 @@ export default function Home() {
   const router = useRouter();
 
   // Icons related
-  const [activeIcon, setActiveIcon] = useState('');
+  const [activeIcon, setActiveIcon] = useState(getAllIcons()[0]); // default first icon
   // Information related
   const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // TODO: set to false
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
@@ -66,9 +67,7 @@ export default function Home() {
         <div className={style.submit}>
           <Button
             variant='contained'
-            disabled={
-              name === '' || description === '' || isLoading ? true : false
-            }
+            disabled={!name || !description || isLoading ? true : false}
             onClick={createGroup}
             className={style.submitButton}
           >
@@ -79,5 +78,3 @@ export default function Home() {
     </Container>
   );
 }
-
-/* Icon placeholder */

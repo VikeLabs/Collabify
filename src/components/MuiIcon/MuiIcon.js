@@ -1,7 +1,3 @@
-/* This file contains all the icons
- * the function and `allIcons` are exported
- * to access needed icon.
- * */
 import SportsRugbyIcon from '@mui/icons-material/SportsRugby';
 import SportsBasketball from '@mui/icons-material/SportsBasketball';
 import ComputerIcon from '@mui/icons-material/Computer';
@@ -12,24 +8,9 @@ import CameraAlt from '@mui/icons-material/CameraAlt';
 import LocalFireDepartment from '@mui/icons-material/LocalFireDepartment';
 import MiscellaneousServices from '@mui/icons-material/MiscellaneousServices';
 
-/* IMPORTANT: Immutable object - _icons is not exported and will not
- * be accessed directly. This ensures if one is mutating this object by
- * accident, other parts of the codebase won't be affected
- */
-const _icons = [
-  'rugby',
-  'basketball',
-  'computer',
-  'book',
-  'palette',
-  'music',
-  'camera',
-  'fire',
-  'misc',
-];
+import PropTypes from 'prop-types';
 
-/* This component renders the corrent icon, if not it will throw an error */
-const Icon = ({ icon }) => {
+export const MuiIcon = ({ icon }) => {
   switch (icon) {
     case 'rugby':
       return <SportsRugbyIcon />;
@@ -54,11 +35,6 @@ const Icon = ({ icon }) => {
   }
 };
 
-/* allIcons()
- * @return: a deep copy of the icons
- * */
-const getAllIcons = () => {
-  return [..._icons];
+MuiIcon.propTypes = {
+  icon: PropTypes.string.isRequired,
 };
-
-export { Icon, getAllIcons };
