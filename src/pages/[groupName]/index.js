@@ -31,8 +31,7 @@ export default function GroupHome() {
 
   return (
     <Container header={group?.name}>
-      {/* TODO: icon dynamically */}
-      <GroupBanner icon='rugby' />
+      <GroupBanner icon={group?.icon} />
       <br />
       <GroupCalendar
         events={[]}
