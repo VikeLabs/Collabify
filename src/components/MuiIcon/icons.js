@@ -5,15 +5,15 @@
  * function as it returns a copy.
  */
 const _icons = [
-  'rugby',
-  'basketball',
-  'computer',
-  'book',
-  'palette',
-  'music',
-  'camera',
-  'fire',
-  'misc',
+  'SportsRugby',
+  'SportsBasketball',
+  'Computer',
+  'MenuBook',
+  'Palette',
+  'MusicNote',
+  'CameraAlt',
+  'LocalFireDepartment',
+  'MiscellaneousServices',
 ];
 
 /* allIcons()
