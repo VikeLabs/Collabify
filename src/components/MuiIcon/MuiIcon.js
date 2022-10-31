@@ -5,7 +5,7 @@ import { getAllIcons } from './icons';
 
 import PropTypes from 'prop-types';
 
-export const MuiIcon = ({ icon = 'MiscellaneousServices' }) => {
+export const MuiIcon = ({ icon }) => {
   const theme = useTheme();
   const style = { color: theme.palette.primary.main };
 

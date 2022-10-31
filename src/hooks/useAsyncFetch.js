@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const useAsyncFetch = (endpoint) => {
   const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(null);
 
   useEffect(() => {
