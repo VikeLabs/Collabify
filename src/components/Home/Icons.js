@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { getAllIcons, MuiIcon } from 'components/MuiIcon';
+import { Typography } from '@mui/material';
 
 import style from 'styles/pages/home.module.css';
+import utilities from 'styles/utilities.module.css'
 
 export const Icons = ({ setActiveIcon, activeIcon }) => {
   const icons = getAllIcons();
@@ -21,7 +23,9 @@ export const Icons = ({ setActiveIcon, activeIcon }) => {
 
   return (
     <>
-      <h2 className={style.header}>icon:</h2>
+      <Typography variant='h5' className={[utilities.heading, utilities.marginBottom1]}>
+      ICON:
+      </Typography>
       <ul className={style.allIcons}>{allIcons()}</ul>
     </>
   );

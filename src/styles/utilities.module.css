@@ -121,10 +121,9 @@
 
 /* Headings */
 .heading {
-    color: var(--secondary-main);
+    color: var(--primary-main);
     font-weight: 600;
     margin-top: 1rem;
-    margin-left: 1rem;
 }
 
 /* SubHeading */

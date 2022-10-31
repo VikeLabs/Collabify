@@ -3,12 +3,6 @@
   padding: 1.5em 1.3em;
 }
 
-.header {
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--secondary-main);
-}
-
 /** ICONS **/
 .allIcons {
   display: grid;

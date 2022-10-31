@@ -50,14 +50,17 @@ export default function Availability() {
         {hasError && (
           <Alert severity='error'>{hasError.message}</Alert>
         )}
-        <Typography variant='h5' className={[utilities.heading, utilities.marginBottom1]}>AVAILABILITY: 
+        <Typography variant='h5' className={[utilities.heading, utilities.marginBottom1, utilities.marginLeft1]}>
+        AVAILABILITY: 
         <span className={utilities.subHeading}> Only select when you are available</span>
         </Typography>
 
         <AvailabilityCalendar weekOf={weekOf} times={times} updateTimes={updateTimes}/>
         <div>
           <div>
-            <Typography variant='h5' className={[utilities.heading, utilities.marginTop1, utilities.marginBottom1]}>INFORMATION:</Typography>
+            <Typography variant='h5' className={[utilities.heading, utilities.marginTop1, utilities.marginBottom1, utilities.marginLeft1]}>
+            INFORMATION:
+            </Typography>
             <div className={utilities.textCenter}>
               <TextField
                 variant='filled'
