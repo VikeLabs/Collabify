@@ -12,7 +12,7 @@ import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
 
-export default function GroupHome() {
+export default function GroupHome({ changeMode }) {
   const router = useRouter();
   const { groupName } = router.query;
 
@@ -41,10 +41,17 @@ export default function GroupHome() {
       <br />
       <Typography
         variant='h5'
-        className={[utilities.heading, utilities.marginBottom1, utilities.marginLeft1]}
+        className={[
+          utilities.heading,
+          utilities.marginBottom1,
+          utilities.marginLeft1,
+        ]}
       >
         AVAILABILITY LINK:
-        <span className={utilities.subHeading}> Send to your group members to get results</span>
+        <span className={utilities.subHeading}>
+          {' '}
+          Send to your group members to get results
+        </span>
       </Typography>
       <Box className={style.container}>
         <IconButton onClick={copyLink}>

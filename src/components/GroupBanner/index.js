@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
 import { MuiIcon } from 'components/MuiIcon';
 import style from 'styles/components/groupBanner.module.css';
+import { useTheme } from '@mui/material';
 
 export const GroupBanner = ({
-  backgroundColor = '#FFB703',
   icon,
-  iconBackgroundColor = '#FB8500',
 }) => {
+  const theme = useTheme()
   return (
     <section
       className={style.container}
-      style={{ backgroundColor }}
+      style={{ backgroundColor: theme.palette.secondary.light }}
     >
       <div
         className={style.iconContainer}
-        style={{ backgroundColor: iconBackgroundColor }}
+        style={{ backgroundColor: theme.palette.secondary.main }}
       >
         <MuiIcon icon={icon} />
       </div>

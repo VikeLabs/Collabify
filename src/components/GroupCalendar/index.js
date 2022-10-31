@@ -112,7 +112,7 @@ export const GroupCalendar = ({ times, updateTimes }) => {
             end: '2022-10-28T13:00:00',
             display: 'block',
             borderColor: theme.palette.primary.main,
-            color: theme.palette.tertiary.main,
+            color: theme.palette.secondary.main,
           },
         ]}
         eventClick={(info) => {
