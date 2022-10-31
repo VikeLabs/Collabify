@@ -23,20 +23,6 @@ export default async function handler(req, res) {
       }
       break;
 
-      case 'GET':
-        try{
-          const { groupName } = JSON.parse(body);
-  
-          const { error, availabilities } = await getAvailabilitiesFromGroup({
-            groupName
-          });
-          if(error === true) sendDatabaseError(res);
-          else res.status(200).send(availabilities);
-        } catch(error) {
-          sendRequestError(res, error);
-        }
-        break; 
-
     default:
       res.status(405).json({ message: 'Method Not Allowed' });
       break;

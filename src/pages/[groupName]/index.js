@@ -21,7 +21,7 @@ export default function GroupHome() {
   const router = useRouter();
   const { groupName } = router.query;
 
-  const [group, isLoading, hasError] = useAsyncFetch(`${GROUP}/${groupName}`);
+  const [data, isLoading, hasError] = useAsyncFetch(`${GROUP}/${groupName}`);
 
   if (isLoading) return <GroupSkeleton />;
 
@@ -35,7 +35,7 @@ export default function GroupHome() {
   };
 
   return (
-    <Container header={group?.name}>
+    <Container header={data?.group?.name}>
       <GroupBanner icon='Today' />
       <br />
       <GroupCalendar
