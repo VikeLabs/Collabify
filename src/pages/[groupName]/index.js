@@ -12,7 +12,7 @@ import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
 
-export default function GroupHome({ changeMode }) {
+export default function GroupHome() {
   const router = useRouter();
   const { groupName } = router.query;
 
