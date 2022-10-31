@@ -26,3 +26,49 @@ export const addEventToGroup = async ({ groupName, event }) => {
 
   return error;
 };
+
+
+export const deleteEventFromGroup = async ({ groupName, eventID }) => {
+
+  const group = await Group.findOne({name: groupName});
+
+  let error = true; 
+
+  if(!group){
+    console.warn(`The following group was not found: ${groupName}`)
+    return error
+  }
+
+  const event = await Event.findOne({_id: eventID});
+
+  if(!event){ 
+    console.warn(`The following event id was not found: ${eventID}`)
+    return error 
+  }
+
+  if(!group.events.includes(eventID)){
+    console.warn(`The group ${groupName} does not contain the following event id: ${eventID}`)
+    return error 
+  }
+
+  const filter = {name: groupName}
+  const update = {$pull: {events: {_id: eventID}}}
+
+  const updatedGroup = await Group.findOneAndUpdate(filter, update, {new: true})
+
+  if (updatedGroup.includes(eventID)){
+    console.warn(`The event id ${eventID} was not removed from group ${groupName}`)
+    return error 
+  }
+
+  await Event.findOneAndDelete({_id: eventID}, function (err, docs) {
+    if (err){
+      console.warn(`The event id ${eventID} was not deleted`)
+    }else{
+      error = false
+    }
+  });
+
+  return error 
+
+}
