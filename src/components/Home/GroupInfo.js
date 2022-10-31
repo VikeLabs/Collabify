@@ -2,14 +2,21 @@ import PropTypes from 'prop-types';
 import { TextField, Typography } from '@mui/material';
 
 import style from 'styles/pages/home.module.css';
-import utilities from 'styles/utilities.module.css'
+import utilities from 'styles/utilities.module.css';
 
 export const GroupInfo = ({ name, setName, description, setDescription }) => {
   return (
     <>
       {/* Name input */}
-      <Typography variant='h5' className={[utilities.heading, utilities.marginTop1, utilities.marginBottom1]}>
-      INFORMATION:
+      <Typography
+        variant='h5'
+        className={[
+          utilities.heading,
+          utilities.marginTop1,
+          utilities.marginBottom1,
+        ]}
+      >
+        INFORMATION:
       </Typography>
 
       <div className={style.inputFields}>

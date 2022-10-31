@@ -1,3 +1,3 @@
-import { GroupSkeleton } from './GroupSkeleton'
+import { GroupSkeleton } from './GroupSkeleton';
 
 export { GroupSkeleton };

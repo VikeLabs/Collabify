@@ -1,5 +1,9 @@
 import dbConnect from '../../../api-lib/dbConnect';
-import { getEventsFromGroup, getGroup, getAvailabilitiesFromGroup } from '../../../api-lib/db';
+import {
+  getEventsFromGroup,
+  getGroup,
+  getAvailabilitiesFromGroup,
+} from '../../../api-lib/db';
 import { sendNoDocumentError, sendRequestError } from '../../../api-lib/helper';
 
 export default async function handler(req, res) {
@@ -11,20 +15,21 @@ export default async function handler(req, res) {
     case 'GET':
       try {
         const { groupName } = req.query;
-        const { groupError, group} = await getGroup({ groupName });
-        const { availabilitiesError, availabilities } = await getAvailabilitiesFromGroup({
-          groupName
-        });
+        const { groupError, group } = await getGroup({ groupName });
+        const { availabilitiesError, availabilities } =
+          await getAvailabilitiesFromGroup({
+            groupName,
+          });
         const { eventsError, events } = await getEventsFromGroup({
-          groupName
+          groupName,
         });
         if (groupError || availabilitiesError || eventsError) {
           sendNoDocumentError(res);
         } else {
-          const calendarEvents = []
+          const calendarEvents = [];
           res.status(200).json({
             group,
-            calendarEvents
+            calendarEvents,
           });
         }
       } catch (error) {

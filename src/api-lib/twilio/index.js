@@ -4,12 +4,12 @@ const fromNumber = process.env.FROM_NUMBER;
 const client = require('twilio')(accountSid, authToken);
 
 export const sendText = (to, body) => {
-    client.messages
+  client.messages
     .create({
-        from: fromNumber,
-        body,
-        to
+      from: fromNumber,
+      body,
+      to,
     })
-    .then(message => console.log(message.sid))
-    .catch(err => console.error(err))
-}
+    .then((message) => console.log(message.sid))
+    .catch((err) => console.error(err));
+};

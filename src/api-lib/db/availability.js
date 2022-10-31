@@ -5,7 +5,8 @@ export const addAvailabilityToGroup = async ({ groupName, availability }) => {
   // Creates availability then adds availabilities ID to the group 'availabilities' array
   // If theres an error function will return true
   const model = new Availability(availability);
-  const error = await model.save()
+  const error = await model
+    .save()
     .then((savedDoc) => {
       Group.findOneAndUpdate(
         { name: groupName },
@@ -28,34 +29,31 @@ export const addAvailabilityToGroup = async ({ groupName, availability }) => {
   return error;
 };
 
+export const getAvailabilitiesFromGroup = async ({ groupName }) => {
+  const group = await Group.findOne({ name: groupName });
 
-export const getAvailabilitiesFromGroup = async ({groupName}) => {
-
-  const group = await Group.findOne({name: groupName});
-  
   let error = false;
   let availabilities = [];
 
   if (!group) {
-    error = true; 
-  }else {
-    for (let availability_id of group.availabilities){
-      const availability = await Availability.findOne({_id: availability_id});
+    error = true;
+  } else {
+    for (let availability_id of group.availabilities) {
+      const availability = await Availability.findOne({ _id: availability_id });
       if (!availability) {
         console.warn(`The following id was not found: ${availability_id}`);
-      }else{
-        availabilities.push(availability)
+      } else {
+        availabilities.push(availability);
       }
     }
   }
-  
-  if (availabilities.length === 0){
+
+  if (availabilities.length === 0) {
     error = true;
   }
 
   return {
-    error, 
-    availabilities
-  }
-
-}
+    error,
+    availabilities,
+  };
+};

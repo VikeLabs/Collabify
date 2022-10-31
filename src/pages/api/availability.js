@@ -1,5 +1,8 @@
 import dbConnect from '../../api-lib/dbConnect';
-import { addAvailabilityToGroup, getAvailabilitiesFromGroup } from '../../api-lib/db';
+import {
+  addAvailabilityToGroup,
+  getAvailabilitiesFromGroup,
+} from '../../api-lib/db';
 import { sendDatabaseError, sendRequestError } from '../../api-lib/helper';
 
 export default async function handler(req, res) {

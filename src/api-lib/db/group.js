@@ -20,15 +20,15 @@ export const createGroup = async ({ group }) => {
 export const getGroup = async ({ groupName }) => {
   // Gets the group by the group name
   // Doesn't return error because it gets handled on api side (result.length > 0)
-  let error = false
-  const group = await Group.findOne({ name: groupName })
+  let error = false;
+  const group = await Group.findOne({ name: groupName });
 
-  if (!group){
+  if (!group) {
     error = true;
   }
 
   return {
     error,
-    group
+    group,
   };
 };
