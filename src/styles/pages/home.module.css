@@ -24,7 +24,6 @@
 
 .icon,
 .iconSelected {
-  /* not needed start */
   --size: 3.5rem;
   height: var(--size);
   width: var(--size);
@@ -32,11 +31,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* not needed end */
-
   transition: all 150ms linear;
   cursor: pointer;
   color: white;
+  box-shadow: 0px 0px 5px hsla(0deg, 0%, 40%, 30%);
 }
 
 .icon {

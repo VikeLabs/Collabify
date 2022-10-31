@@ -1,10 +1,10 @@
-/* TODO: Icons placeholder, will need to change this to display the actual icons*/
 import PropTypes from 'prop-types';
+import { getAllIcons, MuiIcon } from 'components/MuiIcon';
 
 import style from 'styles/pages/home.module.css';
 
 export const Icons = ({ setActiveIcon, activeIcon }) => {
-  const icons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  const icons = getAllIcons();
   const allIcons = () => {
     return icons.map((icon) => {
       return (
@@ -13,7 +13,7 @@ export const Icons = ({ setActiveIcon, activeIcon }) => {
           className={activeIcon === icon ? style.iconSelected : style.icon}
           onClick={() => setActiveIcon(() => icon)}
         >
-          {icon}
+          <MuiIcon icon={icon} />
         </li>
       );
     });

@@ -1,9 +1,5 @@
-import {
-  Alert,
-  Box,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import { useEffect } from 'react';
+import { Alert, Box, IconButton, Typography } from '@mui/material';
 
 import { useAsyncFetch } from '../../hooks';
 import { GROUP } from '../../constants';
@@ -35,8 +31,9 @@ export default function GroupHome() {
   };
 
   return (
-    <Container header={data?.group?.name}>
-      <GroupBanner icon='Today' />
+    <Container header={group?.name}>
+      <GroupBanner icon={group?.icon} />
+      {/* This line above is causing the error, even though it should not be rendered while `isLoading` is true*/}
       <br />
       <GroupCalendar
         events={[]}
@@ -49,7 +46,6 @@ export default function GroupHome() {
       >
         AVAILABILITY LINK:
         <span className={utilities.subHeading}>
-          {' '}
           Send to your group members to get results
         </span>
       </Typography>
