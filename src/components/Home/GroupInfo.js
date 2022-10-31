@@ -12,7 +12,6 @@ export const GroupInfo = ({ name, setName, description, setDescription }) => {
       <div className={style.inputFields}>
         <TextField
           label='Group name'
-          id='outlined-basic'
           variant='filled'
           className={style.input}
           required
@@ -22,7 +21,6 @@ export const GroupInfo = ({ name, setName, description, setDescription }) => {
         {/* Description input */}
         <TextField
           label='Description'
-          id='outlined-basic'
           variant='filled'
           className={style.input}
           required

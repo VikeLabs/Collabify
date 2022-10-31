@@ -46,5 +46,5 @@ EventModal.propTypes = {
     setIsOpen: PropTypes.node.isRequired,
     modalTitle: PropTypes.string.isRequired,
     modalDesc: PropTypes.string.isRequired,
-  };
+};
   

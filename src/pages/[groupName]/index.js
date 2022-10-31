@@ -17,7 +17,7 @@ export default function GroupHome() {
   const router = useRouter();
   const { groupName } = router.query;
 
-  const [group, isLoading, hasError] = useAsyncFetch(`${GROUP}/${groupName}`);
+  const [data, isLoading, hasError] = useAsyncFetch(`${GROUP}/${groupName}`);
 
   if (isLoading) return <GroupSkeleton />;
 
