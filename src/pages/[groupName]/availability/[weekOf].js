@@ -6,7 +6,7 @@ import {AvailabilityCalendar} from '../../../components/AvailabilityCalendar';
 import { AVAILABILITY } from '../../../constants';
 import { Container } from 'components/Container';
 import style from 'styles/pages/availability.module.css'
-import utilities from 'styles/components/utilities.module.css'
+import utilities from 'styles/utilities.module.css'
 
 export default function Availability() {
   const router = useRouter();
@@ -50,37 +50,41 @@ export default function Availability() {
         {hasError && (
           <Alert severity='error'>{hasError.message}</Alert>
         )}
-        <Typography sx={{ fontWeight: 600}} variant='h5' className={[style.availabilityHeading, utilities.marginBottom1]}>AVAILABILITY: 
-        <span className={style.availabilityText}>Only select when you are available</span>
+        <Typography variant='h5' className={[utilities.heading, utilities.marginBottom1]}>AVAILABILITY: 
+        <span className={utilities.subHeading}> Only select when you are available</span>
         </Typography>
 
         <AvailabilityCalendar weekOf={weekOf} times={times} updateTimes={updateTimes}/>
         <div>
           <div>
-            <Typography sx={{ fontWeight: 600}} variant='h5' className={[style.availabilityHeading, utilities.marginTop1, utilities.marginBottom1]}>INFORMATION:</Typography>
+            <Typography variant='h5' className={[utilities.heading, utilities.marginTop1, utilities.marginBottom1]}>INFORMATION:</Typography>
             <div className={utilities.textCenter}>
               <TextField
+                variant='filled'
                 required
-                id="outlined-required"
                 label="Name"
                 placeholder='Your name'
                 onChange={(e) => setName(e.target.value)}
                 className={[style.infoTextField]}
-                error={name===""}
               />
               <TextField
                 required
-                id="outlined-required"
+                variant='filled'
                 label="Phone number (10 digits)"
                 placeholder='Your phone number'
                 onChange={(e) => setNumber(e.target.value)}
                 className={[style.infoTextField]}
-                error={number.length != 10 || !number.match(/^\d+$/)}
               />
             </div>
           </div>
           <div className={utilities.textCenter}>
-            <Button variant="contained" onClick={saveAvailability} className={style.saveButton} disabled={name==="" || number.length != 10 || !number.match(/^\d+$/) }>Save availability</Button>
+            <Button
+            variant="contained" 
+            onClick={saveAvailability} 
+            className={style.saveButton} 
+            disabled={name==="" || number.length != 10 || !number.match(/^\d+$/) }>
+            Save availability
+            </Button>
           </div>
         </div>
       </Container>

@@ -1,21 +1,20 @@
 :root {
-  --primary-main: #4B4A67;
-  --secondary-main: #219EBC;
-  --secondary-light: #8ECAE6;
-  --tertiary-main: #FB8500;
-  --tertiary-light: #FFB703;
-  --background-main: #2D5ABC;
-  --background-light: #D6ECF6;
-  --background-dark: #2753B8;
+  --primary-main: #4b4a67;
+  --secondary-main: #219ebc;
+  --secondary-light: #8ecae6;
+  --tertiary-main: #fb8500;
+  --tertiary-light: #ffb703;
+  --background-main: #2d5abc;
+  --background-light: #d6ecf6;
+  --background-dark: #2753b8;
   --availability-darkest: #228b22;
   --availability-dark: #228b22;
-  --availability-main: #54D93B;
+  --availability-main: #54d93b;
   --availability-light: #77dd77;
   --availability-lightest: #aef5ae;
 }
 
 body {
   background-image: url('../images/app_background.png');
-  background-repeat: repeat-x;
-  background-repeat: repeat-y;
+  background-repeat: repeat;
 }

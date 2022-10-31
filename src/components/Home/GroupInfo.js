@@ -8,23 +8,28 @@ export const GroupInfo = ({ name, setName, description, setDescription }) => {
     <>
       {/* Name input */}
       <h2 className={style.header}>information:</h2>
-      <TextField
-        label='Group name'
-        id='outlined-basic'
-        className={style.input}
-        required
-        onChange={(e) => setName(() => e.target.value)}
-        value={name}
-      />
-      {/* Description input */}
-      <TextField
-        label='Description'
-        id='outlined-basic'
-        className={style.input}
-        required
-        onChange={(e) => setDescription(() => e.target.value)}
-        value={description}
-      />
+
+      <div className={style.inputFields}>
+        <TextField
+          label='Group name'
+          id='outlined-basic'
+          variant='filled'
+          className={style.input}
+          required
+          onChange={(e) => setName(() => e.target.value)}
+          value={name}
+        />
+        {/* Description input */}
+        <TextField
+          label='Description'
+          id='outlined-basic'
+          variant='filled'
+          className={style.input}
+          required
+          onChange={(e) => setDescription(() => e.target.value)}
+          value={description}
+        />
+      </div>
     </>
   );
 };

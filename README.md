@@ -22,7 +22,7 @@
 ```sh
 git clone git@github.com:Colab-Calendar/web.git
 cd web
-npm install
+npm install (might need to add "--legacy-peer-deps" it it fails)
 ```
 
 ### Mongo URI

@@ -26,6 +26,9 @@
 }
 
 .child {
-  border-radius: 5px;
-  overflow: hidden;
+    overflow: hidden;
+}
+
+.content {
+  padding: 1em;
 }

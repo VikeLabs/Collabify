@@ -2,7 +2,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useTheme } from '@mui/styles';
+import { useTheme } from '@mui/material';
 
 import { ContainerCalendar } from "./styles";
 
@@ -51,7 +51,7 @@ export const AvailabilityCalendar = ({weekOf, times, updateTimes}) => {
       dayMaxEvents={true}
       allDaySlot={false}
       editable={true}
-      height="700px"
+      height="60vh"
     />
   </ContainerCalendar>
   );

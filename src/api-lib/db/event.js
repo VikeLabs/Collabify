@@ -72,3 +72,35 @@ export const deleteEventFromGroup = async ({ groupName, eventID }) => {
   return error 
 
 }
+
+
+export const getEventsFromGroup = async ({ groupName }) => {
+
+  const group = await Group.findOne({name: groupName});
+
+  let error = false;
+  let events = [];
+
+  if (!group) {
+    error = true; 
+  }else {
+    for (let event_id of group.events){
+      const event = await Event.findOne({_id: event_id});
+      if (!event) {
+        console.warn(`The following id was not found: ${event_id}`);
+      }else{
+        events.push(event)
+      }
+    }
+  }
+
+  if (events.length === 0){
+    error = true;
+  }
+
+  return {
+    error, 
+    events
+  }
+
+}
