@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -57,4 +58,8 @@ export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
       />
     </ContainerCalendar>
   );
+};
+
+AvailabilityCalendar.propTypes = {
+  weekOf: PropTypes.string.isRequired,
 };

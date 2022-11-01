@@ -36,10 +36,12 @@ export default function Availability() {
           number,
         },
       }),
-    }).then(async (res) => {
-      const json = await res.json();
-      if (res.ok) alert('Availability has been saved, Thank you!');
-      else setHasError(json);
+    }).then((res) => {
+      if (res.ok) {
+        alert('Availability has been saved, Thank you!')
+        router.replace(`/${groupName}`);
+      }
+      else setHasError(res.json());
     });
   };
 
@@ -62,11 +64,12 @@ export default function Availability() {
           </span>
         </Typography>
 
-        <AvailabilityCalendar
+        {weekOf && <AvailabilityCalendar
           weekOf={weekOf}
           times={times}
           updateTimes={updateTimes}
-        />
+        />}
+        
         <div>
           <div>
             <Typography
