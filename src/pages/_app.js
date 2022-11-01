@@ -9,7 +9,7 @@ import 'styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
   // Gets theme from local storage (personalized theme for the site)
-  const themeInStorage = typeof window !== 'undefined' ? localStorage.getItem('theme') : null
+  const themeInStorage = typeof window !== 'undefined' ? localStorage.getItem('CollabifyTheme') : null
   const theme = createTheme(getColorPalette(themeInStorage ?? 'default'))
   return (
     <ThemeProvider theme={theme}>

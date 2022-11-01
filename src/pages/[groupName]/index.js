@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Alert, Box, IconButton, Typography } from '@mui/material';
 
 import { useAsyncFetch } from '../../hooks';
@@ -17,6 +18,20 @@ export default function GroupHome() {
   const { groupName } = router.query;
 
   const [data, isLoading, hasError] = useAsyncFetch(`${GROUP}/${groupName}`);
+
+  useEffect(() => {
+    if (data?.group) {
+      let storedGroups = JSON.parse(localStorage.getItem("CollabifyRecentGroups")) ?? [];
+      if (!storedGroups.some(group => group._id === data.group._id)) {
+        storedGroups.unshift(data.group)
+        localStorage.setItem("CollabifyRecentGroups", JSON.stringify(storedGroups));
+      } else {
+        const index = storedGroups.indexOf({_id: data.group._id})
+        storedGroups.unshift(storedGroups.splice(index, 1)[0]);
+        localStorage.setItem("CollabifyRecentGroups", JSON.stringify(storedGroups));
+      }
+    }
+  }, [data?.group])
 
   if (isLoading) return <GroupSkeleton />;
 

@@ -1,10 +1,10 @@
 import { Alert } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
-import { GroupInfo, Icons } from 'components/Home';
+import { GroupInfo, Icons, RecentlyVisited } from 'components/Home';
 import { getAllIcons } from 'components/MuiIcon';
 // MUI
 import Button from '@mui/material/Button';
@@ -21,8 +21,11 @@ export default function Home() {
   // Information related
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [recentGroups, setRecentGroups] = useState(null)
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  
+  useEffect(() => setRecentGroups(JSON.parse(localStorage.getItem('CollabifyRecentGroups'))), [])
 
   if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
 
@@ -46,11 +49,13 @@ export default function Home() {
       .catch((e) => setHasError(e));
   };
 
+
   return (
     <Container header='create a group'>
       <section className={style.createGroup}>
         <Spinner isLoading={isLoading} />
         <div className={style.groupInfo}>
+          {recentGroups && <RecentlyVisited groups={recentGroups} />}
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
