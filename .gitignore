@@ -39,3 +39,6 @@ next-env.d.ts
 
 # text editor config
 *.vim
+
+# package-lock.json
+package-lock.json
