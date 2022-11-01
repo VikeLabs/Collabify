@@ -63,6 +63,8 @@ export const GroupCalendar = ({ times, updateTimes }) => {
       `
       );
     }
+    // Set background color for FullCalendar
+    document.querySelector('.fc-scrollgrid').style.backgroundColor = '#c7c7c7'
   }, []);
 
   const handleSelect = (selectInfo) => {
