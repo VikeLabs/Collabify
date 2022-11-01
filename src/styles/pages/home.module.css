@@ -5,11 +5,12 @@
 
 /** ICONS **/
 .allIcons {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr); /* # of icons is 9 in figma */
-  place-items: center;
-  grid-gap: 0.4em;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.4em;
   max-width: 900px;
+  justify-content: space-between;
+  align-items: center;
   /* centering the icons */
   position: relative;
   left: 50%;
