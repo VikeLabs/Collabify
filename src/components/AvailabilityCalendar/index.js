@@ -4,11 +4,17 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useTheme } from '@mui/material';
-
+import { useEffect } from 'react';
 import { ContainerCalendar } from './styles';
 
 export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
   const theme = useTheme();
+
+  // This function only runs once when the page first render
+  useEffect(() => {
+    // Set background color for FullCalendar
+    document.querySelector('.fc-scrollgrid').style.backgroundColor = '#c7c7c7'
+  }, [])
 
   const handleSelect = (selectInfo) => {
     updateTimes((arr) => [...arr, selectInfo]);
