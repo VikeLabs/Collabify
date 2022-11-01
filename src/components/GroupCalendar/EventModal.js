@@ -19,7 +19,7 @@ export default function EventModal({
       <Box className={style.container}>
         <Typography
           className={style.title}
-          variant='h6'
+          variant='h5'
         >
           ({modalInfo.date}) - {modalInfo.start}
         </Typography>
