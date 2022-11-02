@@ -30,7 +30,7 @@ export const RecentlyVisited = ({ groups }) => {
                     <div
                     key={group.icon}
                     className={style.icon}
-                    onClick={() => router.push(`/${group.name}`)}
+                    onClick={() => router.push(`/${group._id}`)}
                     >
                         <MuiIcon icon={group.icon} />
                     </div>

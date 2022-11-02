@@ -1,9 +1,8 @@
-import dbConnect from '../../api-lib/dbConnect';
+import dbConnect from 'api-lib/dbConnect';
 import {
   addAvailabilityToGroup,
-  getAvailabilitiesFromGroup,
-} from '../../api-lib/db';
-import { sendDatabaseError, sendRequestError } from '../../api-lib/helper';
+} from 'api-lib/db';
+import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 
 export default async function handler(req, res) {
   const { method, body } = req;
@@ -13,14 +12,15 @@ export default async function handler(req, res) {
   switch (method) {
     case 'POST':
       try {
-        const { groupName, availability } = JSON.parse(body);
+        const { groupID, availability } = JSON.parse(body);
 
         const err = await addAvailabilityToGroup({
-          groupName,
+          groupID,
           availability,
         });
         if (err === true) sendDatabaseError(res);
-        else res.status(200).send();
+        // Instead of leaving response empty add ok: true
+        else res.status(200).json({ok: true});
       } catch (error) {
         sendRequestError(res, error);
       }

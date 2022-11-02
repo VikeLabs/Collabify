@@ -27,8 +27,6 @@ export default function Home() {
   
   useEffect(() => setRecentGroups(JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))), [])
 
-  if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
-
   const createGroup = () => {
     if (name === '' || description === '') return null; // no request without `name` and `description`
 
@@ -43,43 +41,47 @@ export default function Home() {
         background: 'orange',
       }),
     })
-      .then(() => {
-        router.push(`/${name}`);
-      })
-      .catch((e) => setHasError(e));
+    .then(res => res.json())
+    .then(result => {
+      if (result.ok) router.push(`/${result.groupID}`);
+      else setHasError(result.message);
+    })
   };
 
 
   return (
-    <Container header='create a group'>
-      <section className={style.createGroup}>
-        <Spinner isLoading={isLoading} />
-        <div className={style.groupInfo}>
-          {recentGroups && <RecentlyVisited groups={recentGroups} />}
-          {/* ICON */}
-          <Icons
-            activeIcon={activeIcon}
-            setActiveIcon={setActiveIcon}
-          />
-          <GroupInfo
-            name={name}
-            setName={setName}
-            description={description}
-            setDescription={setDescription}
-          />
-        </div>
-        {/* Submit button */}
-        <div className={style.submit}>
-          <Button
-            variant='contained'
-            disabled={!name || !description || isLoading ? true : false}
-            onClick={createGroup}
-            className={style.submitButton}
-          >
-            Create Group
-          </Button>
-        </div>
-      </section>
-    </Container>
+    <>
+      {hasError && <Alert severity='error'>{hasError}</Alert>}
+      <Container header='create a group'>
+        <section className={style.createGroup}>
+          <Spinner isLoading={isLoading} />
+          <div className={style.groupInfo}>
+            {recentGroups && <RecentlyVisited groups={recentGroups} />}
+            {/* ICON */}
+            <Icons
+              activeIcon={activeIcon}
+              setActiveIcon={setActiveIcon}
+            />
+            <GroupInfo
+              name={name}
+              setName={setName}
+              description={description}
+              setDescription={setDescription}
+            />
+          </div>
+          {/* Submit button */}
+          <div className={style.submit}>
+            <Button
+              variant='contained'
+              disabled={!name || !description || isLoading ? true : false}
+              onClick={createGroup}
+              className={style.submitButton}
+            >
+              Create Group
+            </Button>
+          </div>
+        </section>
+      </Container>
+    </>
   );
 }

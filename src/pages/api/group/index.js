@@ -1,6 +1,6 @@
-import dbConnect from '../../../api-lib/dbConnect';
-import { createGroup } from '../../../api-lib/db';
-import { sendDatabaseError, sendRequestError } from '../../../api-lib/helper';
+import dbConnect from 'api-lib/dbConnect';
+import { createGroup } from 'api-lib/db';
+import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 
 export default async function handler(req, res) {
   const { method, body } = req;
@@ -12,11 +12,14 @@ export default async function handler(req, res) {
       try {
         const group = JSON.parse(body);
 
-        const err = await createGroup({ group });
-        if (err === true) sendDatabaseError(res);
-        else res.status(200).send();
-      } catch (error) {
-        sendRequestError(res, error);
+        const {error, groupID} = await createGroup({ group });
+        if (error === true) sendDatabaseError(res);
+        else res.status(200).json({
+          ok: true,
+          groupID
+        });
+      } catch (err) {
+        sendRequestError(res, err);
       }
       break;
     default:

@@ -1,24 +1,28 @@
-import { Alert, Skeleton, Typography, Button, TextField } from '@mui/material';
+import { Alert, Typography, Button, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import { AvailabilityCalendar } from '../../../components/AvailabilityCalendar';
-import { AVAILABILITY } from '../../../constants';
+import { AvailabilityCalendar } from 'components/AvailabilityCalendar';
+import { AVAILABILITY, GROUP_CALENDAR } from '../../../constants';
 import { Container } from 'components/Container';
+import { GroupSkeleton } from 'components/GroupHome';
+import { useAsyncFetch } from 'hooks';
 import style from 'styles/pages/availability.module.css';
 import utilities from 'styles/utilities.module.css';
 
 export default function Availability() {
   const router = useRouter();
   // Get group name and week form the URL
-  const { groupName, weekOf } = router.query;
+  const { groupID, weekOf } = router.query;
+  // Fetching group data
+  const [data, isLoading, apiError] = useAsyncFetch(`${GROUP_CALENDAR}/${groupID}`);
 
   // User information
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   // API validator
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = useState(apiError);
 
   const [times, updateTimes] = useState([]);
 
@@ -28,7 +32,7 @@ export default function Availability() {
     fetch(AVAILABILITY, {
       method: 'POST',
       body: JSON.stringify({
-        groupName,
+        groupID,
         availability: {
           weekOf,
           times,
@@ -36,19 +40,23 @@ export default function Availability() {
           number,
         },
       }),
-    }).then((res) => {
-      if (res.ok) {
+    })
+    .then(res => res.json())
+    .then(result => {
+      if (result.ok) {
         alert('Availability has been saved, Thank you!')
-        router.replace(`/${groupName}`);
+        router.replace(`/${groupID}`);
       }
-      else setHasError(res.json());
-    });
+      else setHasError(result.message);
+    })
   };
+
+  if (isLoading) return <GroupSkeleton />;
 
   return (
     <div className={utilities.paddingBottom3}>
-      <Container header={groupName}>
-        {hasError && <Alert severity='error'>{hasError.message}</Alert>}
+      {hasError && <Alert severity='error'>{hasError}</Alert>}
+      <Container header={data?.group?.name}>
         <Typography
           variant='h5'
           className={[

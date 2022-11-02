@@ -1,6 +1,6 @@
 import { Group, Event } from '../model';
 
-export const addEventToGroup = async ({ groupName, event }) => {
+export const addEventToGroup = async ({ groupID, event }) => {
   // Creates event then adds events ID to the group 'events' array
   // If theres an error function will return true
   const model = new Event(event);
@@ -8,7 +8,7 @@ export const addEventToGroup = async ({ groupName, event }) => {
     .save()
     .then((savedDoc) => {
       Group.findOneAndUpdate(
-        { name: groupName },
+        { _id: groupID },
         { $push: { events: savedDoc._id } },
         { new: true },
         (err) => {
@@ -28,13 +28,13 @@ export const addEventToGroup = async ({ groupName, event }) => {
   return error;
 };
 
-export const deleteEventFromGroup = async ({ groupName, eventID }) => {
-  const group = await Group.findOne({ name: groupName });
+export const deleteEventFromGroup = async ({ groupID, eventID }) => {
+  const group = await Group.findOne({ _id: groupID });
 
   let error = true;
 
   if (!group) {
-    console.warn(`The following group was not found: ${groupName}`);
+    console.warn(`The following group was not found: ${groupID}`);
     return error;
   }
 
@@ -47,12 +47,12 @@ export const deleteEventFromGroup = async ({ groupName, eventID }) => {
 
   if (!group.events.includes(eventID)) {
     console.warn(
-      `The group ${groupName} does not contain the following event id: ${eventID}`
+      `The group ${groupID} does not contain the following event id: ${eventID}`
     );
     return error;
   }
 
-  const filter = { name: groupName };
+  const filter = { _id: groupID };
   const update = { $pull: { events: { _id: eventID } } };
 
   const updatedGroup = await Group.findOneAndUpdate(filter, update, {
@@ -61,7 +61,7 @@ export const deleteEventFromGroup = async ({ groupName, eventID }) => {
 
   if (updatedGroup.includes(eventID)) {
     console.warn(
-      `The event id ${eventID} was not removed from group ${groupName}`
+      `The event id ${eventID} was not removed from group ${groupID}`
     );
     return error;
   }
@@ -77,8 +77,8 @@ export const deleteEventFromGroup = async ({ groupName, eventID }) => {
   return error;
 };
 
-export const getEventsFromGroup = async ({ groupName }) => {
-  const group = await Group.findOne({ name: groupName });
+export const getEventsFromGroup = async ({ groupID }) => {
+  const group = await Group.findOne({ _id: groupID });
 
   let error = false;
   let events = [];
@@ -86,10 +86,10 @@ export const getEventsFromGroup = async ({ groupName }) => {
   if (!group) {
     error = true;
   } else {
-    for (let event_id of group.events) {
-      const event = await Event.findOne({ _id: event_id });
+    for (let eventID of group.events) {
+      const event = await Event.findOne({ _id: eventID });
       if (!event) {
-        console.warn(`The following id was not found: ${event_id}`);
+        console.warn(`The following id was not found: ${eventID}`);
       } else {
         events.push(event);
       }

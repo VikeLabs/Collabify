@@ -4,9 +4,6 @@ import { Collections } from '../constants';
 const GroupSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
-    index: true,
-    unique: true,
   },
   description: {
     type: String,

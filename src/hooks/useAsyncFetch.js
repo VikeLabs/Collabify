@@ -14,7 +14,7 @@ const useAsyncFetch = (endpoint) => {
         setData(json);
         setIsLoading(false);
       } else {
-        setHasError(json);
+        setHasError(json.message);
         setIsLoading(false);
       }
     };
