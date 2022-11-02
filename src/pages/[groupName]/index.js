@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Alert, Box, IconButton, Typography } from '@mui/material';
 
 import { useAsyncFetch } from '../../hooks';
-import { BASE_URL, GROUP } from '../../constants';
+import { BASE_URL, GROUP, RECENT_GROUPS_STORED } from '../../constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
 import { GroupBanner } from 'components/GroupBanner';
@@ -21,14 +21,14 @@ export default function GroupHome() {
 
   useEffect(() => {
     if (data?.group) {
-      let storedGroups = JSON.parse(localStorage.getItem("CollabifyRecentGroups")) ?? [];
+      let storedGroups = JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED)) ?? [];
       if (!storedGroups.some(group => group._id === data.group._id)) {
         storedGroups.unshift(data.group)
-        localStorage.setItem("CollabifyRecentGroups", JSON.stringify(storedGroups));
+        localStorage.setItem(RECENT_GROUPS_STORED, JSON.stringify(storedGroups));
       } else {
         const index = storedGroups.indexOf({_id: data.group._id})
         storedGroups.unshift(storedGroups.splice(index, 1)[0]);
-        localStorage.setItem("CollabifyRecentGroups", JSON.stringify(storedGroups));
+        localStorage.setItem(RECENT_GROUPS_STORED, JSON.stringify(storedGroups));
       }
     }
   }, [data?.group])

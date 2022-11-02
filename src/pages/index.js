@@ -9,7 +9,7 @@ import { getAllIcons } from 'components/MuiIcon';
 // MUI
 import Button from '@mui/material/Button';
 
-import { GROUP } from '../constants';
+import { GROUP, RECENT_GROUPS_STORED } from '../constants';
 
 import style from 'styles/pages/home.module.css';
 
@@ -25,7 +25,7 @@ export default function Home() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   
-  useEffect(() => setRecentGroups(JSON.parse(localStorage.getItem('CollabifyRecentGroups'))), [])
+  useEffect(() => setRecentGroups(JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))), [])
 
   if (hasError) return <Alert severity='error'>{hasError.message}</Alert>;
 
