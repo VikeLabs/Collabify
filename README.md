@@ -172,7 +172,7 @@ Example:
 ```js
 res.status(200).json({
   ok: true,
-  ...the rest of the response objects
+  //...the rest of the response objects
 });
 ```
 
@@ -183,15 +183,15 @@ We want to stay consistent with the way we handle responses so we use this struc
 Example:
 
 ```js
-fetch(GROUP, {
+fetch('endpoint', {
   method: 'POST',
   body: JSON.stringify({
-    ...body information
+    //body information
   }),
 })
 .then(res => res.json())
 .then(result => {
-  if (result.ok) ...do something or put response information into state;
+  if (result.ok) //do something or put response information into state;
   else setHasError(result.message);
 })
 ```
