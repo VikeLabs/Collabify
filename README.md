@@ -163,6 +163,40 @@ return <div className={style.anExample}>{/* ... */}</div>;
 }
 ```
 
+### Sending api response
+
+When we send an api response we want it to be able to show if its successful, so we use the word **ok**
+
+Example:
+
+```js
+res.status(200).json({
+  ok: true,
+  ...the rest of the response objects
+});
+```
+
+### Handling api response in front end
+
+We want to stay consistent with the way we handle responses so we use this structure to handle response body information or completing an action on response
+
+Example:
+
+```js
+fetch(GROUP, {
+  method: 'POST',
+  body: JSON.stringify({
+    ...body information
+  }),
+})
+.then(res => res.json())
+.then(result => {
+  if (result.ok) ...do something or put response information into state;
+  else setHasError(result.message);
+})
+```
+
+
 ## Developers
 
 - [BenReichwein](https://github.com/BenReichwein)
