@@ -1,0 +1,25 @@
+.bug {
+  --black: hsla(0deg, 0%, 10%, 80%);
+  --red: hsla(0deg, 90%, 60%, 70%);
+
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--red);
+  color: var(--black);
+  transition: all 150ms linear;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 5px hsla(0deg, 0%, 30%, 90%);
+  cursor: pointer;
+  border: 1px solid var(--black);
+}
+
+.bug:hover {
+  background-color: hsla(0deg, 90%, 60%, 90%);
+  color: hsla(0deg, 0%, 10%, 100%);
+}
