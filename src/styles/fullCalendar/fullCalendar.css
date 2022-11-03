@@ -1,0 +1,10 @@
+.fc-timeGridWeek-view > table {
+  /* Need to select the immediate child only, otherwise all table has round border */
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fc-timegrid-slot-lane {
+  background-color: var(--fullcal-bg-main);
+  border: 1px solid var(--fullcal-timeslot-border) !important;
+}

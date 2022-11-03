@@ -12,6 +12,9 @@
   --availability-main: #54d93b;
   --availability-light: #77dd77;
   --availability-lightest: #aef5ae;
+  /* colors for calendar */
+  --fullcal-bg-main: hsla(0deg, 0%, 10%, 5%);
+  --fullcal-timeslot-border: hsla(0deg, 0%, 70%, 10%);
 }
 
 body {
