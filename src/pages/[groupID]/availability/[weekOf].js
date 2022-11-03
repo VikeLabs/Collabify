@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { AvailabilityCalendar } from 'components/AvailabilityCalendar';
 import { AVAILABILITY, GROUP_CALENDAR } from '../../../constants';
 import { Container } from 'components/Container';
-import { GroupSkeleton } from 'components/GroupHome';
+import { AvailabilitySkeleton } from 'components/Availability';
 import { useAsyncFetch } from 'hooks';
 import style from 'styles/pages/availability.module.css';
 import utilities from 'styles/utilities.module.css';
@@ -51,7 +51,7 @@ export default function Availability() {
     })
   };
 
-  if (isLoading) return <GroupSkeleton />;
+  if (isLoading) return <AvailabilitySkeleton />;
 
   return (
     <div className={utilities.paddingBottom3}>

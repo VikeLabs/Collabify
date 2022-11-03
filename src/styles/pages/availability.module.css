@@ -16,3 +16,37 @@
         width: 95%;
     }
 }
+
+/* Skeleton */
+.currentWeekSkeleton {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 3.125rem;
+}
+
+.calendarUpperBarSkeleton {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1.875rem;
+}
+
+.calendarSkeleton {
+    height: 47vh;
+    margin-top: 1.875rem;
+}
+
+.headerTextSkeleton {
+    margin-top: 1rem;
+    height: 3.125rem;
+    width: 70%;
+    margin-left: 1rem;
+}
+
+.inputBoxSkeleton {
+    margin-top: 1rem;
+    height: 6.125rem;
+    width: 95%;
+    margin-left: 1rem;
+}
