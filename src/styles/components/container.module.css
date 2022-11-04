@@ -35,12 +35,12 @@
 
 @media only screen and (max-width: 1200px) {
   .container {
-    width: 98vw;
-    margin-top: 2vh;
-    margin-left: 1vw;
+    width: 92vw;
+    margin-top: 4vh;
+    margin-left: 4vw;
   }
 
   .headerContainer {
-    width: calc(98vw + 1.2em);
+    width: calc(92vw + 1.2em);
   }
 }
