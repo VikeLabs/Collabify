@@ -2,7 +2,7 @@ import { parseTime } from './parseTime';
 
 export const splitAvailabilities = ({ availabilities }) => {
   let people = [];
-  // let index = 0; // no longer need this if we were to add it, more on this later
+  // let index = 0; // we may not need this index. more on this later.
 
   const dates = []; // all UNIQUE dates
 
@@ -12,6 +12,7 @@ export const splitAvailabilities = ({ availabilities }) => {
 
     for (let time of times) {
       // parsing time string to [date: int, time: int]
+      // eg: '2022-12-12T09:00:00' -> [20221212, 900]
       const [parsedStartDate, parsedStartTime] = parseTime(time.startTime);
       const [_, parsedEndTime] = parseTime(time.endTime); // no need to extract the same date since we arent doing multi-day event
 
@@ -20,8 +21,10 @@ export const splitAvailabilities = ({ availabilities }) => {
         dates.push(parsedStartDate);
       }
 
-      /* I totally forgot what you are supposed to do with the starting and ending time,
-       * but they are now `parsedStartTime` and `parsedEndTime` respectively */
+      /**
+       * I totally forgot what you are supposed to do with the starting and ending time,
+       * but they are now `parsedStartTime` and `parsedEndTime` respectively
+       */
       startToEndTimes.push(...convertToIntTime(time.startTime, time.endTime));
     }
 
@@ -38,9 +41,14 @@ export const splitAvailabilities = ({ availabilities }) => {
   }
 
   let allTimes = [];
-  /* is there a way we could extract `allTimes` within the previous loop?
+  /**
+   * is there a way we could extract `allTimes` within the previous loop?
    * if you want to just keep it like this for prod, feel free, but leave a TODO here so
    * we can optimize it later */
+
+  /**
+   * I've also written a function for this, checkout `./getTimeInterval.js`
+   */
 
   for (let person of people) {
     for (let time of person.timesAvailable) {
