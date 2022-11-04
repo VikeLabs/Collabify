@@ -12,6 +12,7 @@ export const BugReport = () => {
           'https://docs.google.com/forms/d/1qFzUXBbJDWL8OlkZ0rvqI8HatLYfRromx_anyjk0YmQ/prefill'
         }
         target='_blank'
+        rel="noopener noreferrer"
       >
         <Bug />
       </a>
