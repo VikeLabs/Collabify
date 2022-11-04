@@ -18,4 +18,5 @@ body {
   background-color: var(--background-main);
   background-image: url('../assets/app_background.png');
   background-repeat: repeat;
+  overflow-x: hidden;
 }
