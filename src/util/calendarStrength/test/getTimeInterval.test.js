@@ -1,4 +1,4 @@
-import { getTimeInterval } from '../getTimeInterval';
+import { getTimeInterval } from '../helpers/getTimeInterval';
 import ld from 'lodash';
 
 const testData = [

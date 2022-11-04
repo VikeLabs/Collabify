@@ -1,5 +1,5 @@
 import ld from 'lodash';
-import { parseTime } from '../parseTime';
+import { parseTime } from '../helpers/parseTime';
 
 const data = [
   {
