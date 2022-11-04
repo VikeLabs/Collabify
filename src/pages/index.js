@@ -6,7 +6,6 @@ import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
 import { GroupInfo, Icons, RecentlyVisited } from 'components/Home';
 import { getAllIcons } from 'components/MuiIcon';
-import { BugReport } from 'components/BugReport/BugReport';
 // MUI
 import Button from '@mui/material/Button';
 
@@ -85,7 +84,6 @@ export default function Home() {
           </Button>
         </div>
       </Container>
-      <BugReport />
     </>
   );
 }
