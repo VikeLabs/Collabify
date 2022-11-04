@@ -32,9 +32,5 @@ export const parseTime = (timeStr) => {
   timeInt = timeInt.slice(0, 4);
   timeInt = Number(timeInt);
 
-  if (typeof timeInt !== 'number' || timeInt === NaN) {
-    throw new Error(`unexpected output, type of hour: ${typeof timeInt}`);
-  }
-
   return [dateInt, timeInt];
 };
