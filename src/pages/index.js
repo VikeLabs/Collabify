@@ -6,6 +6,7 @@ import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
 import { GroupInfo, Icons, RecentlyVisited } from 'components/Home';
 import { getAllIcons } from 'components/MuiIcon';
+import { BugReport } from 'components/BugReport/BugReport';
 // MUI
 import Button from '@mui/material/Button';
 
@@ -21,11 +22,15 @@ export default function Home() {
   // Information related
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [recentGroups, setRecentGroups] = useState(null)
+  const [recentGroups, setRecentGroups] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  
-  useEffect(() => setRecentGroups(JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))), [])
+
+  useEffect(
+    () =>
+      setRecentGroups(JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))),
+    []
+  );
 
   const createGroup = () => {
     if (name === '' || description === '') return null; // no request without `name` and `description`
@@ -41,13 +46,12 @@ export default function Home() {
         background: 'orange',
       }),
     })
-    .then(res => res.json())
-    .then(result => {
-      if (result.ok) router.push(`/${result.groupID}`);
-      else setHasError(result.message);
-    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.ok) router.push(`/${result.groupID}`);
+        else setHasError(result.message);
+      });
   };
-
 
   return (
     <>
@@ -82,6 +86,7 @@ export default function Home() {
           </div>
         </section>
       </Container>
+      <BugReport />
     </>
   );
 }
