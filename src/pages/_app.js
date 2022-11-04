@@ -8,7 +8,6 @@ import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import 'styles/globals.css';
 import { THEME_STORED } from 'constants/index.js';
-import { isMobile } from "react-device-detect";
 import { BugReport } from 'components/BugReport/BugReport';
 
 function MyApp({ Component, pageProps }) {
@@ -26,7 +25,7 @@ function MyApp({ Component, pageProps }) {
       <Component
         {...pageProps}
       />
-      {!isMobile && <BugReport/>}
+      <BugReport/>
     </ThemeProvider>
   );
 }

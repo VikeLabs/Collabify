@@ -23,3 +23,10 @@
   background-color: hsla(0deg, 90%, 60%, 90%);
   color: hsla(0deg, 0%, 10%, 100%);
 }
+
+/* Dont show on mobile mode */
+@media only screen and (max-width: 1200px) {
+  .bug {
+    visibility: hidden;
+  }
+}
