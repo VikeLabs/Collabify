@@ -1,21 +1,46 @@
+import { parseTime } from './parseTime';
+
 export const splitAvailabilities = ({ availabilities }) => {
   let people = [];
-  let index = 0;
+  // let index = 0; // no longer need this if we were to add it, more on this later
+
+  const dates = []; // all UNIQUE dates
 
   for (let availability of availabilities) {
     let startToEndTimes = [];
     let times = availability.times;
+
     for (let time of times) {
+      // parsing time string to [date: int, time: int]
+      const [parsedStartDate, parsedStartTime] = parseTime(time.startTime);
+      const [_, parsedEndTime] = parseTime(time.endTime); // no need to extract the same date since we arent doing multi-day event
+
+      // extracting date -> push to `dates` if not exists
+      if (!dates.includes(parsedStartDate)) {
+        dates.push(parsedStartDate);
+      }
+
+      /* I totally forgot what you are supposed to do with the starting and ending time,
+       * but they are now `parsedStartTime` and `parsedEndTime` respectively */
       startToEndTimes.push(...convertToIntTime(time.startTime, time.endTime));
     }
-    let number = availability.number;
-    let name = availability.name;
-    people.push({ name: name, number: number, timesAvailable: [] });
-    people[index].timesAvailable.push(...startToEndTimes);
-    index += 1;
+
+    const entry = {
+      name: availability.name,
+      number: availability.number,
+      timesAvailable: [],
+    };
+
+    people.push(entry);
+
+    // people[index].timesAvailable.push(...startToEndTimes); // maybe we could just add this to the `entry` object above
+    // index += 1;
   }
 
   let allTimes = [];
+  /* is there a way we could extract `allTimes` within the previous loop?
+   * if you want to just keep it like this for prod, feel free, but leave a TODO here so
+   * we can optimize it later */
 
   for (let person of people) {
     for (let time of person.timesAvailable) {
@@ -40,14 +65,6 @@ export const splitAvailabilities = ({ availabilities }) => {
           time.peopleAvailableNames.push(person.name);
         }
       }
-    }
-  }
-
-  let dates = [];
-
-  for (let time of allTimes) {
-    if (!dates.includes(time.fullTime.date)) {
-      dates.push(time.fullTime.date);
     }
   }
 
