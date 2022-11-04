@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head.js';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { GlobalStyle } from '../styles/global.js';
 import { getColorPalette } from '../styles/theme';
@@ -16,6 +17,10 @@ function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <GlobalStyle />
+      <Head>
+        <title>Collabify</title>
+        <meta property="og:title" content="Collabify" key="title" />
+      </Head>
       <Component
         {...pageProps}
       />

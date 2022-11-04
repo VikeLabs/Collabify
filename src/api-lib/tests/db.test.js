@@ -2,13 +2,13 @@ import dbConnect from '../dbConnect.js';
 import { createGroup } from '../db/group';
 import { Group } from '../model';
 
-const test_name = '_test1';
+const testName = 'test1';
 const mockGroup = {
   group: {
-    name: test_name,
-    description: '_test description',
+    name: testName,
+    description: 'test description',
     icon: '_test icon',
-    background: '_test background',
+    background: 'test background',
     events: [123, 456],
     availabilities: [123, 456],
   },
@@ -20,7 +20,7 @@ beforeAll(async () => {
 
 afterEach(async () => {
   // Nuke the mock group
-  Group.deleteOne({ name: test_name });
+  Group.deleteOne({ name: testName });
 });
 
 describe('db/group', () => {
