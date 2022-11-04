@@ -1,6 +1,6 @@
 /* parseTime(timeStr)
  * @params {string} timeStr: eg, '2022-11-01T08:00:00'
- * @return {[]int}: [20221101, 8000]
+ * @return {[]int}: [20221101, 800]
  * */
 export const parseTime = (timeStr) => {
   if (typeof timeStr !== 'string') {
@@ -9,13 +9,15 @@ export const parseTime = (timeStr) => {
     );
   }
 
-  const delimRegex = /[a-zA-Z]/;
-
-  if (timeStr.match(delimRegex) === null) {
+  const timeMatched = timeStr.split(/[a-zA-Z]/g);
+  if (timeMatched === null) {
     throw new Error(`${timeStr} has no valid delimiter`);
   }
+  if (timeMatched.length !== 2) {
+    throw new Error(`expected: [date, time], got: ${timeMatched}`);
+  }
 
-  const [date, time] = timeStr.split(delimRegex);
+  const [date, time] = timeMatched;
 
   // parsing date
   let dateInt;
