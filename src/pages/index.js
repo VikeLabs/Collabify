@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import { GROUP, RECENT_GROUPS_STORED } from '../constants';
 
 import style from 'styles/pages/home.module.css';
+import utilities from 'styles/utilities.module.css';
 
 export default function Home() {
   const router = useRouter();
@@ -57,34 +58,32 @@ export default function Home() {
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container header='create a group'>
-        <section className={style.createGroup}>
-          <Spinner isLoading={isLoading} />
-          <div className={style.groupInfo}>
-            {recentGroups && <RecentlyVisited groups={recentGroups} />}
-            {/* ICON */}
-            <Icons
-              activeIcon={activeIcon}
-              setActiveIcon={setActiveIcon}
-            />
-            <GroupInfo
-              name={name}
-              setName={setName}
-              description={description}
-              setDescription={setDescription}
-            />
-          </div>
-          {/* Submit button */}
-          <div className={style.submit}>
-            <Button
-              variant='contained'
-              disabled={!name || !description || isLoading ? true : false}
-              onClick={createGroup}
-              className={style.submitButton}
-            >
-              Create Group
-            </Button>
-          </div>
-        </section>
+        <Spinner isLoading={isLoading} />
+        <div className={style.groupInfo}>
+          {recentGroups && <RecentlyVisited groups={recentGroups} />}
+          {/* ICON */}
+          <Icons
+            activeIcon={activeIcon}
+            setActiveIcon={setActiveIcon}
+          />
+          <GroupInfo
+            name={name}
+            setName={setName}
+            description={description}
+            setDescription={setDescription}
+          />
+        </div>
+        {/* Submit button */}
+        <div className={utilities.buttonContainer}>
+          <Button
+            variant='contained'
+            disabled={!name || !description || isLoading ? true : false}
+            onClick={createGroup}
+            className={utilities.button}
+          >
+            Create Group
+          </Button>
+        </div>
       </Container>
       <BugReport />
     </>

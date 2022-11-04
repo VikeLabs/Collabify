@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Modal, Typography, Button } from '@mui/material';
+import { Box, Modal, Button } from '@mui/material';
 import style from 'styles/components/groupCalendar.module.css';
+import utilities from 'styles/utilities.module.css';
 
 export default function EventModal({
   modalIsOpen,
@@ -17,30 +18,21 @@ export default function EventModal({
       onClose={() => setIsOpen(false)}
     >
       <Box className={style.container}>
-        <Typography
-          className={style.title}
-          variant='h5'
-        >
+        <h2 className={style.title}>
           ({modalInfo.date}) - {modalInfo.start}
-        </Typography>
-        <Typography
-          className={style.title}
-          variant='h4'
-        >
+        </h2>
+        <h1 className={style.title}>
           {modalTitle}
-        </Typography>
+        </h1>
         <Box className={style.descriptionContainer}>
-          <Typography
-            className={style.description}
-            variant='p'
-          >
+          <p className={style.description}>
             {modalDesc}
-          </Typography>
+          </p>
         </Box>
-        <Box className={style.buttonContainer}>
+        <Box className={utilities.buttonContainer}>
           <Button
             variant='contained'
-            className={style.addButton}
+            className={utilities.button}
           >
             ADD TO CALENDAR
           </Button>

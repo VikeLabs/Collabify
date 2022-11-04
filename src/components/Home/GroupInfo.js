@@ -1,29 +1,23 @@
 import PropTypes from 'prop-types';
-import { TextField, Typography } from '@mui/material';
+import { TextField } from '@mui/material';
 
-import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 
 export const GroupInfo = ({ name, setName, description, setDescription }) => {
   return (
     <>
       {/* Name input */}
-      <Typography
-        variant='h5'
-        className={[
-          utilities.heading,
-          utilities.marginTop1,
-          utilities.marginBottom1,
-        ]}
+      <h2
+        className={utilities.heading}
       >
         INFORMATION:
-      </Typography>
+      </h2>
 
-      <div className={style.inputFields}>
+      <div className={utilities.inputFields}>
         <TextField
           label='Group name'
           variant='filled'
-          className={style.input}
+          className={utilities.input}
           required
           onChange={(e) => setName(() => e.target.value)}
           value={name}
@@ -32,7 +26,7 @@ export const GroupInfo = ({ name, setName, description, setDescription }) => {
         <TextField
           label='Description'
           variant='filled'
-          className={style.input}
+          className={utilities.input}
           required
           onChange={(e) => setDescription(() => e.target.value)}
           value={description}

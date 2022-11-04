@@ -1,22 +1,3 @@
-/* Save button */
-.saveButton {
-    font-size: 110%;
-    margin: 2rem auto 1rem auto;
-}
-
-/* Information text field */
-.infoTextField {
-    width: 48%;
-    margin-left: 0.5%;
-    margin-right: 0.5%;
-}
-
-@media only screen and (max-width: 1200px) {
-    .infoTextField {
-        width: 95%;
-    }
-}
-
 /* Skeleton */
 .currentWeekSkeleton {
     width: 30%;

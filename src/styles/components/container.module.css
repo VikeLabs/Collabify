@@ -26,9 +26,9 @@
 }
 
 .child {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .content {
-  padding: 1em;
+  padding: 1.5em 1.3em;
 }

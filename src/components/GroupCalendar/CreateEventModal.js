@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Modal, Typography, Button, TextField } from '@mui/material';
+import { Box, Modal, Button, TextField } from '@mui/material';
 import style from 'styles/components/groupCalendar.module.css';
+import utilities from 'styles/utilities.module.css';
 
 export default function CreateEventModal({
   modalIsOpen,
@@ -18,18 +19,16 @@ export default function CreateEventModal({
       onClose={() => setIsOpen(false)}
     >
       <Box className={style.container}>
-        <Typography
+        <h1
           className={style.title}
-          variant='h4'
         >
           ({modalInfo.date})
-        </Typography>
-        <Typography
+        </h1>
+        <h2
           className={style.title}
-          variant='h5'
         >
           {modalInfo.start} - {modalInfo.end}
-        </Typography>
+        </h2>
         <Box className={style.textFieldContainer}>
           <TextField
             required
@@ -50,11 +49,11 @@ export default function CreateEventModal({
             className={style.textField}
           />
         </Box>
-        <Box className={style.buttonContainer}>
+        <Box className={utilities.buttonContainer}>
           <Button
             variant='contained'
             disabled={title === '' || description === ''}
-            className={style.addButton}
+            className={utilities.button}
           >
             CREATE EVENT
           </Button>

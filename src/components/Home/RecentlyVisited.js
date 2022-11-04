@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-import { Typography } from '@mui/material';
 import { MuiIcon } from 'components/MuiIcon';
 
 import style from 'styles/pages/home.module.css';
@@ -11,16 +10,11 @@ export const RecentlyVisited = ({ groups }) => {
 
     return (
     <>
-        <Typography
-            variant='h5'
-            className={[
-            utilities.heading,
-            utilities.marginTop1,
-            utilities.marginBottom1,
-            ]}
-        >
-            RECENTLY VISITED:
-        </Typography>
+        <h2
+        className={utilities.heading}
+      >
+        RECENTLY VISITED:
+      </h2>
         <ul className={style.recentlyVisitedContainer}>
             {groups?.map((group) => (
                 <li 

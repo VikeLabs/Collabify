@@ -122,12 +122,43 @@
 /* Headings */
 .heading {
     color: var(--primary-main);
-    font-weight: 600;
+    font-size: 1.55em;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 /* SubHeading */
 .subHeading {
     font-size: 85%;
     font-weight: 500;
+}
+
+/* Centered button container */
+.buttonContainer {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    padding: 1em 1.3em;
+    margin-bottom: 1em;
+}
+
+/* Input Fields */
+.inputFields {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    width: 100%;
+}
+
+@media only screen and (min-width: 1200px) {
+    .inputFields {
+        flex-direction: row;
+        gap: 1.2em;
+    }
 }

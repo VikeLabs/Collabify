@@ -1,4 +1,4 @@
-import { Alert, Typography, Button, TextField } from '@mui/material';
+import { Alert, Button, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -7,7 +7,7 @@ import { AVAILABILITY, GROUP_CALENDAR } from '../../../constants';
 import { Container } from 'components/Container';
 import { AvailabilitySkeleton } from 'components/Availability';
 import { useAsyncFetch } from 'hooks';
-import style from 'styles/pages/availability.module.css';
+
 import utilities from 'styles/utilities.module.css';
 
 export default function Availability() {
@@ -54,23 +54,16 @@ export default function Availability() {
   if (isLoading) return <AvailabilitySkeleton />;
 
   return (
-    <div className={utilities.paddingBottom3}>
+    <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container header={data?.group?.name}>
-        <Typography
-          variant='h5'
-          className={[
-            utilities.heading,
-            utilities.marginBottom1,
-            utilities.marginLeft1,
-          ]}
-        >
-          AVAILABILITY:
+        <h2 className={utilities.heading}>
+        AVAILABILITY:
           <span className={utilities.subHeading}>
             {' '}
             Only select when you are available
           </span>
-        </Typography>
+        </h2>
 
         {weekOf && <AvailabilityCalendar
           weekOf={weekOf}
@@ -80,25 +73,17 @@ export default function Availability() {
         
         <div>
           <div>
-            <Typography
-              variant='h5'
-              className={[
-                utilities.heading,
-                utilities.marginTop1,
-                utilities.marginBottom1,
-                utilities.marginLeft1,
-              ]}
-            >
+            <h2 className={utilities.heading}>
               INFORMATION:
-            </Typography>
-            <div className={utilities.textCenter}>
+            </h2>
+            <div className={utilities.inputFields}>
               <TextField
                 variant='filled'
                 required
                 label='Name'
                 placeholder='Your name'
                 onChange={(e) => setName(e.target.value)}
-                className={[style.infoTextField]}
+                className={utilities.input}
               />
               <TextField
                 required
@@ -106,15 +91,15 @@ export default function Availability() {
                 label='Phone number (10 digits)'
                 placeholder='Your phone number'
                 onChange={(e) => setNumber(e.target.value)}
-                className={[style.infoTextField]}
+                className={utilities.input}
               />
             </div>
           </div>
-          <div className={utilities.textCenter}>
+          <div className={utilities.buttonContainer}>
             <Button
               variant='contained'
               onClick={saveAvailability}
-              className={style.saveButton}
+              className={utilities.button}
               disabled={
                 name === '' || number.length != 10 || !number.match(/^\d+$/)
               }
@@ -124,6 +109,6 @@ export default function Availability() {
           </div>
         </div>
       </Container>
-    </div>
+    </>
   );
 }

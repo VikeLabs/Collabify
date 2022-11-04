@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Alert, Box, IconButton, Typography } from '@mui/material';
+import { Alert, Box, IconButton } from '@mui/material';
 
 import { useAsyncFetch } from '../../hooks';
 import { BASE_URL, GROUP_CALENDAR, RECENT_GROUPS_STORED } from '../../constants';
@@ -55,20 +55,13 @@ export default function GroupHome() {
           createEvent={() => console.log('')}
         />
         <br />
-        <Typography
-          variant='h5'
-          className={[
-            utilities.heading,
-            utilities.marginBottom1,
-            utilities.marginLeft1,
-          ]}
-        >
-          AVAILABILITY LINK:
+        <h2 className={utilities.heading}>
+        AVAILABILITY LINK:
           <span className={utilities.subHeading}>
             {' '}
             Send to your group members to get results
           </span>
-        </Typography>
+        </h2>
         <Box className={style.container}>
           <IconButton onClick={copyLink}>
             <CopyAllOutlined />
@@ -77,9 +70,9 @@ export default function GroupHome() {
             className={style.linkContainer}
             onClick={copyLink}
           >
-            <Typography>
+            <p>
               {BASE_URL}/{groupID}/availability/{getTodaysDate()}
-            </Typography>
+            </p>
           </Box>
         </Box>
       </Container>
