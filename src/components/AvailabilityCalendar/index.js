@@ -51,9 +51,9 @@ export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
         eventOverlap={false}
         eventBackgroundColor={theme.palette.availability.main}
         selectOverlap={false}
-        longPressDelay={1000}
-        eventLongPressDelay={1000}
-        selectLongPressDelay={1000}
+        longPressDelay={1}
+        eventLongPressDelay={1}
+        selectLongPressDelay={1}
         selectable={true}
         dayMaxEvents={true}
         allDaySlot={false}
