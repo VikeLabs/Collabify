@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Box, IconButton } from '@mui/material';
 
 import { useAsyncFetch } from '../../hooks';
@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
-import { CopyAllOutlined } from '@mui/icons-material';
+import { Check, CopyAllOutlined } from '@mui/icons-material';
 import { getTodaysDate } from 'helper/getTodaysDate';
 import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
@@ -18,6 +18,7 @@ export default function GroupHome() {
   const { groupID } = router.query;
 
   const [data, isLoading, hasError] = useAsyncFetch(`${GROUP_CALENDAR}/${groupID}`);
+  const [linkCopied, setLinkCopied] = useState(false)
 
   useEffect(() => {
     if (data?.group) {
@@ -37,7 +38,8 @@ export default function GroupHome() {
     navigator.clipboard.writeText(
       `${BASE_URL}/${groupID}/availability/${getTodaysDate()}`
     );
-    alert('Link Copied!');
+    setLinkCopied(true)
+    setTimeout(() => setLinkCopied(false), 3000)
   };
 
   if (isLoading) return <GroupSkeleton />;
@@ -63,8 +65,11 @@ export default function GroupHome() {
           </span>
         </h2>
         <Box className={style.container}>
-          <IconButton onClick={copyLink}>
-            <CopyAllOutlined />
+          <IconButton 
+          color={linkCopied ? 'success' : 'primary'}
+          onClick={copyLink}
+          >
+            {linkCopied ? <Check/> : <CopyAllOutlined />}
           </IconButton>
           <Box
             className={style.linkContainer}
