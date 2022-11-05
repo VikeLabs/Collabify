@@ -51,14 +51,14 @@ export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
         eventOverlap={false}
         eventBackgroundColor={theme.palette.availability.main}
         selectOverlap={false}
-        longPressDelay={1}
-        eventLongPressDelay={1}
-        selectLongPressDelay={1}
+        longPressDelay={500}
+        eventLongPressDelay={1000}
+        selectLongPressDelay={1000}
         selectable={true}
         dayMaxEvents={true}
         allDaySlot={false}
         editable={true}
-        height={isMobile ? 'auto' : '60vh'}
+        height={isMobile ? '80vh' : '60vh'}
       />
     </ContainerCalendar>
   );
