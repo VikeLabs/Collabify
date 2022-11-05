@@ -4,10 +4,12 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useTheme } from '@mui/material';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 
 import { ContainerCalendar } from './styles';
 
 export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
+  const { isMobile } = useDeviceDetect();
   const theme = useTheme();
 
   const handleSelect = (selectInfo) => {
@@ -41,6 +43,8 @@ export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
           center: 'title',
           end: 'Undo',
         }}
+        slotMinTime={'06:00:00'}
+        slotMaxTime={'22:00:00'}
         scrollTime={'08:00:00'}
         select={handleSelect}
         eventClick={handleClick}
@@ -54,7 +58,7 @@ export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
         dayMaxEvents={true}
         allDaySlot={false}
         editable={true}
-        height='60vh'
+        height={isMobile ? 'auto' : '60vh'}
       />
     </ContainerCalendar>
   );
