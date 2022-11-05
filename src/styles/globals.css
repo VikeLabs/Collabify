@@ -22,6 +22,9 @@ body {
 }
 
 @media only screen and (max-width: 900px) {
+  .fc-toolbar {
+    font-size: 92%;
+  }
   h2 {
     font-size: x-small;
   }

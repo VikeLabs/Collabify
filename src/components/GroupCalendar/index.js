@@ -44,7 +44,7 @@ export const GroupCalendar = ({ times, updateTimes }) => {
     }
 
     // Render helper container that shows color legend
-    if (document.getElementsByClassName(style.helperContainer).length === 0 && !isMobile) {
+    if (!isMobile && document.getElementsByClassName(style.helperContainer).length === 0) {
       const helperText = document.getElementsByClassName(style.helperText)[0];
       helperText.insertAdjacentHTML(
         'afterend',
@@ -138,7 +138,7 @@ export const GroupCalendar = ({ times, updateTimes }) => {
         slotMaxTime={'22:00:00'}
         select={handleSelect}
         eventBackgroundColor={theme.palette.availability.main}
-        longPressDelay={200}
+        longPressDelay={100}
         eventLongPressDelay={500}
         selectLongPressDelay={500}
         selectable={true}
