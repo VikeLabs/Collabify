@@ -7,11 +7,13 @@ import { AVAILABILITY, GROUP_CALENDAR } from '../../../constants';
 import { Container } from 'components/Container';
 import { AvailabilitySkeleton } from 'components/Availability';
 import { useAsyncFetch } from 'hooks';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 
 import utilities from 'styles/utilities.module.css';
 
 export default function Availability() {
   const router = useRouter();
+  const { isMobile } = useDeviceDetect();
   // Get group name and week form the URL
   const { groupID, weekOf } = router.query;
   // Fetching group data
@@ -61,7 +63,7 @@ export default function Availability() {
         AVAILABILITY:
           <span className={utilities.subHeading}>
             {' '}
-            Only select when you are available
+            Only select when you are available {isMobile && '(Tap and HOLD to select)'}
           </span>
         </h2>
 

@@ -13,6 +13,13 @@
   padding: 0.5em;
 }
 
+.linkText {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 90%;
+}
+
 /* Skeleton */
 .currentWeekSkeleton {
   width: 30%;

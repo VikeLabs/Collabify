@@ -70,7 +70,7 @@ export default function GroupHome() {
             className={style.linkContainer}
             onClick={copyLink}
           >
-            <p>
+            <p className={style.linkText}>
               {BASE_URL}/{groupID}/availability/{getTodaysDate()}
             </p>
           </Box>

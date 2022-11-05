@@ -157,7 +157,7 @@
     width: 100%;
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 900px) {
     .inputFields {
         flex-direction: row;
         gap: 1.2em;

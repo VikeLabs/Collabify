@@ -20,3 +20,15 @@ body {
   background-repeat: repeat;
   overflow-x: hidden;
 }
+
+@media only screen and (max-width: 900px) {
+  h2 {
+    font-size: x-small;
+  }
+  h3 {
+    font-size: x-small;
+  }
+  body {
+    font-size: small;
+  }
+}

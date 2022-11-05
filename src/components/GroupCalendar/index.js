@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -7,9 +8,11 @@ import { useTheme } from '@mui/material';
 import { useState, useEffect } from 'react';
 import EventModal from './EventModal';
 import CreateEventModal from './CreateEventModal';
+import useDeviceDetect from 'hooks/useDeviceDetect';
 import style from 'styles/components/groupCalendar.module.css';
 
 export const GroupCalendar = ({ times, updateTimes }) => {
+  const { isMobile } = useDeviceDetect();
   const theme = useTheme();
   //Event Modal State
   const [eventModal, setEventModal] = useState(false);
@@ -41,7 +44,7 @@ export const GroupCalendar = ({ times, updateTimes }) => {
     }
 
     // Render helper container that shows color legend
-    if (document.getElementsByClassName(style.helperContainer).length === 0) {
+    if (document.getElementsByClassName(style.helperContainer).length === 0 && !isMobile) {
       const helperText = document.getElementsByClassName(style.helperText)[0];
       helperText.insertAdjacentHTML(
         'afterend',
@@ -131,16 +134,18 @@ export const GroupCalendar = ({ times, updateTimes }) => {
           end: 'next',
         }}
         scrollTime={'08:00:00'}
+        slotMinTime={'06:00:00'}
+        slotMaxTime={'22:00:00'}
         select={handleSelect}
         eventBackgroundColor={theme.palette.availability.main}
-        longPressDelay={1000}
-        eventLongPressDelay={1000}
-        selectLongPressDelay={1000}
+        longPressDelay={200}
+        eventLongPressDelay={500}
+        selectLongPressDelay={500}
         selectable={true}
         dayMaxEvents={true}
         allDaySlot={false}
         editable={false}
-        height={'60vh'}
+        height={isMobile ? '70vh' : '60vh'}
       />
     </>
   );
