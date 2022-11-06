@@ -5,4 +5,8 @@ export const ContainerCalendar = styled('div')`
     display: flex;
     flex-direction: column;
   }
+  .fc-toolbar.fc-header-toolbar button {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
 `;

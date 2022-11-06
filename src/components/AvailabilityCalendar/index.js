@@ -7,10 +7,13 @@ import { useTheme } from '@mui/material';
 import useDeviceDetect from 'hooks/useDeviceDetect';
 
 import { ContainerCalendar } from './styles';
+import { useState } from 'react';
 
 export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
   const { isMobile } = useDeviceDetect();
   const theme = useTheme();
+
+  const [showWeekend, setShowWeekend] = useState(isMobile ? false : true)
 
   const handleSelect = (selectInfo) => {
     updateTimes((arr) => [...arr, selectInfo]);
@@ -29,21 +32,27 @@ export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
         initialView='timeGridWeek'
         initialDate={weekOf}
         events={times}
-        weekends={true}
+        weekends={showWeekend}
         customButtons={{
-          Undo: {
+          undo: {
             text: 'Undo',
             click: function () {
               updateTimes((arr) => arr.slice(0, -1));
+            },
+          },
+          weekend: {
+            text: 'Show Weekends',
+            click: function () {
+              setShowWeekend(!showWeekend)
             },
           },
         }}
         headerToolbar={{
           start: '',
           center: 'title',
-          end: 'Undo',
+          end: `${isMobile ? 'undo,weekend' : 'undo'}`,
         }}
-        slotMinTime={'06:00:00'}
+        slotMinTime={'06:00:00'} // Have group choose the time slots
         slotMaxTime={'22:00:00'}
         scrollTime={'08:00:00'}
         select={handleSelect}
@@ -51,14 +60,14 @@ export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
         eventOverlap={false}
         eventBackgroundColor={theme.palette.availability.main}
         selectOverlap={false}
-        longPressDelay={100}
+        longPressDelay={25}
         eventLongPressDelay={500}
         selectLongPressDelay={500}
         selectable={true}
         dayMaxEvents={true}
         allDaySlot={false}
         editable={true}
-        height={isMobile ? '70vh' : '60vh'}
+        height={isMobile ? 'auto' : '60vh'}
       />
     </ContainerCalendar>
   );
