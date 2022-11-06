@@ -43,7 +43,7 @@ export const GroupCalendar = ({ times, updateTimes }) => {
     }
 
     // Render helper container that shows color legend
-    if (!isMobile && document.getElementsByClassName(style.helperContainer).length === 0) {
+    if (document.getElementsByClassName(style.helperContainer).length === 0) {
       const helperText = document.getElementsByClassName(style.helperText)[0];
       helperText.insertAdjacentHTML(
         'afterend',
@@ -65,7 +65,7 @@ export const GroupCalendar = ({ times, updateTimes }) => {
       `
       );
     }
-  }, [isMobile]);
+  }, []);
 
   const handleSelect = (selectInfo) => {
     setModalSelectInfo({
@@ -137,14 +137,14 @@ export const GroupCalendar = ({ times, updateTimes }) => {
         slotMaxTime={'22:00:00'}
         select={handleSelect}
         eventBackgroundColor={theme.palette.availability.main}
-        longPressDelay={100}
+        longPressDelay={5}
         eventLongPressDelay={500}
         selectLongPressDelay={500}
         selectable={true}
         dayMaxEvents={true}
         allDaySlot={false}
         editable={false}
-        height={isMobile ? '70vh' : '60vh'}
+        height={isMobile ? 'auto' : '60vh'}
       />
     </>
   );

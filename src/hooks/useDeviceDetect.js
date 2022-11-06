@@ -11,7 +11,7 @@ export default function useDeviceDetect() {
             /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
         )
         );
-        setMobile(mobile);
+        setMobile(mobile ? true : false);
     }, []);
 
     return { isMobile };
