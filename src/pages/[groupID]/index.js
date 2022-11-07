@@ -55,6 +55,8 @@ export default function GroupHome() {
         <GroupCalendar
           events={[]}
           createEvent={() => console.log('')}
+          slotMinTime={data?.group?.calendarMinTime}
+          slotMaxTime={data?.group?.calendarMaxTime}
         />
         <br />
         <h2 className={utilities.heading}>

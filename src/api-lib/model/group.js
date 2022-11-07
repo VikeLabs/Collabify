@@ -9,9 +9,12 @@ const GroupSchema = new mongoose.Schema({
     type: String,
   },
   icon: { type: String },
-  background: { type: String },
+  // Calendar slot times
+  calendarMinTime: { type: String },
+  calendarMaxTime: { type: String },
   // Array of event ids
   events: { type: Array },
+  // Array of availability ids
   availabilities: { type: Array },
 });
 

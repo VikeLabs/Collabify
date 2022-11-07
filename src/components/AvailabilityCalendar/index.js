@@ -9,7 +9,13 @@ import useDeviceDetect from 'hooks/useDeviceDetect';
 import { ContainerCalendar } from './styles';
 import { useState } from 'react';
 
-export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
+export const AvailabilityCalendar = ({ 
+  weekOf, 
+  times, 
+  updateTimes,
+  slotMinTime,
+  slotMaxTime
+}) => {
   const { isMobile } = useDeviceDetect();
   const theme = useTheme();
 
@@ -52,9 +58,9 @@ export const AvailabilityCalendar = ({ weekOf, times, updateTimes }) => {
           center: 'title',
           end: `${isMobile ? 'undo,weekend' : 'undo'}`,
         }}
-        slotMinTime={'06:00:00'} // Have group choose the time slots
-        slotMaxTime={'22:00:00'}
-        scrollTime={'08:00:00'}
+        slotMinTime={slotMinTime}
+        slotMaxTime={slotMaxTime}
+        scrollTime={'09:00:00'}
         select={handleSelect}
         eventClick={handleClick}
         eventOverlap={false}

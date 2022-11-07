@@ -10,7 +10,7 @@ import CreateEventModal from './CreateEventModal';
 import useDeviceDetect from 'hooks/useDeviceDetect';
 import style from 'styles/components/groupCalendar.module.css';
 
-export const GroupCalendar = ({ times, updateTimes }) => {
+export const GroupCalendar = ({ times, updateTimes, slotMinTime, slotMaxTime }) => {
   const { isMobile } = useDeviceDetect();
   const theme = useTheme();
   //Event Modal State
@@ -132,9 +132,9 @@ export const GroupCalendar = ({ times, updateTimes }) => {
           center: 'title',
           end: 'next',
         }}
-        scrollTime={'08:00:00'}
-        slotMinTime={'06:00:00'}
-        slotMaxTime={'22:00:00'}
+        scrollTime={'09:00:00'}
+        slotMinTime={slotMinTime}
+        slotMaxTime={slotMaxTime}
         select={handleSelect}
         eventBackgroundColor={theme.palette.availability.main}
         longPressDelay={5}

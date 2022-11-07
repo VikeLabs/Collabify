@@ -71,6 +71,8 @@ export default function Availability() {
           weekOf={weekOf}
           times={times}
           updateTimes={updateTimes}
+          slotMinTime={data?.group?.calendarMinTime}
+          slotMaxTime={data?.group?.calendarMaxTime}
         />}
         
         <div>

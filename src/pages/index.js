@@ -13,6 +13,7 @@ import { GROUP, RECENT_GROUPS_STORED } from '../constants';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
+import { TimeSlots } from 'components/Home';
 
 export default function Home() {
   const router = useRouter();
@@ -25,6 +26,9 @@ export default function Home() {
   const [recentGroups, setRecentGroups] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [calendarMinTime, setCalendarMinTime] = useState('08:00:00');
+  const [calendarMaxTime, setCalendarMaxTime] = useState('22:00:00');
+
 
   useEffect(
     () =>
@@ -33,24 +37,28 @@ export default function Home() {
   );
 
   const createGroup = () => {
-    if (name === '' || description === '') return null; // no request without `name` and `description`
-
-    // Make request when enough information provided
-    setIsLoading(() => true);
-    fetch(GROUP, {
-      method: 'POST',
-      body: JSON.stringify({
-        name,
-        description,
-        icon: activeIcon,
-        background: 'orange',
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.ok) router.push(`/${result.groupID}`);
-        else setHasError(result.message);
-      });
+    if (name === '' || description === '') {
+      setHasError('Missing required inputs (name/description)')
+    } else if (parseInt(calendarMinTime.replace(':', '')) > parseInt(calendarMaxTime.replace(':', ''))) {
+      setHasError('Minimum Time cannot be greater than Maximum Time')
+    } else {
+      setIsLoading(() => true);
+      fetch(GROUP, {
+        method: 'POST',
+        body: JSON.stringify({
+          name,
+          description,
+          icon: activeIcon,
+          calendarMinTime,
+          calendarMaxTime
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.ok) router.push(`/${result.groupID}`);
+          else setHasError(result.message);
+        });
+    }
   };
 
   return (
@@ -65,6 +73,14 @@ export default function Home() {
             activeIcon={activeIcon}
             setActiveIcon={setActiveIcon}
           />
+          {/* MIN AND MAX */}
+          <TimeSlots 
+            calendarMinTime={calendarMinTime}
+            setCalendarMinTime={setCalendarMinTime}
+            calendarMaxTime={calendarMaxTime}
+            setCalendarMaxTime={setCalendarMaxTime}
+          />
+          {/* GROUP INFO */}
           <GroupInfo
             name={name}
             setName={setName}
