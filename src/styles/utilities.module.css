@@ -168,3 +168,18 @@
         gap: 1.2em;
     }
 }
+
+@media only screen and (max-width: 900px) {
+    .heading {
+        color: var(--primary-main);
+        font-size: 1.4em;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* SubHeading */
+    .subHeading {
+        font-size: 85%;
+        font-weight: 500;
+    }
+}

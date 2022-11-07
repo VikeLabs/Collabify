@@ -34,13 +34,4 @@ th .fc-day-today {
   table .fc-col-header {
     background-color: var(--background-light);
   }
-  h2 {
-    font-size: x-small;
-  }
-  h3 {
-    font-size: x-small;
-  }
-  body {
-    font-size: small;
-  }
 }
