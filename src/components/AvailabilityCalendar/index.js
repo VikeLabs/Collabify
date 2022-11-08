@@ -9,17 +9,17 @@ import useDeviceDetect from 'hooks/useDeviceDetect';
 import { ContainerCalendar } from './styles';
 import { useState } from 'react';
 
-export const AvailabilityCalendar = ({ 
-  weekOf, 
-  times, 
+export const AvailabilityCalendar = ({
+  weekOf,
+  times,
   updateTimes,
   slotMinTime,
-  slotMaxTime
+  slotMaxTime,
 }) => {
   const { isMobile } = useDeviceDetect();
   const theme = useTheme();
 
-  const [showWeekend, setShowWeekend] = useState(isMobile ? false : true)
+  const [showWeekend, setShowWeekend] = useState(isMobile ? false : true);
 
   const handleSelect = (selectInfo) => {
     updateTimes((arr) => [...arr, selectInfo]);
@@ -49,7 +49,7 @@ export const AvailabilityCalendar = ({
           weekend: {
             text: 'Show Weekends',
             click: function () {
-              setShowWeekend(!showWeekend)
+              setShowWeekend(!showWeekend);
             },
           },
         }}

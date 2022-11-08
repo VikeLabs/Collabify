@@ -5,6 +5,10 @@ import {
   getAvailabilitiesFromGroup,
 } from 'api-lib/db';
 import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
+import {
+  parseAvailabilities,
+  parseEvents,
+} from 'api-lib/util/calendarStrength';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -26,11 +30,12 @@ export default async function handler(req, res) {
         if (groupError || availabilitiesError || eventsError) {
           sendNoDocumentError(res);
         } else {
-          const calendarEvents = [];
           res.status(200).json({
             ok: true,
             group,
-            calendarEvents,
+            calendarEvents: parseAvailabilities(availabilities).concat(
+              parseEvents(events)
+            ),
           });
         }
       } catch (error) {

@@ -1,7 +1,5 @@
 import dbConnect from 'api-lib/dbConnect';
-import {
-  getGroup,
-} from 'api-lib/db';
+import { getGroup } from 'api-lib/db';
 import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
 
 export default async function handler(req, res) {

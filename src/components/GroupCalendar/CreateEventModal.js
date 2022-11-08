@@ -1,16 +1,29 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Box, Modal, Button, TextField } from '@mui/material';
 import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
 
 export default function CreateEventModal({
+  createEvent,
   modalIsOpen,
   setIsOpen,
   modalInfo,
 }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  const createEventClick = () => {
+    createEvent({
+      title,
+      description,
+      time: {
+        start: modalInfo.startStr,
+        end: modalInfo.endStr,
+      },
+    });
+  };
 
   return (
     <Modal
@@ -19,15 +32,12 @@ export default function CreateEventModal({
       onClose={() => setIsOpen(false)}
     >
       <Box className={style.container}>
-        <h1
-          className={style.title}
-        >
-          ({modalInfo.date})
+        <h1 className={style.title}>
+          ({moment(modalInfo.startStr).format('ddd MM/DD')})
         </h1>
-        <h2
-          className={style.title}
-        >
-          {modalInfo.start} - {modalInfo.end}
+        <h2 className={style.title}>
+          {moment(modalInfo.startStr).format('hh:mm A')} -{' '}
+          {moment(modalInfo.endStr).format('hh:mm A')}
         </h2>
         <Box className={style.textFieldContainer}>
           <TextField
@@ -54,6 +64,7 @@ export default function CreateEventModal({
             variant='contained'
             disabled={title === '' || description === ''}
             className={utilities.button}
+            onClick={createEventClick}
           >
             CREATE EVENT
           </Button>

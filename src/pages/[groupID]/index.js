@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { Alert, Box, IconButton } from '@mui/material';
 
 import { useAsyncFetch } from '../../hooks';
-import { BASE_URL, GROUP_CALENDAR, RECENT_GROUPS_STORED } from '../../constants';
+import {
+  BASE_URL,
+  EVENT,
+  GROUP_CALENDAR,
+  RECENT_GROUPS_STORED,
+} from '../../constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
 import { GroupBanner } from 'components/GroupBanner';
@@ -17,53 +22,83 @@ export default function GroupHome() {
   const router = useRouter();
   const { groupID } = router.query;
 
-  const [data, isLoading, hasError] = useAsyncFetch(`${GROUP_CALENDAR}/${groupID}`);
-  const [linkCopied, setLinkCopied] = useState(false)
+  const [data, isLoading, hasError] = useAsyncFetch(
+    `${GROUP_CALENDAR}/${groupID}`
+  );
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  const createEvent = ({ title, description, time }) => {
+    // Send request to API
+    fetch(EVENT, {
+      method: 'POST',
+      body: JSON.stringify({
+        groupID,
+        event: {
+          title,
+          description,
+          time,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.ok) {
+          // Temp solution, should have refetch of group data instead
+          window.location.reload();
+        } else setHasError(result.message);
+      });
+  };
 
   useEffect(() => {
     if (data?.group) {
-      let storedGroups = JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED)) ?? [];
-      if (!storedGroups.some(group => group._id === data.group._id)) {
-        storedGroups.unshift(data.group)
-        localStorage.setItem(RECENT_GROUPS_STORED, JSON.stringify(storedGroups));
+      let storedGroups =
+        JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED)) ?? [];
+      if (!storedGroups.some((group) => group._id === data.group._id)) {
+        storedGroups.unshift(data.group);
+        localStorage.setItem(
+          RECENT_GROUPS_STORED,
+          JSON.stringify(storedGroups)
+        );
       } else {
-        const index = storedGroups.indexOf({_id: data.group._id})
+        const index = storedGroups.indexOf({ _id: data.group._id });
         storedGroups.unshift(storedGroups.splice(index, 1)[0]);
-        localStorage.setItem(RECENT_GROUPS_STORED, JSON.stringify(storedGroups));
+        localStorage.setItem(
+          RECENT_GROUPS_STORED,
+          JSON.stringify(storedGroups)
+        );
       }
     }
-  }, [data?.group])
+  }, [data?.group]);
 
   const copyLink = () => {
     navigator.clipboard.writeText(
       `${BASE_URL}/${groupID}/availability/${getTodaysDate()}`
     );
-    setLinkCopied(true)
-    setTimeout(() => setLinkCopied(false), 3000)
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 3000);
   };
 
   if (isLoading) return <GroupSkeleton />;
-
 
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container header={data?.group?.name}>
         <GroupBanner icon={data?.group?.icon} />
-        <br/>
+        <br />
         <h2 className={utilities.heading}>
-        AVAILABILITY LINK:
+          AVAILABILITY LINK:
           <span className={utilities.subHeading}>
             {' '}
             Send to your group members to get results
           </span>
         </h2>
         <Box className={style.container}>
-          <IconButton 
-          color={linkCopied ? 'success' : 'primary'}
-          onClick={copyLink}
+          <IconButton
+            color={linkCopied ? 'success' : 'primary'}
+            onClick={copyLink}
           >
-            {linkCopied ? <Check/> : <CopyAllOutlined />}
+            {linkCopied ? <Check /> : <CopyAllOutlined />}
           </IconButton>
           <Box
             className={style.linkContainer}
@@ -76,8 +111,8 @@ export default function GroupHome() {
         </Box>
         <br />
         <GroupCalendar
-          events={[]}
-          createEvent={() => console.log('')}
+          calendarEvents={data?.calendarEvents}
+          createEvent={createEvent}
           slotMinTime={data?.group?.calendarMinTime}
           slotMaxTime={data?.group?.calendarMaxTime}
         />

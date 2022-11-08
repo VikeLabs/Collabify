@@ -1,17 +1,18 @@
 import { dataSanitize } from './helpers/dataSanitize';
+import { determineBackground } from './helpers/determineBackground';
 import { isAvailable } from './helpers/isAvailable';
 import { stringifyTime } from './helpers/stringifyTime';
 
-export const splitAvailabilities = ({ availabilities }) => {
+export const parseAvailabilities = (availabilities) => {
   const [events, people] = dataSanitize(availabilities);
-  let splitAvails = []; // to be returned
+  let parseAvails = []; // to be returned
   for (const event of events) {
     for (const time of event.times) {
       const newEventEntry = {
-        isEvent: false,
         start: stringifyTime(event.date, time.start),
         end: stringifyTime(event.date, time.end),
         display: 'background',
+        backgroundColor: 'transparent',
         names: [],
         numbers: [],
       };
@@ -25,12 +26,16 @@ export const splitAvailabilities = ({ availabilities }) => {
           newEventEntry.numbers.push(person.number);
         }
       }
-      splitAvails.push(newEventEntry);
+      newEventEntry.backgroundColor = determineBackground(
+        newEventEntry.names.length,
+        people.length
+      );
+      parseAvails.push(newEventEntry);
     }
   }
   // remove empty fields
-  splitAvails = splitAvails.filter((el) => {
+  parseAvails = parseAvails.filter((el) => {
     return el.names.length !== 0 && el.numbers.length !== 0;
   });
-  return splitAvails;
+  return parseAvails;
 };

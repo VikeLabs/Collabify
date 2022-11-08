@@ -22,11 +22,7 @@ export const Icons = ({ setActiveIcon, activeIcon }) => {
 
   return (
     <>
-      <h2
-        className={utilities.heading}
-      >
-        ICON:
-      </h2>
+      <h2 className={utilities.heading}>ICON:</h2>
       <ul className={style.allIcons}>{allIcons()}</ul>
     </>
   );

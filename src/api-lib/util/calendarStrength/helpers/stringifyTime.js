@@ -1,5 +1,5 @@
 export const stringifyTime = (date, time) => {
-  if (typeof date !== "number" || typeof time !== "number") {
+  if (typeof date !== 'number' || typeof time !== 'number') {
     throw new TypeError(
       `invalid argument type. expected [number number], got [${typeof date} ${typeof time}]`
     );
@@ -11,7 +11,7 @@ export const stringifyTime = (date, time) => {
   const month = dateStr.slice(4, 6);
   const day = dateStr.slice(6);
 
-  dateStr = [year, month, day].join("-");
+  dateStr = [year, month, day].join('-');
 
   // handle time
   let timeStr = String(time);
@@ -19,7 +19,7 @@ export const stringifyTime = (date, time) => {
   if (timeStr.length < 4) {
     timeStr = `0${timeStr}00`;
   } else {
-    timeStr += "00";
+    timeStr += '00';
   }
 
   const timeComponent = [];
@@ -30,7 +30,7 @@ export const stringifyTime = (date, time) => {
     charIndex += 2;
   }
 
-  timeStr = timeComponent.join(":");
+  timeStr = timeComponent.join(':');
 
-  return [dateStr, timeStr].join("T");
+  return [dateStr, timeStr].join('T');
 };

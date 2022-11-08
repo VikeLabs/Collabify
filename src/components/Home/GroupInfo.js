@@ -7,11 +7,7 @@ export const GroupInfo = ({ name, setName, description, setDescription }) => {
   return (
     <>
       {/* Name input */}
-      <h2
-        className={utilities.heading}
-      >
-        INFORMATION:
-      </h2>
+      <h2 className={utilities.heading}>INFORMATION:</h2>
 
       <div className={utilities.inputFields}>
         <TextField

@@ -1,5 +1,5 @@
 import dbConnect from 'api-lib/dbConnect';
-import { addAvailabilityToGroup } from 'api-lib/db';
+import { addEventToGroup } from 'api-lib/db';
 import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 
 export default async function handler(req, res) {
@@ -10,15 +10,18 @@ export default async function handler(req, res) {
   switch (method) {
     case 'POST':
       try {
-        const { groupID, availability } = JSON.parse(body);
+        const { groupID, event, names, numbers } = JSON.parse(body);
 
-        const err = await addAvailabilityToGroup({
+        const err = await addEventToGroup({
           groupID,
-          availability,
+          event,
         });
         if (err === true) sendDatabaseError(res);
-        // Instead of leaving response empty add ok: true
-        else res.status(200).json({ ok: true });
+        else {
+          // TODO: Add names and numbers loop to send texts to all names and numbers
+          // that marked availability under event
+          res.status(200).json({ ok: true });
+        }
       } catch (error) {
         sendRequestError(res, error);
       }

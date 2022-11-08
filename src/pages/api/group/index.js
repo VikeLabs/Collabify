@@ -12,12 +12,13 @@ export default async function handler(req, res) {
       try {
         const group = JSON.parse(body);
 
-        const {error, groupID} = await createGroup({ group });
+        const { error, groupID } = await createGroup({ group });
         if (error === true) sendDatabaseError(res);
-        else res.status(200).json({
-          ok: true,
-          groupID
-        });
+        else
+          res.status(200).json({
+            ok: true,
+            groupID,
+          });
       } catch (err) {
         sendRequestError(res, err);
       }

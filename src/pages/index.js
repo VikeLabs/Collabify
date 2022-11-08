@@ -29,7 +29,6 @@ export default function Home() {
   const [calendarMinTime, setCalendarMinTime] = useState('08:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('22:00:00');
 
-
   useEffect(
     () =>
       setRecentGroups(JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))),
@@ -38,9 +37,12 @@ export default function Home() {
 
   const createGroup = () => {
     if (name === '' || description === '') {
-      setHasError('Missing required inputs (name/description)')
-    } else if (parseInt(calendarMinTime.replace(':', '')) > parseInt(calendarMaxTime.replace(':', ''))) {
-      setHasError('Minimum Time cannot be greater than Maximum Time')
+      setHasError('Missing required inputs (name/description)');
+    } else if (
+      parseInt(calendarMinTime.replace(':', '')) >
+      parseInt(calendarMaxTime.replace(':', ''))
+    ) {
+      setHasError('Minimum Time cannot be greater than Maximum Time');
     } else {
       setIsLoading(() => true);
       fetch(GROUP, {
@@ -50,7 +52,7 @@ export default function Home() {
           description,
           icon: activeIcon,
           calendarMinTime,
-          calendarMaxTime
+          calendarMaxTime,
         }),
       })
         .then((res) => res.json())
@@ -74,7 +76,7 @@ export default function Home() {
             setActiveIcon={setActiveIcon}
           />
           {/* MIN AND MAX */}
-          <TimeSlots 
+          <TimeSlots
             calendarMinTime={calendarMinTime}
             setCalendarMinTime={setCalendarMinTime}
             calendarMaxTime={calendarMaxTime}

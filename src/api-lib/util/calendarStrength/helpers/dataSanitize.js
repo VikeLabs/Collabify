@@ -1,4 +1,4 @@
-import { parseTime } from "./parseTime.js";
+import { parseTime } from './parseTime.js';
 
 const dataSanitize = (availabilities) => {
   const allDateData = getAllDates(availabilities);
@@ -14,8 +14,8 @@ const dataSanitize = (availabilities) => {
     for (const entry of availabilities) {
       const times = entry.times;
       for (const time of times) {
-        const [entryDate, startTime] = parseTime(time.startTime);
-        const [_, endTime] = parseTime(time.endTime);
+        const [entryDate, startTime] = parseTime(time.startStr);
+        const [_, endTime] = parseTime(time.endStr);
         if (entryDate === newDateEntry.date) {
           newDateEntry.times.add(startTime);
           newDateEntry.times.add(endTime);
@@ -56,8 +56,8 @@ const dataSanitize = (availabilities) => {
       timesAvailable: [],
     };
     for (const time of entry.times) {
-      const [date, start] = parseTime(time.startTime);
-      const [_, end] = parseTime(time.endTime);
+      const [date, start] = parseTime(time.startStr);
+      const [_, end] = parseTime(time.endStr);
       const newTimeEntry = { date, times: { start, end } };
       newPerson.timesAvailable.push(newTimeEntry);
     }
@@ -76,8 +76,8 @@ function getAllDates(dates) {
   const allDates = new Set();
   for (const entry of dates) {
     for (const time of entry.times) {
-      const [startDate] = parseTime(time.startTime);
-      const [endDate] = parseTime(time.endTime);
+      const [startDate] = parseTime(time.startStr);
+      const [endDate] = parseTime(time.endStr);
       allDates.add(startDate, endDate);
     }
   }

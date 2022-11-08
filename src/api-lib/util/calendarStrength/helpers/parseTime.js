@@ -3,7 +3,7 @@
  * @return {[]int}: [20221101, 800]
  * */
 export const parseTime = (timeStr) => {
-  if (typeof timeStr !== "string") {
+  if (typeof timeStr !== 'string') {
     throw new TypeError(
       `invalid argument type, expected type string, got type: ${typeof timeStr}`
     );
@@ -22,13 +22,13 @@ export const parseTime = (timeStr) => {
   // parsing date
   let dateInt;
   dateInt = date.match(/\d/g);
-  dateInt = dateInt.join("");
+  dateInt = dateInt.join('');
   dateInt = Number(dateInt);
 
   // parsing time
   let timeInt;
   timeInt = time.match(/\d/g);
-  timeInt = timeInt.join("");
+  timeInt = timeInt.join('');
   timeInt = timeInt.slice(0, 4);
   timeInt = Number(timeInt);
 

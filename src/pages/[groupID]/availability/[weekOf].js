@@ -17,7 +17,9 @@ export default function Availability() {
   // Get group name and week form the URL
   const { groupID, weekOf } = router.query;
   // Fetching group data
-  const [data, isLoading, apiError] = useAsyncFetch(`${GROUP_CALENDAR}/${groupID}`);
+  const [data, isLoading, apiError] = useAsyncFetch(
+    `${GROUP_CALENDAR}/${groupID}`
+  );
 
   // User information
   const [name, setName] = useState('');
@@ -43,14 +45,13 @@ export default function Availability() {
         },
       }),
     })
-    .then(res => res.json())
-    .then(result => {
-      if (result.ok) {
-        alert('Availability has been saved, Thank you!')
-        router.replace(`/${groupID}`);
-      }
-      else setHasError(result.message);
-    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.ok) {
+          alert('Availability has been saved, Thank you!');
+          router.replace(`/${groupID}`);
+        } else setHasError(result.message);
+      });
   };
 
   if (isLoading) return <AvailabilitySkeleton />;
@@ -60,26 +61,27 @@ export default function Availability() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container header={data?.group?.name}>
         <h2 className={utilities.heading}>
-        AVAILABILITY:
+          AVAILABILITY:
           <span className={utilities.subHeading}>
             {' '}
-            Only select when you are available {isMobile && '(Tap and HOLD to select)'}
+            Only select when you are available{' '}
+            {isMobile && '(Tap and HOLD to select)'}
           </span>
         </h2>
 
-        {weekOf && <AvailabilityCalendar
-          weekOf={weekOf}
-          times={times}
-          updateTimes={updateTimes}
-          slotMinTime={data?.group?.calendarMinTime}
-          slotMaxTime={data?.group?.calendarMaxTime}
-        />}
-        
+        {weekOf && (
+          <AvailabilityCalendar
+            weekOf={weekOf}
+            times={times}
+            updateTimes={updateTimes}
+            slotMinTime={data?.group?.calendarMinTime}
+            slotMaxTime={data?.group?.calendarMaxTime}
+          />
+        )}
+
         <div>
           <div>
-            <h2 className={utilities.heading}>
-              INFORMATION:
-            </h2>
+            <h2 className={utilities.heading}>INFORMATION:</h2>
             <div className={utilities.inputFields}>
               <TextField
                 variant='filled'

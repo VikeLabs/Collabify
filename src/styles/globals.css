@@ -7,11 +7,6 @@
   --background-main: #2d5abc;
   --background-light: #d6ecf6;
   --background-dark: #2753b8;
-  --availability-darkest: #228b22;
-  --availability-dark: #228b22;
-  --availability-main: #54d93b;
-  --availability-light: #77dd77;
-  --availability-lightest: #aef5ae;
 }
 
 body {
@@ -27,16 +22,20 @@ th .fc-day-today {
   color: white;
 }
 
+tbody .fc-day-today {
+  background-color: transparent !important;
+}
+
 .fc table, td, th {
   border-color: #b4b4cf !important;
 }
 
-/* .fc-toolbar-title {
+.fc-toolbar-title {
   border-radius: 10px;
   color: white;
   background-color: var(--primary-main);
   padding: 0 1em;
-} */
+}
 
 @media only screen and (max-width: 900px) {
   .fc-toolbar {

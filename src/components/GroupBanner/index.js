@@ -3,10 +3,8 @@ import { MuiIcon } from 'components/MuiIcon';
 import style from 'styles/components/groupBanner.module.css';
 import { useTheme } from '@mui/material';
 
-export const GroupBanner = ({
-  icon,
-}) => {
-  const theme = useTheme()
+export const GroupBanner = ({ icon }) => {
+  const theme = useTheme();
   return (
     <section
       className={style.container}

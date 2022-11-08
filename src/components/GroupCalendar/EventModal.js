@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { Box, Modal, Button } from '@mui/material';
 import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
 
-export default function EventModal({
-  modalIsOpen,
-  setIsOpen,
-  modalInfo,
-  modalTitle,
-  modalDesc,
-}) {
+export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
   return (
     <Modal
       className={style.modalContainer}
@@ -19,14 +14,13 @@ export default function EventModal({
     >
       <Box className={style.container}>
         <h2 className={style.title}>
-          ({modalInfo.date}) - {modalInfo.start}
+          ({moment(modalInfo.startStr).format('ddd MM/DD')}) -{' '}
+          {moment(modalInfo.startStr).format('hh:mm A')}
         </h2>
-        <h1 className={style.title}>
-          {modalTitle}
-        </h1>
+        <h1 className={style.title}>{modalInfo.title}</h1>
         <Box className={style.descriptionContainer}>
           <p className={style.description}>
-            {modalDesc}
+            {modalInfo.extendedProps.description}
           </p>
         </Box>
         <Box className={utilities.buttonContainer}>

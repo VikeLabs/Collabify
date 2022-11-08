@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { splitAvailabilities } from '../splitAvailabilities';
+import { parseAvailabilities } from '../parseAvailabilities';
 
 const availabilities = [
   {
@@ -152,12 +152,12 @@ const expected = [
   },
 ];
 
-describe('splitAvailabilities() test', () => {
+describe('parseAvailabilities() test', () => {
   it('returns the right format', () => {
     const input = {
       availabilities,
     };
-    const output = splitAvailabilities(input);
+    const output = parseAvailabilities(input);
     expect(output).toStrictEqual(expected);
   });
 });
