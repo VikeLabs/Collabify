@@ -6,8 +6,7 @@ import { AvailabilityCalendar } from 'components/AvailabilityCalendar';
 import { AVAILABILITY, GROUP_CALENDAR } from '../../../constants';
 import { Container } from 'components/Container';
 import { AvailabilitySkeleton } from 'components/Availability';
-import { useAsyncFetch } from 'hooks';
-import useDeviceDetect from 'hooks/useDeviceDetect';
+import { useAsyncFetch, useDeviceDetect } from 'hooks';
 
 import utilities from 'styles/utilities.module.css';
 

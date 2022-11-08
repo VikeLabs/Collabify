@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Alert, Box, IconButton } from '@mui/material';
 
-import { useAsyncFetch } from '../../hooks';
+import { useAddRecentGroup, useAsyncFetch } from 'hooks';
 import {
   BASE_URL,
   EVENT,
   GROUP_CALENDAR,
-  RECENT_GROUPS_STORED,
-} from '../../constants';
+} from 'constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
 import { GroupBanner } from 'components/GroupBanner';
@@ -26,6 +25,9 @@ export default function GroupHome() {
     `${GROUP_CALENDAR}/${groupID}`
   );
   const [linkCopied, setLinkCopied] = useState(false);
+
+  // Adds group to recent groups storage
+  useAddRecentGroup(data?.group);
 
   const createEvent = ({ title, description, time, names, numbers }) => {
     // Send request to API
@@ -50,27 +52,6 @@ export default function GroupHome() {
         } else setHasError(result.message);
       });
   };
-
-  useEffect(() => {
-    if (data?.group) {
-      let storedGroups =
-        JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED)) ?? [];
-      if (!storedGroups.some((group) => group._id === data.group._id)) {
-        storedGroups.unshift(data.group);
-        localStorage.setItem(
-          RECENT_GROUPS_STORED,
-          JSON.stringify(storedGroups)
-        );
-      } else {
-        const index = storedGroups.indexOf({ _id: data.group._id });
-        storedGroups.unshift(storedGroups.splice(index, 1)[0]);
-        localStorage.setItem(
-          RECENT_GROUPS_STORED,
-          JSON.stringify(storedGroups)
-        );
-      }
-    }
-  }, [data?.group]);
 
   const copyLink = () => {
     navigator.clipboard.writeText(

@@ -6,7 +6,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { useTheme } from '@mui/material';
 import UndoIcon from '@mui/icons-material/Undo';
 import DateRangeIcon from '@mui/icons-material/DateRange';
-import useDeviceDetect from 'hooks/useDeviceDetect';
+import { useDeviceDetect } from 'hooks';
 
 import { useState } from 'react';
 

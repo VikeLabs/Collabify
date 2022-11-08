@@ -5,7 +5,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { useState, useEffect } from 'react';
 import EventModal from './EventModal';
 import CreateEventModal from './CreateEventModal';
-import useDeviceDetect from 'hooks/useDeviceDetect';
+import { useDeviceDetect } from 'hooks';
 import style from 'styles/components/groupCalendar.module.css';
 
 export const GroupCalendar = ({
