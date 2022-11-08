@@ -21,8 +21,8 @@ function MyApp({ Component, pageProps }) {
         <title>Collabify</title>
         <meta property="og:title" content="Collabify" key="title" />
       </Head>
-      <Component 
-        {...pageProps} 
+      <Component
+        {...pageProps}
       />
     </ThemeProvider>
   );
