@@ -7,7 +7,6 @@ import '@fullcalendar/common/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import 'styles/globals.css';
-import 'styles/fullCalendar/fullCalendar.css';
 import { THEME_STORED } from 'constants/index.js';
 
 function MyApp({ Component, pageProps }) {
