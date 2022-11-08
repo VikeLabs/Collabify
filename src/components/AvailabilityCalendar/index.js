@@ -4,9 +4,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useTheme } from '@mui/material';
+import UndoIcon from '@mui/icons-material/Undo';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import useDeviceDetect from 'hooks/useDeviceDetect';
 
-import { ContainerCalendar } from './styles';
 import { useState } from 'react';
 
 export const AvailabilityCalendar = ({
@@ -32,50 +33,48 @@ export const AvailabilityCalendar = ({
   };
 
   return (
-    <ContainerCalendar>
-      <FullCalendar
-        plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
-        initialView='timeGridWeek'
-        initialDate={weekOf}
-        events={times}
-        weekends={showWeekend}
-        customButtons={{
-          undo: {
-            text: 'Undo',
-            click: function () {
-              updateTimes((arr) => arr.slice(0, -1));
-            },
+    <FullCalendar
+      plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
+      initialView='timeGridWeek'
+      initialDate={weekOf}
+      events={times}
+      weekends={showWeekend}
+      customButtons={{
+        undo: {
+          text: <UndoIcon/>,
+          click: function () {
+            updateTimes((arr) => arr.slice(0, -1));
           },
-          weekend: {
-            text: 'Show Weekends',
-            click: function () {
-              setShowWeekend(!showWeekend);
-            },
+        },
+        weekend: {
+          text: <DateRangeIcon/>,
+          click: function () {
+            setShowWeekend(!showWeekend);
           },
-        }}
-        headerToolbar={{
-          start: '',
-          center: 'title',
-          end: `${isMobile ? 'undo,weekend' : 'undo'}`,
-        }}
-        slotMinTime={slotMinTime}
-        slotMaxTime={slotMaxTime}
-        scrollTime={'09:00:00'}
-        select={handleSelect}
-        eventClick={handleClick}
-        eventOverlap={false}
-        eventBackgroundColor={theme.palette.availability.main}
-        selectOverlap={false}
-        longPressDelay={5}
-        eventLongPressDelay={500}
-        selectLongPressDelay={500}
-        selectable={true}
-        dayMaxEvents={true}
-        allDaySlot={false}
-        editable={true}
-        height={isMobile ? 'auto' : '60vh'}
-      />
-    </ContainerCalendar>
+        },
+      }}
+      headerToolbar={{
+        start: 'weekend',
+        center: 'title',
+        end: 'undo',
+      }}
+      slotMinTime={slotMinTime}
+      slotMaxTime={slotMaxTime}
+      scrollTime={'09:00:00'}
+      select={handleSelect}
+      eventClick={handleClick}
+      eventOverlap={false}
+      eventBackgroundColor={theme.palette.availability.main}
+      selectOverlap={false}
+      longPressDelay={5}
+      eventLongPressDelay={500}
+      selectLongPressDelay={500}
+      selectable={true}
+      dayMaxEvents={true}
+      allDaySlot={false}
+      editable={true}
+      height={isMobile ? 'auto' : '60vh'}
+    />
   );
 };
 
