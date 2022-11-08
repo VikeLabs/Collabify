@@ -27,6 +27,17 @@ th .fc-day-today {
   color: white;
 }
 
+.fc table, td, th {
+  border-color: #b4b4cf !important;
+}
+
+/* .fc-toolbar-title {
+  border-radius: 10px;
+  color: white;
+  background-color: var(--primary-main);
+  padding: 0 1em;
+} */
+
 @media only screen and (max-width: 900px) {
   .fc-toolbar {
     font-size: 92%;

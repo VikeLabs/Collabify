@@ -50,15 +50,7 @@ export default function GroupHome() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container header={data?.group?.name}>
         <GroupBanner icon={data?.group?.icon} />
-        {/* This line above is causing the error, even though it should not be rendered while `isLoading` is true*/}
-        <br />
-        <GroupCalendar
-          events={[]}
-          createEvent={() => console.log('')}
-          slotMinTime={data?.group?.calendarMinTime}
-          slotMaxTime={data?.group?.calendarMaxTime}
-        />
-        <br />
+        <br/>
         <h2 className={utilities.heading}>
         AVAILABILITY LINK:
           <span className={utilities.subHeading}>
@@ -82,6 +74,13 @@ export default function GroupHome() {
             </p>
           </Box>
         </Box>
+        <br />
+        <GroupCalendar
+          events={[]}
+          createEvent={() => console.log('')}
+          slotMinTime={data?.group?.calendarMinTime}
+          slotMaxTime={data?.group?.calendarMaxTime}
+        />
       </Container>
     </>
   );
