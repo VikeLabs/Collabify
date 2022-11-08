@@ -1,8 +1,8 @@
-import { describe, it, expect } from "@jest/globals";
-import { isAvailable } from "../helpers/isAvailable.js";
+import { describe, it, expect } from '@jest/globals';
+import { isAvailable } from '../helpers/isAvailable';
 
-describe("isAvailable() test", () => {
-  it("returns true if is available", () => {
+describe('isAvailable() test', () => {
+  it('returns true if is available', () => {
     const event = { start: 930, end: 1130 };
     const avail = { start: 1000, end: 1200 };
 
@@ -10,7 +10,7 @@ describe("isAvailable() test", () => {
     expect(output).toBe(false);
   });
 
-  it("returns false if is not available", () => {
+  it('returns false if is not available', () => {
     const event = { start: 1200, end: 1230 };
     const avail = { start: 1000, end: 1200 };
 
