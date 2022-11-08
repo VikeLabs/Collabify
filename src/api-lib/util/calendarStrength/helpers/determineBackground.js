@@ -2,9 +2,9 @@ export const determineBackground = (namesLength, peopleLength) => {
   const percent = (namesLength / peopleLength) * 100;
   let color = 'transparent';
   if (percent > 75) {
-    color = '#3db526';
+    color = '#228b22';
   } else if (percent > 50) {
-    color = '#54d93b';
+    color = '#48B613';
   } else if (percent > 25) {
     color = '#77dd77';
   } else if (percent > 0) {
