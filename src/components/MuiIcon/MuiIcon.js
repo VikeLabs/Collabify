@@ -5,7 +5,7 @@ import { getAllIcons } from './icons';
 
 import PropTypes from 'prop-types';
 
-export const MuiIcon = ({ icon, propStyle = null, onClick = null }) => {
+export const MuiIcon = ({ icon }) => {
   const theme = useTheme();
   const style = { color: theme.palette.primary.main };
 
@@ -15,7 +15,7 @@ export const MuiIcon = ({ icon, propStyle = null, onClick = null }) => {
   }
 
   const IconComponent = Icons[icon];
-  return <IconComponent onClick={onClick ?? onClick} style={propStyle ? propStyle: style} />;
+  return <IconComponent style={style} />;
 };
 
 MuiIcon.propTypes = {

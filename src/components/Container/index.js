@@ -1,5 +1,6 @@
 import { MuiIcon } from 'components/MuiIcon';
-import useDeviceDetect from 'hooks/useDeviceDetect';
+import { useDeviceDetect } from 'hooks';
+import * as Icons from '@mui/icons-material';
 import style from 'styles/components/container.module.css';
 
 export const Container = ({ 
@@ -11,21 +12,23 @@ export const Container = ({
   children 
 }) => {
   const { isMobile } = useDeviceDetect();
+  const LeftIconComponent = Icons[leftIcon];
+  const RightIconComponent = Icons[rightIcon];
   return (
     <section className={style.container}>
       <header className={style.headerContainer}>
-        {leftIcon && <MuiIcon 
+        {leftIcon && <LeftIconComponent 
         onClick={leftIconClick}
         icon={leftIcon} 
-        propStyle={{
+        style={{
           color: 'white', 
           position: 'absolute', 
           marginTop: '0.2em'
         }}/>}
-        {rightIcon && <MuiIcon 
+        {rightIcon && <RightIconComponent 
         onClick={rightIconClick}
         icon={rightIcon} 
-        propStyle={{
+        style={{
           color: 'white', 
           position: 'absolute', 
           marginTop: '0.2em',
