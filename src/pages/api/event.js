@@ -19,7 +19,6 @@ export default async function handler(req, res) {
         if (err === true) sendDatabaseError(res);
         else {
           // TODO: Add names and numbers loop to send texts to all names and numbers
-          // that marked availability under event
           res.status(200).json({ ok: true });
         }
       } catch (error) {

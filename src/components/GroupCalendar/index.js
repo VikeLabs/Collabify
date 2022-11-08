@@ -2,7 +2,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import EventModal from './EventModal';
 import CreateEventModal from './CreateEventModal';
 import useDeviceDetect from 'hooks/useDeviceDetect';
@@ -29,6 +29,8 @@ export const GroupCalendar = ({
   const [modalSelectInfo, setModalSelectInfo] = useState({
     startStr: '',
     endStr: '',
+    names: [],
+    numbers: []
   });
 
   // This function only runs once when the page first render
@@ -69,6 +71,17 @@ export const GroupCalendar = ({
   }, []);
 
   const handleSelect = (selectInfo) => {
+    // Temp solution for getting names and numbers.
+    // In the future we need to get names and numbers
+    // who that marked availability under event
+    let greatestNameIndex = 0
+    calendarEvents.forEach((event, index) => {
+      if (event.names?.length > calendarEvents[greatestNameIndex].names?.length) {
+        greatestNameIndex = index
+      }
+    })
+    selectInfo.names = calendarEvents[greatestNameIndex].names
+    selectInfo.numbers = calendarEvents[greatestNameIndex].numbers
     setModalSelectInfo(selectInfo);
     setCreateEventModal(true);
   };

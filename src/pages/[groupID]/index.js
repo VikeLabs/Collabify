@@ -27,7 +27,7 @@ export default function GroupHome() {
   );
   const [linkCopied, setLinkCopied] = useState(false);
 
-  const createEvent = ({ title, description, time }) => {
+  const createEvent = ({ title, description, time, names, numbers }) => {
     // Send request to API
     fetch(EVENT, {
       method: 'POST',
@@ -38,6 +38,8 @@ export default function GroupHome() {
           description,
           time,
         },
+        names,
+        numbers
       }),
     })
       .then((res) => res.json())

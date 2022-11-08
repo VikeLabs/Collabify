@@ -22,6 +22,8 @@ export default function CreateEventModal({
         start: modalInfo.startStr,
         end: modalInfo.endStr,
       },
+      names: modalInfo.names,
+      numbers: modalInfo.numbers
     });
   };
 
