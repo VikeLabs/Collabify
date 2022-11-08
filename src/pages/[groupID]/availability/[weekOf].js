@@ -59,7 +59,11 @@ export default function Availability() {
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container header={data?.group?.name}>
+      <Container 
+      header={data?.group?.name} 
+      leftIcon={'ArrowBack'} 
+      leftIconClick={()=> router.replace(`/${groupID}`)}
+      >
         <h2 className={utilities.heading}>
           AVAILABILITY:
           <span className={utilities.subHeading}>

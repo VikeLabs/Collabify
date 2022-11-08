@@ -85,7 +85,13 @@ export default function GroupHome() {
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container header={data?.group?.name}>
+      <Container 
+      header={data?.group?.name} 
+      leftIcon={'ArrowBack'} 
+      leftIconClick={()=> router.replace(`/`)}
+      rightIcon={"EventAvailable"}
+      rightIconClick={()=> router.replace(`/${groupID}/availability/${getTodaysDate()}`)}
+      >
         <GroupBanner icon={data?.group?.icon} />
         <br />
         <h2 className={utilities.heading}>

@@ -14,6 +14,8 @@ const _icons = [
   'CameraAlt',
   'LocalFireDepartment',
   'MiscellaneousServices',
+  'ArrowBack',
+  'EventAvailable'
 ];
 
 /* allIcons()
