@@ -11,22 +11,19 @@ import { THEME_STORED } from 'constants/index.js';
 
 function MyApp({ Component, pageProps }) {
   // Gets theme from local storage (personalized theme for the site)
-  const themeInStorage =
-    typeof window !== 'undefined' ? localStorage.getItem(THEME_STORED) : null;
-  const theme = createTheme(getColorPalette(themeInStorage ?? 'default'));
+  const themeInStorage = typeof window !== 'undefined' ? localStorage.getItem(THEME_STORED) : null
+  const theme = createTheme(getColorPalette(themeInStorage ?? 'default'))
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <GlobalStyle />
       <Head>
         <title>Collabify</title>
-        <meta
-          property='og:title'
-          content='Collabify'
-          key='title'
-        />
+        <meta property="og:title" content="Collabify" key="title" />
       </Head>
-      <Component {...pageProps} />
+      <Component 
+        {...pageProps} 
+      />
     </ThemeProvider>
   );
 }
