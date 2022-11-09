@@ -64,45 +64,86 @@
     margin-left: 10px;
 }
 
-.helperColorContainer {
-    width: 20px;
-    height: 20px;
-    border-radius: 3px;
-    box-shadow: 0 10px 15px -3px #bdbdbd, 0 4px 6px -4px #bdbdbd;
-    margin-right: 10px;
-    margin-bottom: 40px;
+
+
+@media only screen and (min-width: 600px) {
+    .helperColorContainer {
+        width: 20px;
+        height: 20px;
+        border-radius: 3px;
+        box-shadow: 0 10px 15px -3px #bdbdbd, 0 4px 6px -4px #bdbdbd;
+        margin-right: 10px;
+        margin-bottom: 40px;
+    }
+    
+    .helperColorContainer:first-child {
+        background: #FB8500;
+    }
+
+    .helperColorContainer ~ .helperColorContainer {
+        background: #228b22;
+    }
+
+    .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+        background: #48B613;
+    }
+
+    .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+        background: #77dd77;
+    }
+
+    .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+        background: #aef5ae;
+    }
+
+    .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+        background: #cfd8dc;
+    }
+
+    .helperColorText {
+        margin-right: 20px;
+    }
 }
 
-.helperColorContainer:first-child {
-    background: #FB8500;
-}
-
-.helperColorContainer ~ .helperColorContainer {
-    background: #228b22;
-}
-
-.helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
-    background: #48B613;
-}
-
-.helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
-    background: #77dd77;
-}
-
-.helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
-    background: #aef5ae;
-}
-
-.helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
-    background: #cfd8dc;
-}
-
-.helperColorText {
-    margin-right: 20px;
-}
-
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 600px) {
     .container {
         width: 90vw;
+        
     }
+    
+    .helperColorText{
+        background-color:#FB8500;
+        padding: 2px;
+        text-align: left;
+        border-radius: 5px;
+        margin-bottom: 40px;
+        width: 50px;
+        margin-right: 3vw;
+
+    }
+    .helperColorText ~ .helperColorText {
+        background: #228b22;
+        text-align: center;
+    }
+    
+    .helperColorText ~ .helperColorText ~ .helperColorText {
+        background: #48B613;
+        text-align: center;
+    }
+    
+    .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText {
+        background: #77dd77;
+        text-align: center;
+    }
+    
+    .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText {
+        background: #aef5ae;
+        text-align: center;
+    }
+    
+    .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText {
+        background: #cfd8dc;
+        text-align: center;
+    }
+
   }
