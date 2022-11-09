@@ -43,6 +43,8 @@ export default function Home() {
       parseInt(calendarMaxTime.replace(':', ''))
     ) {
       setHasError('Minimum Time cannot be greater than Maximum Time');
+    } else if (name?.length > 20) {
+      setHasError('Name must be under 20 characters');
     } else {
       setIsLoading(() => true);
       fetch(GROUP, {
