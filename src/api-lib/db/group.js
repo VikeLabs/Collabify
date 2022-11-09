@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Group } from '../model';
 
 export const createGroup = async ({ group }) => {
@@ -39,5 +40,22 @@ export const getGroup = async ({ groupID }) => {
   return {
     error,
     group,
+  };
+};
+
+export const getManyGroups = async ({ groupIDs }) => {
+  // groupIDs should be an array of ids
+  let error = false;
+  const groupIDsArray = groupIDs?.map(e => mongoose.Types.ObjectId(e))
+  const groups = await Group.find({ _id: { $in: groupIDsArray} 
+  });
+
+  if (!groups) {
+    error = true;
+  }
+
+  return {
+    error,
+    groups,
   };
 };
