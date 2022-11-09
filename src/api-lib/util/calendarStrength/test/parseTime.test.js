@@ -4,11 +4,11 @@ import { parseTime } from '../helpers/parseTime';
 
 const data = [
   {
-    input: '2022-10-30T09:30:00',
+    input: '2022-10-30T09:30:00-08:00',
     expected: [20221030, 930],
   },
   {
-    input: '2022-10-30T11:00:00',
+    input: '2022-10-30T11:00:00-12:00',
     expected: [20221030, 1100],
   },
   {
