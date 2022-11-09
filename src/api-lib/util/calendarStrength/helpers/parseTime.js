@@ -23,14 +23,12 @@ export const parseTime = (timeStr) => {
   let dateInt;
   dateInt = date.match(/\d/g);
   dateInt = dateInt.join('');
-  dateInt = Number(dateInt);
 
   // parsing time
   let timeInt;
   timeInt = time.match(/\d/g);
   timeInt = timeInt.join('');
   timeInt = timeInt.slice(0, 4);
-  timeInt = Number(timeInt);
 
-  return [dateInt, timeInt];
+  return [Number(dateInt), Number(timeInt)];
 };
