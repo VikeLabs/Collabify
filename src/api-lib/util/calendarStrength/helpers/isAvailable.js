@@ -5,5 +5,6 @@
  * @return {boolean}
  */
 export const isAvailable = (event, avail) => {
+  if (!avail) return false;
   return event.start >= avail.start && event.end <= avail.end;
 };
