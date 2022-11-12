@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: hsla(0deg, 0%, 20%, 20%);
+  background-color: hsla(0deg, 0%, 40%, 20%);
+  backdrop-filter: blur(3px);
   z-index: 999;
 }

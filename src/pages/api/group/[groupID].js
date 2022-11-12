@@ -1,5 +1,5 @@
 import dbConnect from 'api-lib/dbConnect';
-import { getGroup } from 'api-lib/db';
+import { getGroup, getManyGroups } from 'api-lib/db';
 import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
 
 export default async function handler(req, res) {
@@ -9,19 +9,36 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET':
-      try {
-        const { groupID } = req.query;
-        const { groupError, group } = await getGroup({ groupID });
-        if (groupError) {
-          sendNoDocumentError(res);
-        } else {
-          res.status(200).json({
-            ok: true,
-            group,
-          });
+      const { groupID } = req.query;
+      if (groupID?.includes(',')) {
+        try {
+          const groupIDs = groupID.split(',');
+          const { groupError, groups } = await getManyGroups({ groupIDs });
+          if (groupError) {
+            sendNoDocumentError(res);
+          } else {
+            res.status(200).json({
+              ok: true,
+              groups,
+            });
+          }
+        } catch (error) {
+          sendRequestError(res, error);
         }
-      } catch (error) {
-        sendRequestError(res, error);
+      } else {
+        try {
+          const { groupError, group } = await getGroup({ groupID });
+          if (groupError) {
+            sendNoDocumentError(res);
+          } else {
+            res.status(200).json({
+              ok: true,
+              group,
+            });
+          }
+        } catch (error) {
+          sendRequestError(res, error);
+        }
       }
       break;
     default:

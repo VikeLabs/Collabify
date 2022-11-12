@@ -1,5 +1,5 @@
 /* parseTime(timeStr)
- * @params {string} timeStr: eg, '2022-11-01T08:00:00'
+ * @params {string} timeStr: eg, '2022-11-01T08:00:00-12:00'
  * @return {[]int}: [20221101, 800]
  * */
 export const parseTime = (timeStr) => {
@@ -19,18 +19,17 @@ export const parseTime = (timeStr) => {
 
   const [date, time] = timeMatched;
 
-  // parsing date
+  /* PARSING DATE */
   let dateInt;
   dateInt = date.match(/\d/g);
   dateInt = dateInt.join('');
-  dateInt = Number(dateInt);
 
-  // parsing time
+  /* PARSING TIME */
   let timeInt;
+  timeInt = time.split('-')[0]; // removing that weird time flag "-12:00" at the end
   timeInt = time.match(/\d/g);
   timeInt = timeInt.join('');
   timeInt = timeInt.slice(0, 4);
-  timeInt = Number(timeInt);
 
-  return [dateInt, timeInt];
+  return [Number(dateInt), Number(timeInt)];
 };

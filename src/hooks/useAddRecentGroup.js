@@ -5,6 +5,8 @@ import {
 
 const useAddRecentGroup = (group) => {
   useEffect(() => {
+    // Temp solution... We need to only save group.id, and we need to make
+    // sure that the recently visited group is at the first array index
       if (group) {
         let storedGroups =
           JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED)) ?? [];

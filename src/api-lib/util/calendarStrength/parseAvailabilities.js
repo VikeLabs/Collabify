@@ -20,7 +20,7 @@ export const parseAvailabilities = (availabilities) => {
         const matchedDateAvail = person.timesAvailable.find(
           (el) => el.date === event.date
         );
-        const isAvail = isAvailable(time, matchedDateAvail.times);
+        const isAvail = isAvailable(time, matchedDateAvail?.times);
         if (isAvail) {
           newEventEntry.names.push(person.name);
           newEventEntry.numbers.push(person.number);

@@ -29,11 +29,16 @@ export default function Home() {
   const [calendarMinTime, setCalendarMinTime] = useState('08:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('22:00:00');
 
-  useEffect(
-    () =>
-      setRecentGroups(JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))),
-    []
-  );
+  useEffect(() => {
+    fetch(`${GROUP}/${JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))?.map(e => e._id).join(',')}`)
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.ok) {
+          console.log(result)
+          setRecentGroups(result.groups)
+        }
+      });
+  }, [])
 
   const createGroup = () => {
     if (name === '' || description === '') {
@@ -43,6 +48,8 @@ export default function Home() {
       parseInt(calendarMaxTime.replace(':', ''))
     ) {
       setHasError('Minimum Time cannot be greater than Maximum Time');
+    } else if (name?.length > 20) {
+      setHasError('Name must be under 20 characters');
     } else {
       setIsLoading(() => true);
       fetch(GROUP, {
