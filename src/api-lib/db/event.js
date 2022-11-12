@@ -1,6 +1,8 @@
+import { sendText } from 'api-lib/twilio';
+import Availability from 'pages/[groupID]/availability/[weekOf]';
 import { Group, Event } from '../model';
 
-export const addEventToGroup = async ({ groupID, event }) => {
+export const addEventToGroup = async ({ groupID, event, names, numbers }) => {
   // Creates event then adds events ID to the group 'events' array
   // If theres an error function will return true
   const model = new Event(event);
@@ -24,6 +26,23 @@ export const addEventToGroup = async ({ groupID, event }) => {
       console.error(err);
       return true;
     });
+
+  if (!error){
+    let numberNamePairs = []
+    const group = await Group.findOne({_id: groupID})
+
+    for (let availability of group.availabilities){
+      if (numbers.includes(availability.number)){
+        numberNamePairs.push({number: availability.number, name: availability.name})
+      }
+    }
+    for (let person of numberNamePairs){
+      sendText(
+        person.number, 
+        `Hello ${person.name}, an event has been created in your ${group.name} group`
+        )
+    }
+  }
 
   return error;
 };
