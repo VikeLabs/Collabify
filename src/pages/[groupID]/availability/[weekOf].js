@@ -9,6 +9,7 @@ import { AvailabilitySkeleton } from 'components/Availability';
 import { useAsyncFetch, useDeviceDetect } from 'hooks';
 
 import utilities from 'styles/utilities.module.css';
+import { Spinner } from 'components/Loading';
 
 export default function Availability() {
   const router = useRouter();
@@ -26,11 +27,13 @@ export default function Availability() {
 
   // API validator
   const [hasError, setHasError] = useState(apiError);
+  const [isSaving, setIsSaving] = useState(false)
 
   const [times, updateTimes] = useState([]);
 
   // Save the selected availability
   const saveAvailability = () => {
+    setIsSaving(true)
     // Send request to API
     fetch(AVAILABILITY, {
       method: 'POST',
@@ -47,9 +50,11 @@ export default function Availability() {
       .then((res) => res.json())
       .then((result) => {
         if (result.ok) {
-          alert('Availability has been saved, Thank you!');
-          router.replace(`/${groupID}`);
-        } else setHasError(result.message);
+          router.replace(`/${groupID}?availabilityFilled=true`);
+        } else { 
+          setIsSaving(false)
+          setHasError(result.message);
+        }
       });
   };
 
@@ -63,6 +68,7 @@ export default function Availability() {
       leftIcon={'ArrowBack'} 
       leftIconClick={()=> router.replace(`/${groupID}`)}
       >
+        <Spinner isLoading={isSaving} />
         <h2 className={utilities.heading}>
           AVAILABILITY:
           <span className={utilities.subHeading}>

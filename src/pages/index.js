@@ -22,7 +22,7 @@ export default function Home() {
   const [activeIcon, setActiveIcon] = useState(getAllIcons()[0]); // default first icon
   // Information related
   const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [recentGroups, setRecentGroups] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -34,7 +34,6 @@ export default function Home() {
       .then((res) => res.json())
       .then((result) => {
         if (result.ok) {
-          console.log(result)
           setRecentGroups(result.groups)
         }
       });
@@ -51,7 +50,7 @@ export default function Home() {
     } else if (name?.length > 20) {
       setHasError('Name must be under 20 characters');
     } else {
-      setIsLoading(() => true);
+      setIsSaving(true);
       fetch(GROUP, {
         method: 'POST',
         body: JSON.stringify({
@@ -65,7 +64,10 @@ export default function Home() {
         .then((res) => res.json())
         .then((result) => {
           if (result.ok) router.push(`/${result.groupID}`);
-          else setHasError(result.message);
+          else { 
+            setIsSaving(false)
+            setHasError(result.message);
+          }
         });
     }
   };
@@ -74,7 +76,7 @@ export default function Home() {
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container header='create a group'>
-        <Spinner isLoading={isLoading} />
+        <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
           {recentGroups && <RecentlyVisited groups={recentGroups} />}
           {/* ICON */}
@@ -101,7 +103,7 @@ export default function Home() {
         <div className={utilities.buttonContainer}>
           <Button
             variant='contained'
-            disabled={!name || !description || isLoading ? true : false}
+            disabled={!name || !description || isSaving ? true : false}
             onClick={createGroup}
             className={utilities.button}
           >
