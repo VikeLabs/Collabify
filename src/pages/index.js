@@ -26,8 +26,8 @@ export default function Home() {
   const [recentGroups, setRecentGroups] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [calendarMinTime, setCalendarMinTime] = useState('08:00:00');
-  const [calendarMaxTime, setCalendarMaxTime] = useState('22:00:00');
+  const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
+  const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
   useEffect(() => {
     fetch(`${GROUP}/${JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))?.map(e => e._id).join(',')}`)
