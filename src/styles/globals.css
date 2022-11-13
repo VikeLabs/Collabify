@@ -17,7 +17,7 @@ body {
 }
 
 th .fc-day-today {
-  border-radius: 1rem;
+  border-radius: 10px;
   background-color: var(--primary-main);
   color: white;
 }
