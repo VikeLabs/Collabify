@@ -14,9 +14,8 @@ describe('parseAvailabilities() test', () => {
       const result = results[i];
       const output = expected[i];
 
-      // has colors
-      expect(result.backgroundColor).toBeDefined();
-      expect(result.display).toBeDefined();
+      expect(result.backgroundColor).toBeDefined(); // has color
+      expect(result.display).toBeDefined(); // has display style
       expect(result.start).toEqual(output.start);
       expect(result.end).toEqual(output.end);
       expect(result.names).toStrictEqual(output.names);
@@ -29,9 +28,8 @@ describe('parseAvailabilities() test', () => {
       const result = results[i];
       const output = sqnOutput[i];
 
-      // has colors
-      expect(result.backgroundColor).toBeDefined();
-      expect(result.display).toBeDefined();
+      expect(result.backgroundColor).toBeDefined(); // has color
+      expect(result.display).toBeDefined(); // has display style
       expect(result.start).toEqual(output.start);
       expect(result.end).toEqual(output.end);
       expect(result.names).toStrictEqual(output.names);
