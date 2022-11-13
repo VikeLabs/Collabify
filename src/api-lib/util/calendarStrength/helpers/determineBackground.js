@@ -1,16 +1,14 @@
-import { colors as c } from './_bgColors';
-
 export const determineBackground = (namesLength, peopleLength) => {
   const percent = (namesLength / peopleLength) * 100;
-  let color = c.transparent;
+  let color = 'transparent';
   if (percent > 75) {
-    color = c.strength4;
+    color = '#228b22';
   } else if (percent > 50) {
-    color = c.strength3;
+    color = '#48B613';
   } else if (percent > 25) {
-    color = c.strength2;
+    color = '#77dd77';
   } else if (percent > 0) {
-    color = c.strength1;
+    color = '#aef5ae';
   }
   return color;
 };
