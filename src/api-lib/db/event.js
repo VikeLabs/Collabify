@@ -1,3 +1,5 @@
+import { sendText } from 'api-lib/twilio';
+import Availability from 'pages/[groupID]/availability/[weekOf]';
 import { Group, Event } from '../model';
 
 export const addEventToGroup = async ({ groupID, event }) => {
@@ -24,7 +26,6 @@ export const addEventToGroup = async ({ groupID, event }) => {
       console.error(err);
       return true;
     });
-
   return error;
 };
 
