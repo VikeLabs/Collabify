@@ -2,7 +2,7 @@ import dbConnect from 'api-lib/dbConnect';
 import { addEventToGroup } from 'api-lib/db';
 import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 import { sendText } from 'api-lib/twilio';
-import { startToEndStandardTime } from 'api-lib/util/calendarStrength/helpers/militaryToStandard';
+import { startToEndStandardTime } from 'api-lib/helper/militaryToStandard';
 
 export default async function handler(req, res) {
   const { method, body } = req;
@@ -22,15 +22,16 @@ export default async function handler(req, res) {
         });
         if (err === true) sendDatabaseError(res);
         else {
-          // TODO: Add names and numbers loop to send texts to all names and numbers
-          let index = 0; 
-          for (let number of numbers){
+          numbers.forEach((_, index) => {
             sendText(
-              number, 
-              `Hello ${names[index]}, an event has been created in one of your groups.\n${startToEndStandardTime(event.time.start, event.time.end)}\n${event.title}\n${event.description}`
+              numbers[index], 
+              `Hello ${names[index]}, an EVENT has been created
+              \n${startToEndStandardTime(event.time.start, event.time.end)}
+              \n${event.title}
+              \n${event.description}
+              \n\nSee all events: https://${BASE_URL}/${groupID}/`
               )
-              index += 1
-          }
+          })
           res.status(200).json({ ok: true });
         }
       } catch (error) {
