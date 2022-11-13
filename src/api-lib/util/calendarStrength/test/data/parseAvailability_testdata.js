@@ -62,7 +62,6 @@ const input = [
 
 const expected = [
   {
-    // isEvent: false,
     start: '2022-10-30T09:30:00',
     end: '2022-10-30T10:00:00',
     display: 'background',
@@ -70,7 +69,6 @@ const expected = [
     numbers: ['125'],
   },
   {
-    // isEvent: false,
     start: '2022-10-30T10:00:00',
     end: '2022-10-30T11:00:00',
     display: 'background',
@@ -78,7 +76,6 @@ const expected = [
     numbers: ['125', '143'],
   },
   {
-    // isEvent: false,
     start: '2022-10-30T11:00:00',
     end: '2022-10-30T11:30:00',
     display: 'background',
@@ -156,4 +153,103 @@ const expected = [
   },
 ];
 
-export { expected, input };
+/* Sequential test cases starts */
+// multiple people selected one time slot sequentially
+const sqnInput = [
+  {
+    weekOf: '2022-10-30',
+    times: [
+      {
+        startStr: '2022-10-30T01:00:00',
+        endStr: '2022-10-30T01:30:00',
+      },
+      {
+        startStr: '2022-10-31T13:30:00',
+        endStr: '2022-10-31T14:30:00',
+      },
+    ],
+    name: 'Ben',
+    number: '125',
+  },
+  {
+    weekOf: '2022-10-30',
+    times: [
+      {
+        startStr: '2022-10-30T01:30:00',
+        endStr: '2022-10-30T02:00:00',
+      },
+      {
+        startStr: '2022-10-31T14:30:00',
+        endStr: '2022-10-31T15:30:00',
+      },
+    ],
+    name: 'Aman',
+    number: '143',
+  },
+  {
+    weekOf: '2022-10-30',
+    times: [
+      {
+        startStr: '2022-10-30T02:00:00',
+        endStr: '2022-10-30T02:30:00',
+      },
+      {
+        startStr: '2022-10-31T15:30:00',
+        endStr: '2022-10-31T16:30:00',
+      },
+    ],
+    name: 'Hal',
+    number: '123',
+  },
+];
+
+const sqnOutput = [
+  // Sequential output
+  {
+    start: '2022-10-30T01:00:00',
+    end: '2022-10-30T01:30:00',
+    display: 'background',
+    names: ['Ben'],
+    numbers: ['125'],
+  },
+  {
+    start: '2022-10-30T01:30:00',
+    end: '2022-10-30T02:00:00',
+    display: 'background',
+    names: ['Aman'],
+    numbers: ['125'],
+  },
+  {
+    start: '2022-10-30T02:00:00',
+    end: '2022-10-30T02:30:00',
+    display: 'background',
+    names: ['Hal'],
+    numbers: ['125'],
+  },
+  //
+  {
+    start: '2022-10-31T13:30:00',
+    end: '2022-10-31T14:30:00',
+    display: 'background',
+    names: ['Ben'],
+    numbers: ['125'],
+  },
+  {
+    start: '2022-10-31T14:30:00',
+    end: '2022-10-31T15:30:00',
+    display: 'background',
+    names: ['Aman'],
+    numbers: ['125'],
+  },
+  {
+    start: '2022-10-31T15:30:00',
+    end: '2022-10-31T16:30:00',
+    display: 'background',
+    names: ['Hal'],
+    numbers: ['125'],
+  },
+  // Sequential output
+];
+// Consequential test cases ends
+
+export { expected, input, sqnInput, sqnOutput };
