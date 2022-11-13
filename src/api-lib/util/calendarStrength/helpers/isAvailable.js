@@ -1,3 +1,4 @@
+import { InvalidArguments } from '../calendarStrengthExceptions';
 /**
  * isAvailable
  * @params {object} event
@@ -5,6 +6,21 @@
  * @return {boolean}
  */
 export const isAvailable = (event, avail) => {
+  if (event === undefined || avail === undefined) {
+    throw new InvalidArguments('wrong format for `event` or `avail`');
+  }
+
+  if (
+    typeof event.start !== 'number' ||
+    typeof event.end !== 'number' ||
+    typeof avail.start !== 'number' ||
+    typeof avail.end !== 'number'
+  ) {
+    throw new TypeError(
+      '`start` prop and `end` prop have to be of type number'
+    );
+  }
+
   /* BUG: try .. catch, since `avail` is sometimes undefined
    * Ideally `avail` should not be undefined at all..
    * I'm leaving this complicated looking piece of code
@@ -15,8 +31,6 @@ export const isAvailable = (event, avail) => {
   try {
     return event.start >= avail.start && event.end <= avail.end;
   } catch (e) {
-    const errMsg = `isAvailable() encounters an error while parsing the object ${event}: ${e}`;
-    console.error(errMsg);
-    return false;
+    throw new InvalidArguments(e.message);
   }
 };
