@@ -1,163 +1,38 @@
 import { describe, it, expect } from '@jest/globals';
 import { parseAvailabilities } from '../parseAvailabilities';
-
-const availabilities = [
-  {
-    weekOf: '2022-10-30',
-    times: [
-      {
-        startTime: '2022-10-30T09:30:00',
-        endTime: '2022-10-30T11:00:00',
-      },
-      {
-        startTime: '2022-10-31T13:30:00',
-        endTime: '2022-10-31T17:00:00',
-      },
-      {
-        startTime: '2022-11-01T08:00:00',
-        endTime: '2022-11-01T16:30:00',
-      },
-    ],
-    name: 'Ben',
-    number: '125',
-  },
-  {
-    weekOf: '2022-10-30',
-    times: [
-      {
-        startTime: '2022-10-30T10:00:00',
-        endTime: '2022-10-30T12:00:00',
-      },
-      {
-        startTime: '2022-10-31T13:30:00',
-        endTime: '2022-10-31T15:00:00',
-      },
-      {
-        startTime: '2022-11-01T09:00:00',
-        endTime: '2022-11-01T16:30:00',
-      },
-    ],
-    name: 'Aman',
-    number: '143',
-  },
-  {
-    weekOf: '2022-10-30',
-    times: [
-      {
-        startTime: '2022-10-30T11:30:00',
-        endTime: '2022-10-30T14:00:00',
-      },
-      {
-        startTime: '2022-10-31T15:00:00',
-        endTime: '2022-10-31T17:00:00',
-      },
-      {
-        startTime: '2022-11-01T11:00:00',
-        endTime: '2022-11-01T17:30:00',
-      },
-    ],
-    name: 'Hal',
-    number: '123',
-  },
-];
-
-const expected = [
-  {
-    isEvent: false,
-    start: '2022-10-30T09:30:00',
-    end: '2022-10-30T10:00:00',
-    display: 'background',
-    names: ['Ben'],
-    numbers: ['125'],
-  },
-  {
-    isEvent: false,
-    start: '2022-10-30T10:00:00',
-    end: '2022-10-30T11:00:00',
-    display: 'background',
-    names: ['Ben', 'Aman'],
-    numbers: ['125', '143'],
-  },
-  {
-    isEvent: false,
-    start: '2022-10-30T11:00:00',
-    end: '2022-10-30T11:30:00',
-    display: 'background',
-    names: ['Aman'],
-    numbers: ['143'],
-  },
-  {
-    isEvent: false,
-    start: '2022-10-30T11:30:00',
-    end: '2022-10-30T12:00:00',
-    display: 'background',
-    names: ['Aman', 'Hal'],
-    numbers: ['143', '123'],
-  },
-  {
-    isEvent: false,
-    start: '2022-10-30T12:00:00',
-    end: '2022-10-30T14:00:00',
-    display: 'background',
-    names: ['Hal'],
-    numbers: ['123'],
-  },
-  {
-    isEvent: false,
-    start: '2022-10-31T13:30:00',
-    end: '2022-10-31T15:00:00',
-    display: 'background',
-    names: ['Ben', 'Aman'],
-    numbers: ['125', '143'],
-  },
-  {
-    isEvent: false,
-    start: '2022-10-31T15:00:00',
-    end: '2022-10-31T17:00:00',
-    display: 'background',
-    names: ['Ben', 'Hal'],
-    numbers: ['125', '123'],
-  },
-  {
-    isEvent: false,
-    start: '2022-11-01T08:00:00',
-    end: '2022-11-01T09:00:00',
-    display: 'background',
-    names: ['Ben'],
-    numbers: ['125'],
-  },
-  {
-    isEvent: false,
-    start: '2022-11-01T09:00:00',
-    end: '2022-11-01T11:00:00',
-    display: 'background',
-    names: ['Ben', 'Aman'],
-    numbers: ['125', '143'],
-  },
-  {
-    isEvent: false,
-    start: '2022-11-01T11:00:00',
-    end: '2022-11-01T16:30:00',
-    display: 'background',
-    names: ['Ben', 'Aman', 'Hal'],
-    numbers: ['125', '143', '123'],
-  },
-  {
-    isEvent: false,
-    start: '2022-11-01T16:30:00',
-    end: '2022-11-01T17:30:00',
-    display: 'background',
-    names: ['Hal'],
-    numbers: ['123'],
-  },
-];
+import {
+  expected,
+  input,
+  sqnInput,
+  sqnOutput,
+} from './data/parseAvailability_testdata';
 
 describe('parseAvailabilities() test', () => {
   it('returns the right format', () => {
-    const input = {
-      availabilities,
-    };
-    const output = parseAvailabilities(input);
-    expect(output).toStrictEqual(expected);
+    const results = parseAvailabilities(input);
+    for (let i = 0; i < results.length - 1; i++) {
+      const result = results[i];
+      const output = expected[i];
+
+      expect(result.backgroundColor).toBeDefined(); // has color
+      expect(result.display).toBeDefined(); // has display style
+      expect(result.start).toEqual(output.start);
+      expect(result.end).toEqual(output.end);
+      expect(result.names).toStrictEqual(output.names);
+    }
+  });
+
+  it('still does it sequentially', () => {
+    const results = parseAvailabilities(sqnInput);
+    for (let i = 0; i < results.length - 1; i++) {
+      const result = results[i];
+      const output = sqnOutput[i];
+
+      expect(result.backgroundColor).toBeDefined(); // has color
+      expect(result.display).toBeDefined(); // has display style
+      expect(result.start).toEqual(output.start);
+      expect(result.end).toEqual(output.end);
+      expect(result.names).toStrictEqual(output.names);
+    }
   });
 });
