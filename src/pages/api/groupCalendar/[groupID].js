@@ -20,30 +20,36 @@ export default async function handler(req, res) {
       try {
         const { groupID } = req.query;
         const { groupError, group } = await getGroup({ groupID });
+
         const { availabilitiesError, availabilities } =
           await getAvailabilitiesFromGroup({
             groupID,
           });
+
         const { eventsError, events } = await getEventsFromGroup({
           groupID,
         });
+
         if (groupError || availabilitiesError || eventsError) {
           sendNoDocumentError(res);
         } else {
+          const allAvailabilities = parseAvailabilities(availabilities);
+          const allEvents = parseEvents(events);
+
           res.status(200).json({
             ok: true,
             group,
-            calendarEvents: parseAvailabilities(availabilities).concat(
-              parseEvents(events)
-            ),
+            calendarEvents: [...allAvailabilities, ...allEvents],
           });
         }
       } catch (error) {
         sendRequestError(res, error);
       }
+
       break;
     default:
       res.status(405).json({ message: 'Method Not Allowed' });
+
       break;
   }
 }
