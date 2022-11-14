@@ -6,31 +6,47 @@ import { stringifyTime } from './helpers/stringifyTime';
 export const parseAvailabilities = (availabilities) => {
   const [events, people] = dataSanitize(availabilities);
   let parseAvails = []; // to be returned
+
   for (const event of events) {
-    for (const time of event.times) {
-      const newEventEntry = {
-        start: stringifyTime(event.date, time.start),
-        end: stringifyTime(event.date, time.end),
-        display: 'background',
-        backgroundColor: 'transparent',
-        names: [],
-        numbers: [],
-      };
-      for (const person of people) {
-        const matchedDateAvail = person.timesAvailable.find(
-          (el) => el.date === event.date
-        );
-        const isAvail = isAvailable(time, matchedDateAvail?.times);
-        if (isAvail) {
-          newEventEntry.names.push(person.name);
-          newEventEntry.numbers.push(person.number);
+    try {
+      for (const time of event.times) {
+        const newEventEntry = {
+          start: stringifyTime(event.date, time.start),
+          end: stringifyTime(event.date, time.end),
+          display: 'background',
+          backgroundColor: 'transparent',
+          names: [],
+          numbers: [],
+        };
+
+        for (const person of people) {
+          const matchedDateAvail = person.timesAvailable.find(
+            (el) => el.date === event.date
+          );
+
+          if (matchedDateAvail) {
+            const isAvail = isAvailable(time, matchedDateAvail.times);
+            if (isAvail) {
+              newEventEntry.names.push(person.name);
+              newEventEntry.numbers.push(person.number);
+            }
+          } else {
+            continue;
+          }
         }
+
+        newEventEntry.backgroundColor = determineBackground(
+          newEventEntry.names.length,
+          people.length
+        );
+
+        parseAvails.push(newEventEntry);
       }
-      newEventEntry.backgroundColor = determineBackground(
-        newEventEntry.names.length,
-        people.length
-      );
-      parseAvails.push(newEventEntry);
+    } catch (e) {
+      console.error(`Exception caught while parsing event: ${event}`);
+      console.error(e);
+      console.error('Skipping to the next iteration');
+      continue;
     }
   }
   // remove empty fields
