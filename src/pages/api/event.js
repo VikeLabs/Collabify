@@ -17,8 +17,6 @@ export default async function handler(req, res) {
         const err = await addEventToGroup({
           groupID,
           event,
-          names, 
-          numbers
         });
         if (err === true) sendDatabaseError(res);
         else {
