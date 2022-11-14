@@ -1,4 +1,5 @@
 import { parseTime } from './parseTime.js';
+import { InvalidArguments } from '../calendarStrengthExceptions';
 
 const dataSanitize = (availabilities) => {
   const allDateData = getAllDates(availabilities);
@@ -56,10 +57,20 @@ const dataSanitize = (availabilities) => {
       timesAvailable: [],
     };
     for (const time of entry.times) {
-      const [date, start] = parseTime(time.startStr);
-      const [_, end] = parseTime(time.endStr);
-      const newTimeEntry = { date, times: { start, end } };
-      newPerson.timesAvailable.push(newTimeEntry);
+      try {
+        const [date, start] = parseTime(time.startStr);
+        const [_, end] = parseTime(time.endStr);
+        const newTimeEntry = { date, times: { start, end } };
+
+        newPerson.timesAvailable.push(newTimeEntry);
+      } catch (e) {
+        console.error('Error in `dataSanitize`');
+        console.error(`Attempted to parse: ${time}`);
+        console.error(`Error caught: ${e}`);
+        console.error(`Skipping to the next iteration`);
+
+        continue;
+      }
     }
     people.push(newPerson);
   }
@@ -76,9 +87,18 @@ function getAllDates(dates) {
   const allDates = new Set();
   for (const entry of dates) {
     for (const time of entry.times) {
-      const [startDate] = parseTime(time.startStr);
-      const [endDate] = parseTime(time.endStr);
-      allDates.add(startDate, endDate);
+      try {
+        const [startDate] = parseTime(time.startStr);
+        const [endDate] = parseTime(time.endStr);
+
+        allDates.add(startDate, endDate);
+      } catch (e) {
+        console.error('Error in `getAllDates`');
+        console.error(`Attempted to parse: ${time}`);
+        console.error(`Error caught: ${e}`);
+        console.error('Skipping to the next iteration.');
+        continue;
+      }
     }
   }
   return [...allDates];

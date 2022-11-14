@@ -1,20 +1,35 @@
 import { describe, it, expect } from '@jest/globals';
 import { isAvailable } from '../helpers/isAvailable';
+import {
+  passedTests,
+  failedType,
+  failedArg,
+} from './data/isAvailable_testdata';
+import { InvalidArguments } from '../calendarStrengthExceptions';
 
 describe('isAvailable() test', () => {
-  it('returns true if is available', () => {
-    const event = { start: 930, end: 1130 };
-    const avail = { start: 1000, end: 1200 };
+  it('returns the correct boolean value', () => {
+    passedTests.forEach((test) => {
+      const { event, avail, expected } = test;
 
-    const output = isAvailable(event, avail);
-    expect(output).toBe(false);
+      const output = isAvailable(event, avail);
+      expect(output).toBe(expected);
+    });
   });
 
-  it('returns false if is not available', () => {
-    const event = { start: 1200, end: 1230 };
-    const avail = { start: 1000, end: 1200 };
+  describe('isAvailable() raises exceptions', () => {
+    it('throws TypeError', () => {
+      failedType.forEach((test) => {
+        const { event, avail } = test;
+        expect(() => isAvailable(event, avail)).toThrow(TypeError);
+      });
+    });
 
-    const output = isAvailable(event, avail);
-    expect(output).toBe(false);
+    it('throws InvalidArguments', () => {
+      failedArg.forEach((test) => {
+        const { event, avail } = test;
+        expect(() => isAvailable(event, avail)).toThrow(InvalidArguments);
+      });
+    });
   });
 });

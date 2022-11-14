@@ -1,5 +1,3 @@
-import { colors as c } from '../../helpers/_bgColors';
-
 const input = [
   {
     weekOf: '2022-10-30',
@@ -118,7 +116,7 @@ const expected = [
     // isEvent: false,
     start: '2022-11-01T08:00:00',
     end: '2022-11-01T09:00:00',
-    backgroundColor: c.strength3,
+    // backgroundColor: c.strength3,A
     display: 'background',
     names: ['Ben'],
     numbers: ['125'],
@@ -127,7 +125,7 @@ const expected = [
     // isEvent: false,
     start: '2022-11-01T09:00:00',
     end: '2022-11-01T11:00:00',
-    backgroundColor: c.strength3,
+    // backgroundColor: c.strength3,
     display: 'background',
     names: ['Ben', 'Aman'],
     numbers: ['125', '143'],
@@ -137,7 +135,7 @@ const expected = [
 
     start: '2022-11-01T11:00:00',
     end: '2022-11-01T16:30:00',
-    backgroundColor: c.strength4,
+    // backgroundColor: c.strength4,
     display: 'background',
     names: ['Ben', 'Aman', 'Hal'],
     numbers: ['125', '143', '123'],
@@ -146,7 +144,7 @@ const expected = [
     // isEvent: false,
     start: '2022-11-01T16:30:00',
     end: '2022-11-01T17:30:00',
-    backgroundColor: c.strength2,
+    // backgroundColor: c.strength2,
     display: 'background',
     names: ['Hal'],
     numbers: ['123'],
