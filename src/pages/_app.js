@@ -6,6 +6,7 @@ import { getColorPalette } from '../styles/theme';
 import '@fullcalendar/common/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
+import 'tippy.js/dist/tippy.css';
 import 'styles/globals.css';
 import { THEME_STORED } from 'constants/index.js';
 import { BugReport } from 'components/BugReport/BugReport';

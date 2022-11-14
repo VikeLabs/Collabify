@@ -7,6 +7,7 @@ import EventModal from './EventModal';
 import CreateEventModal from './CreateEventModal';
 import { useDeviceDetect } from 'hooks';
 import style from 'styles/components/groupCalendar.module.css';
+import tippy from 'tippy.js';
 
 export const GroupCalendar = ({
   calendarEvents,
@@ -86,6 +87,14 @@ export const GroupCalendar = ({
     setCreateEventModal(true);
   };
 
+  const handleMouseEnter = (info) => {
+    tippy(info.el, {
+      content: info?.event?.extendedProps?.names.join(', '),
+      delay: 0,
+      duration: 0
+    })
+  }
+
   return (
     <>
       <EventModal
@@ -117,6 +126,7 @@ export const GroupCalendar = ({
         slotMinTime={slotMinTime}
         slotMaxTime={slotMaxTime}
         select={handleSelect}
+        eventMouseEnter={handleMouseEnter}
         longPressDelay={5}
         eventLongPressDelay={500}
         selectLongPressDelay={500}
