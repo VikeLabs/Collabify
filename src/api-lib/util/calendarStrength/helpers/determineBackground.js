@@ -8,20 +8,21 @@ const _c = {
   gt0: '#aef5ae',
 };
 
-const determineBackground = (namesLength, peopleLength) => {
-  if (typeof namesLength !== 'number' || typeof peopleLength !== 'number') {
+const determineBackground = (namesLength, highestNamesLength) => {
+  // Names length divided by the highest names length will give a color strength
+  if (typeof namesLength !== 'number' || typeof highestNamesLength !== 'number') {
     throw new TypeError(
-      `expected [number:number], got [${typeof namesLength}:${typeof peopleLength}]`
+      `expected [number:number], got [${typeof namesLength}:${typeof highestNamesLength}]`
     );
   }
 
-  if (namesLength > peopleLength) {
-    let err = `_namesLength_ is greater than _peopleLength_.\n`;
-    err += `got [${namesLength}:${peopleLength}] ([namesLength:peopleLength])`;
+  if (namesLength > highestNamesLength) {
+    let err = `_namesLength_ is greater than _highestNamesLength_.\n`;
+    err += `got [${namesLength}:${highestNamesLength}] ([namesLength:highestNamesLength])`;
     throw new InvalidArguments(err);
   }
 
-  const percent = (namesLength / peopleLength) * 100;
+  const percent = (namesLength / highestNamesLength) * 100;
 
   if (percent >= 75) {
     return _c.gt75;
