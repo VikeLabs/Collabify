@@ -20,18 +20,14 @@ export const parseAvailabilities = (availabilities) => {
         };
 
         for (const person of people) {
-          const matchedDateAvail = person.timesAvailable.find(
-            (el) => el.date === event.date
-          );
-
-          if (matchedDateAvail) {
-            const isAvail = isAvailable(time, matchedDateAvail.times);
-            if (isAvail) {
-              newEventEntry.names.push(person.name);
-              newEventEntry.numbers.push(person.number);
+          for (const personTime of person.timesAvailable) {
+            if (personTime.date === event.date) {
+              const isAvail = isAvailable(time, personTime.times);
+              if (isAvail) {
+                newEventEntry.names.push(person.name);
+                newEventEntry.numbers.push(person.number);
+              }
             }
-          } else {
-            continue;
           }
         }
 
@@ -49,9 +45,5 @@ export const parseAvailabilities = (availabilities) => {
       continue;
     }
   }
-  // remove empty fields
-  parseAvails = parseAvails.filter((el) => {
-    return el.names.length !== 0 && el.numbers.length !== 0;
-  });
   return parseAvails;
 };
