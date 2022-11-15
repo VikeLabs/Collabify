@@ -88,11 +88,13 @@ export const GroupCalendar = ({
   };
 
   const handleMouseEnter = (info) => {
-    tippy(info.el, {
-      content: info?.event?.extendedProps?.names.join(', '),
-      delay: 0,
-      duration: 0
-    })
+    if (info?.event?.extendedProps?.names?.length > 0) {
+      tippy(info.el, {
+        content: info?.event?.extendedProps?.names.join(', '),
+        delay: 0,
+        duration: 0
+      })
+    }
   }
 
   return (
