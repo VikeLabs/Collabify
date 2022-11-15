@@ -21,9 +21,10 @@ export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
 
-  const [data, isLoading, hasError] = useAsyncFetch(
+  const [data, isLoading, apiError] = useAsyncFetch(
     `${GROUP_CALENDAR}/${groupID}`
   );
+  const [hasError, setHasError] = useState(apiError);
   const [linkCopied, setLinkCopied] = useState(false);
   // If availability has been filled out show alert for 5 seconds
   const [successAlert, setSuccessAlert] = useState(false)

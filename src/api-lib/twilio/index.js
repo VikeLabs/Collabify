@@ -10,6 +10,6 @@ export const sendText = (to, body) => {
       body,
       to,
     })
-    .then((message) => console.log(message.sid))
+    .then((message) => console.log(`Text sent successful to SID: ${message.sid}`))
     .catch((err) => console.error(err));
 };

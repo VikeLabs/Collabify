@@ -3,6 +3,7 @@ import { addEventToGroup } from 'api-lib/db';
 import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 import { sendText } from 'api-lib/twilio';
 import { startToEndStandardTime } from 'api-lib/helper/militaryToStandard';
+import { BASE_URL } from 'constants';
 
 export default async function handler(req, res) {
   const { method, body } = req;
