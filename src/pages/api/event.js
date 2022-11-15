@@ -3,7 +3,6 @@ import { addEventToGroup } from 'api-lib/db';
 import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 import { sendText } from 'api-lib/twilio';
 import { startToEndStandardTime } from 'api-lib/helper/militaryToStandard';
-import { BASE_URL } from 'constants';
 
 export default async function handler(req, res) {
   const { method, body } = req;
@@ -28,7 +27,7 @@ export default async function handler(req, res) {
               \n${startToEndStandardTime(event.time.start, event.time.end)}
               \n${event.title}
               \n${event.description}
-              \n\nSee all events: ${BASE_URL}/${groupID}/`
+              \n\nSee all events: https://collabify.space/${groupID}/`
               )
           })
           res.status(200).json({ ok: true });
