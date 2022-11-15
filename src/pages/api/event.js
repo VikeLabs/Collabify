@@ -28,7 +28,7 @@ export default async function handler(req, res) {
               \n${startToEndStandardTime(event.time.start, event.time.end)}
               \n${event.title}
               \n${event.description}
-              \n\nSee all events: https://${BASE_URL}/${groupID}/`
+              \n\nSee all events: ${BASE_URL}/${groupID}/`
               )
           })
           res.status(200).json({ ok: true });

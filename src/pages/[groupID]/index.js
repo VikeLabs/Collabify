@@ -62,7 +62,7 @@ export default function GroupHome() {
 
   const copyLink = () => {
     navigator.clipboard.writeText(
-      `https://${BASE_URL}/${groupID}/availability/${getTodaysDate()}`
+      `${BASE_URL}/${groupID}/availability/${getTodaysDate()}`
     );
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), 3000);
