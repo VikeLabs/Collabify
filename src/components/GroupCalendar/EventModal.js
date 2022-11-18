@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Box, Modal, Button } from '@mui/material';
+import { Close } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
 
@@ -17,12 +18,15 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
           ({moment(modalInfo.startStr).format('ddd MM/DD')}) -{' '}
           {moment(modalInfo.startStr).format('hh:mm A')}
         </h2>
+
         <h1 className={style.title}>{modalInfo.title}</h1>
+
         <Box className={style.descriptionContainer}>
           <p className={style.description}>
             {modalInfo.extendedProps.description}
           </p>
         </Box>
+
         <Box className={utilities.buttonContainer}>
           <Button
             variant='contained'
@@ -31,12 +35,14 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
             ADD TO CALENDAR
           </Button>
         </Box>
-        <a
+
+        <button
           onClick={() => setIsOpen(false)}
           className={style.closeModal}
+          aria-label='close button'
         >
-          X
-        </a>
+          <Close fontSize='small' />
+        </button>
       </Box>
     </Modal>
   );
