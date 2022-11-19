@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Box, Modal, Button } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
+import { localToUTCTime, calendarQuery } from './helpers';
 
 export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
+  const eventUTCStart = localToUTCTime(modalInfo.startStr);
+  // TODO: need `modalInfo.endStr` to get the ending time an event in UTC
+  const queryString = calendarQuery(); // TODO: implement this
+
   return (
     <Modal
       className={style.modalContainer}
