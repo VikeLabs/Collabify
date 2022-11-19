@@ -49,8 +49,8 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
 }
 
 EventModal.propTypes = {
-  modalIsOpen: PropTypes.node.isRequired,
-  setIsOpen: PropTypes.node.isRequired,
+  modalIsOpen: PropTypes.boolean.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
   modalTitle: PropTypes.string.isRequired,
   modalDesc: PropTypes.string.isRequired,
 };
