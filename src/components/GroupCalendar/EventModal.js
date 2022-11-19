@@ -16,7 +16,7 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
     'GOOGLE',
     eventUTCStart,
     '', // <-  TODO: change this to `eventUTCEnd`
-    'test event'
+    modalInfo.title
   );
 
   return (
