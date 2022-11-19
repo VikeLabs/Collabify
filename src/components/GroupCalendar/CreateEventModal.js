@@ -17,7 +17,7 @@ export default function CreateEventModal({
   const [isSaving, setIsSaving] = useState(false);
 
   const createEventClick = () => {
-    setIsSaving(true)
+    setIsSaving(true);
     createEvent({
       title,
       description,
@@ -26,7 +26,7 @@ export default function CreateEventModal({
         end: modalInfo.endStr,
       },
       names: modalInfo.names,
-      numbers: modalInfo.numbers
+      numbers: modalInfo.numbers,
     });
   };
 
@@ -38,7 +38,7 @@ export default function CreateEventModal({
         onClose={() => setIsOpen(false)}
       >
         <Box className={style.container}>
-          <Spinner isLoading={isSaving}/>
+          <Spinner isLoading={isSaving} />
           <h1 className={style.title}>
             ({moment(modalInfo.startStr).format('ddd MM/DD')})
           </h1>
@@ -90,6 +90,7 @@ export default function CreateEventModal({
 
 CreateEventModal.propTypes = {
   modalIsOpen: PropTypes.node.isRequired,
-  setIsOpen: PropTypes.node.isRequired,
+  setIsOpen: PropTypes.func.isRequired,
   modalInfo: PropTypes.object.isRequired,
+  createEvent: PropTypes.func.isRequired,
 };
