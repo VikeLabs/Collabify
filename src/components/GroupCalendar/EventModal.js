@@ -9,8 +9,15 @@ import { localToUTCTime, calendarQuery } from './helpers';
 
 export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
   const eventUTCStart = localToUTCTime(modalInfo.startStr);
-  // TODO: need `modalInfo.endStr` to get the ending time an event in UTC
-  const queryString = calendarQuery(); // TODO: implement this
+  // const eventUTCEnd = localToUTCTime(modalInfo.endStr);
+  // BUG: need `modalInfo.endStr` to get the end time an event in UTC,
+  // see how eventUTCStart is defined
+  const eventQueryString = calendarQuery(
+    'GOOGLE',
+    eventUTCStart,
+    '', // <-  TODO: change this to `eventUTCEnd`
+    'test event'
+  );
 
   return (
     <Modal
@@ -37,7 +44,12 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
             variant='contained'
             className={utilities.button}
           >
-            ADD TO CALENDAR
+            <a
+              href={eventQueryString}
+              target='_blank'
+            >
+              ADD TO CALENDAR
+            </a>
           </Button>
         </Box>
 
