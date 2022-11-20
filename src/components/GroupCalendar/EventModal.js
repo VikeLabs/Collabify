@@ -2,33 +2,36 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Box, Modal, Button } from '@mui/material';
-import { Close } from '@mui/icons-material';
+import { Close, Google } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
 import { localToUTCTime, calendarQuery } from './helpers';
 
 export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
   const eventUTCStart = localToUTCTime(modalInfo.startStr);
-  // const eventUTCEnd = localToUTCTime(modalInfo.endStr);
-  // BUG: need `modalInfo.endStr` to get the end time an event in UTC,
-  // see how eventUTCStart is defined
+  const eventUTCEnd = localToUTCTime(modalInfo.endStr);
   const eventQueryString = calendarQuery(
     'GOOGLE',
     eventUTCStart,
-    '', // <-  TODO: change this to `eventUTCEnd`
-    modalInfo.title
+    eventUTCEnd,
+    modalInfo.title,
+    modalInfo.extendedProps.description
   );
 
   return (
     <Modal
       className={style.modalContainer}
       open={modalIsOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={() => setIsOpen(() => false)}
     >
-      <Box className={style.container}>
+      <Box
+        component='section'
+        className={style.container}
+      >
         <h2 className={style.title}>
-          ({moment(modalInfo.startStr).format('ddd MM/DD')}) -{' '}
-          {moment(modalInfo.startStr).format('hh:mm A')}
+          ({moment(modalInfo.startStr).format('ddd MM/DD')})&nbsp;
+          {moment(modalInfo.startStr).format('hh:mm A')} -&nbsp;
+          {moment(modalInfo.endStr).format('hh:mm A')}
         </h2>
 
         <h1 className={style.title}>{modalInfo.title}</h1>
@@ -47,14 +50,18 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
             <a
               href={eventQueryString}
               target='_blank'
+              className={style.btnAddToCal}
             >
-              ADD TO CALENDAR
+              ADD TO CALENDAR&nbsp;
+              <span>
+                <Google />
+              </span>
             </a>
           </Button>
         </Box>
 
         <button
-          onClick={() => setIsOpen(false)}
+          onClick={() => setIsOpen(() => false)}
           className={style.closeModal}
           aria-label='close button'
         >

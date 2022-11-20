@@ -23,6 +23,7 @@ export const GroupCalendar = ({
   const [eventModal, setEventModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({
     startStr: '',
+    endStr: '',
     title: '',
     extendedProps: {
       description: '',
