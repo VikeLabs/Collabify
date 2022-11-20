@@ -21,6 +21,11 @@
   color: var(--primary-main);
 }
 
+.title h3 {
+  font-weight: 500;
+  font-size: 1em;
+}
+
 .descriptionContainer {
   padding-top: 1.5em;
   padding-left: 1em;

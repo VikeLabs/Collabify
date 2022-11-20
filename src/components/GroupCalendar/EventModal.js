@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Box, Modal, Button } from '@mui/material';
+import { Box, Modal, Button, Divider } from '@mui/material';
 import { Close, Google } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
@@ -28,13 +28,16 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
         component='section'
         className={style.container}
       >
-        <h2 className={style.title}>
-          ({moment(modalInfo.startStr).format('ddd MM/DD')})&nbsp;
-          {moment(modalInfo.startStr).format('hh:mm A')} -&nbsp;
-          {moment(modalInfo.endStr).format('hh:mm A')}
-        </h2>
+        <Box className={style.title}>
+          <h3>{moment(modalInfo.startStr).format('ddd MM/DD')}</h3>
+          <h3>
+            {moment(modalInfo.startStr).format('hh:mm A')} -&nbsp;
+            {moment(modalInfo.endStr).format('hh:mm A')}
+          </h3>
+        </Box>
 
         <h1 className={style.title}>{modalInfo.title}</h1>
+        <Divider />
 
         <Box className={style.descriptionContainer}>
           <p className={style.description}>
