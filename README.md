@@ -125,6 +125,8 @@ To prevent from becoming a self-fulfilling meme(s), here are the general rules!
 
 - All `stylesheets` live in the `/src/styles/` dir. Adding a dir for each pages, for example:
   All stylesheets being used in the homepage would go into `src/styles/home/` dir.
+- In `/src/components` if it is not a globally used component (only used in a certain page) then name the component after the page you are using it in. Eg: `components/Home` has components that are used in Home page 
+- `/src/helper` and `/src/hooks` are globally used (used in more then one file). If you are making a helper or hook for a specific component, please do that inside of the components folder. Eg: `/components/GroupCalendar` a helper function relating to it is put inside of the folder.
 
 ### Code Style
 
@@ -195,7 +197,6 @@ fetch('endpoint', {
   else setHasError(result.message);
 })
 ```
-
 
 ## Developers
 
