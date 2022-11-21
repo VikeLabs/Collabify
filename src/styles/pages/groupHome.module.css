@@ -1,17 +1,22 @@
 .container {
   display: flex;
-  width: 95%;
-  margin-left: 1em;
+  width: 100%;
   margin-bottom: 2em;
+  overflow: hidden;
+  border-radius: 0.5em;
+  padding-right: 0.5em;
 }
 
 .linkContainer {
   display: flex;
   background-color: #c9dee8;
-  width: 100%;
+  width:100%;
   border-radius: 0.5em;
-  padding: 0.5em;
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+  padding-bottom: 0.5em;
 }
+
 
 .linkText {
   text-overflow: ellipsis;
@@ -46,6 +51,7 @@
 }
 
 .linkTextSkeleton {
+  
   margin-top: 1.875rem;
   height: 3.125rem;
   width: 70%;
