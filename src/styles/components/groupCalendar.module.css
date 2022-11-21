@@ -1,149 +1,187 @@
 .modalContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
 }
 
 .container {
-    background-color: var(--background-light);
-    outline: none;
-    position: absolute;
-    border-radius: 1em;
-    width: 40vw;
+  background-color: var(--background-light);
+  outline: none;
+  position: absolute;
+  border-radius: 1em;
+  width: 40vw;
+  padding: 0.9rem;
 }
 
 .title {
-    font-weight: 600;
-    text-align: center;
-    text-transform: uppercase;
-    color: var(--primary-main);
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--primary-main);
+}
+
+.title h3 {
+  font-weight: 500;
+  font-size: 1em;
 }
 
 .descriptionContainer {
-    padding-top: 1.5em;
-    padding-left: 1em;
-    padding-right: 1em;
+  padding-top: 1.5em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .description {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .closeModal {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    right: -20px;
-    top: -20px;
-    padding: 20px;
-    background: var(--primary-main);
-    color: white;
-    border-radius: 50%;
-    line-height: 10px;
+  width: 2.5rem;
+  height: 2.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  background: var(--primary-main);
+  color: white;
+  border-radius: 50%;
+  border: none;
+  display: grid;
+  place-items: center;
+  box-shadow: 0px 0px 5px hsla(0deg, 0%, 0%, 30%);
 }
 
 .textFieldContainer {
-    margin-top: 1em;
-    margin-left: 4%;
+  margin-top: 1em;
+  margin-left: 4%;
 }
 
 .textField {
-    width: 95%;
+  width: 95%;
 }
 
 .helperText {
-    color: #4B4A67; /* primary.main */
-    margin-bottom: 30px;
-    text-align: center;
+  color: #4b4a67; /* primary.main */
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .helperContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-left: 10px;
 }
 
+.btnAddToCal {
+  transform: translateY(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2em;
+}
 
+.btnAddToCal span {
+  transform: translateY(2px);
+}
 
 @media only screen and (min-width: 600px) {
-    .helperColorContainer {
-        width: 20px;
-        height: 20px;
-        border-radius: 3px;
-        box-shadow: 0 10px 15px -3px #bdbdbd, 0 4px 6px -4px #bdbdbd;
-        margin-right: 10px;
-        margin-bottom: 40px;
-    }
-    
-    .helperColorContainer:first-child {
-        background: #FB8500;
-    }
+  .helperColorContainer {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    box-shadow: 0 10px 15px -3px #bdbdbd, 0 4px 6px -4px #bdbdbd;
+    margin-right: 10px;
+    margin-bottom: 40px;
+  }
 
-    .helperColorContainer ~ .helperColorContainer {
-        background: #228b22;
-    }
+  .helperColorContainer:first-child {
+    background: #fb8500;
+  }
 
-    .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
-        background: #48B613;
-    }
+  .helperColorContainer ~ .helperColorContainer {
+    background: #228b22;
+  }
 
-    .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
-        background: #77dd77;
-    }
+  .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
+    background: #48b613;
+  }
 
-    .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
-        background: #aef5ae;
-    }
+  .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer {
+    background: #77dd77;
+  }
 
-    .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer ~ .helperColorContainer {
-        background: #cfd8dc;
-    }
+  .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer {
+    background: #aef5ae;
+  }
 
-    .helperColorText {
-        margin-right: 20px;
-    }
+  .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer
+    ~ .helperColorContainer {
+    background: #cfd8dc;
+  }
+
+  .helperColorText {
+    margin-right: 20px;
+  }
 }
 
 @media only screen and (max-width: 600px) {
-    .container {
-        width: 90vw;
-        
-    }
-    
-    .helperColorText{
-        background-color:#FB8500;
-        padding: 2px;
-        text-align: left;
-        border-radius: 5px;
-        margin-bottom: 40px;
-        width: 50px;
-        margin-right: 3vw;
-
-    }
-    .helperColorText ~ .helperColorText {
-        background: #228b22;
-        text-align: center;
-    }
-    
-    .helperColorText ~ .helperColorText ~ .helperColorText {
-        background: #48B613;
-        text-align: center;
-    }
-    
-    .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText {
-        background: #77dd77;
-        text-align: center;
-    }
-    
-    .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText {
-        background: #aef5ae;
-        text-align: center;
-    }
-    
-    .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText {
-        background: #cfd8dc;
-        text-align: center;
-    }
-
+  .container {
+    width: 90vw;
   }
+
+  .helperColorText {
+    background-color: #fb8500;
+    padding: 2px;
+    text-align: left;
+    border-radius: 5px;
+    margin-bottom: 40px;
+    width: 50px;
+    margin-right: 3vw;
+  }
+  .helperColorText ~ .helperColorText {
+    background: #228b22;
+    text-align: center;
+  }
+
+  .helperColorText ~ .helperColorText ~ .helperColorText {
+    background: #48b613;
+    text-align: center;
+  }
+
+  .helperColorText ~ .helperColorText ~ .helperColorText ~ .helperColorText {
+    background: #77dd77;
+    text-align: center;
+  }
+
+  .helperColorText
+    ~ .helperColorText
+    ~ .helperColorText
+    ~ .helperColorText
+    ~ .helperColorText {
+    background: #aef5ae;
+    text-align: center;
+  }
+
+  .helperColorText
+    ~ .helperColorText
+    ~ .helperColorText
+    ~ .helperColorText
+    ~ .helperColorText
+    ~ .helperColorText {
+    background: #cfd8dc;
+    text-align: center;
+  }
+}

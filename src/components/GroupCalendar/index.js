@@ -1,13 +1,16 @@
+import { useState, useEffect } from 'react';
+import { useDeviceDetect } from 'hooks';
+
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { useState, useEffect } from 'react';
+import tippy from 'tippy.js';
+
 import EventModal from './EventModal';
 import CreateEventModal from './CreateEventModal';
-import { useDeviceDetect } from 'hooks';
+
 import style from 'styles/components/groupCalendar.module.css';
-import tippy from 'tippy.js';
 
 export const GroupCalendar = ({
   calendarEvents,
@@ -20,6 +23,7 @@ export const GroupCalendar = ({
   const [eventModal, setEventModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({
     startStr: '',
+    endStr: '',
     title: '',
     extendedProps: {
       description: '',
@@ -31,7 +35,7 @@ export const GroupCalendar = ({
     startStr: '',
     endStr: '',
     names: [],
-    numbers: []
+    numbers: [],
   });
 
   // This function only runs once when the page first render
@@ -75,14 +79,16 @@ export const GroupCalendar = ({
     // Temp solution for getting names and numbers.
     // In the future we need to get names and numbers
     // who that marked availability under event
-    let greatestNameIndex = 0
+    let greatestNameIndex = 0;
     calendarEvents.forEach((event, index) => {
-      if (event.names?.length > calendarEvents[greatestNameIndex].names?.length) {
-        greatestNameIndex = index
+      if (
+        event.names?.length > calendarEvents[greatestNameIndex].names?.length
+      ) {
+        greatestNameIndex = index;
       }
-    })
-    selectInfo.names = calendarEvents[greatestNameIndex].names
-    selectInfo.numbers = calendarEvents[greatestNameIndex].numbers
+    });
+    selectInfo.names = calendarEvents[greatestNameIndex].names;
+    selectInfo.numbers = calendarEvents[greatestNameIndex].numbers;
     setModalSelectInfo(selectInfo);
     setCreateEventModal(true);
   };
@@ -92,10 +98,10 @@ export const GroupCalendar = ({
       tippy(info.el, {
         content: info?.event?.extendedProps?.names.join(', '),
         delay: 0,
-        duration: 0
-      })
+        duration: 0,
+      });
     }
-  }
+  };
 
   return (
     <>

@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import { Alert, Box, IconButton } from '@mui/material';
 
 import { useAddRecentGroup, useAsyncFetch } from 'hooks';
-import {
-  BASE_URL,
-  EVENT,
-  GROUP_CALENDAR,
-} from 'constants';
+import { BASE_URL, EVENT, GROUP_CALENDAR } from 'constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
 import { GroupBanner } from 'components/GroupBanner';
@@ -27,11 +23,11 @@ export default function GroupHome() {
   const [hasError, setHasError] = useState(apiError);
   const [linkCopied, setLinkCopied] = useState(false);
   // If availability has been filled out show alert for 5 seconds
-  const [successAlert, setSuccessAlert] = useState(false)
-  useEffect(()=> {
-    setSuccessAlert(availabilityFilled==='true')
-    setTimeout(()=> setSuccessAlert(false), 5000)
-  }, [availabilityFilled])
+  const [successAlert, setSuccessAlert] = useState(false);
+  useEffect(() => {
+    setSuccessAlert(availabilityFilled === 'true');
+    setTimeout(() => setSuccessAlert(false), 5000);
+  }, [availabilityFilled]);
 
   // Adds group to recent groups storage
   useAddRecentGroup(data?.group);
@@ -48,7 +44,7 @@ export default function GroupHome() {
           time,
         },
         names,
-        numbers
+        numbers,
       }),
     })
       .then((res) => res.json())
@@ -72,14 +68,21 @@ export default function GroupHome() {
 
   return (
     <>
-      {successAlert && <Alert severity='success'>Availability has been saved! Check out everyone elses availability down below</Alert>}
+      {successAlert && (
+        <Alert severity='success'>
+          Availability has been saved! Check out everyone elses availability
+          down below
+        </Alert>
+      )}
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container 
-      header={data?.group?.name} 
-      leftIcon={'ArrowBack'} 
-      leftIconClick={()=> router.replace(`/`)}
-      rightIcon={"EventAvailable"}
-      rightIconClick={()=> router.replace(`/${groupID}/availability/${getTodaysDate()}`)}
+      <Container
+        header={data?.group?.name}
+        leftIcon={'ArrowBack'}
+        leftIconClick={() => router.replace(`/`)}
+        rightIcon={'EventAvailable'}
+        rightIconClick={() =>
+          router.replace(`/${groupID}/availability/${getTodaysDate()}`)
+        }
       >
         <GroupBanner icon={data?.group?.icon} />
         <br />
