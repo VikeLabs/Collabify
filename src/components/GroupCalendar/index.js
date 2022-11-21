@@ -87,8 +87,8 @@ export const GroupCalendar = ({
         greatestNameIndex = index;
       }
     });
-    selectInfo.names = calendarEvents[greatestNameIndex].names;
-    selectInfo.numbers = calendarEvents[greatestNameIndex].numbers;
+    selectInfo.names = calendarEvents[greatestNameIndex]?.names;
+    selectInfo.numbers = calendarEvents[greatestNameIndex]?.numbers;
     setModalSelectInfo(selectInfo);
     setCreateEventModal(true);
   };
@@ -105,17 +105,24 @@ export const GroupCalendar = ({
 
   return (
     <>
+      {/* MODAL EVENT DETAIL */}
       <EventModal
         modalIsOpen={eventModal}
         setIsOpen={setEventModal}
         modalInfo={modalInfo}
       />
+      {/* MODAL EVENT DETAIL */}
+
+      {/* MODAL EVENT CREATION */}
       <CreateEventModal
         createEvent={createEvent}
         modalIsOpen={createEventModal}
         setIsOpen={setCreateEventModal}
         modalInfo={modalSelectInfo}
       />
+      {/* MODAL EVENT CREATION */}
+
+      {/* CALENDAR */}
       <FullCalendar
         plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
         initialView='timeGridWeek'
@@ -144,6 +151,7 @@ export const GroupCalendar = ({
         editable={false}
         height={isMobile ? 'auto' : '60vh'}
       />
+      {/* CALENDAR */}
     </>
   );
 };
