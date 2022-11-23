@@ -75,10 +75,15 @@ export default function Home() {
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container header='create a group'>
+      <Container 
+      header='create a group'
+      menu={[
+        {icon: 'Groups', text: 'Recent Groups', onClick: ()=> router.push('/tools/recentGroups')},
+        {icon: 'Search', text: 'Find Group', onClick: ()=> console.log('test')}
+      ]}
+      >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
-          {recentGroups && <RecentlyVisited groups={recentGroups} />}
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
