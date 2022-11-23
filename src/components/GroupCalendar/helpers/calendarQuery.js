@@ -1,5 +1,3 @@
-import * as iCalEvent from 'icalevent';
-
 //
 
 const event = {
@@ -21,22 +19,22 @@ export const calendarQuery = (calendarType, start, end, title, details) => {
       return query;
 
     case 'APPLE':
-      const event = new iCalEvent({
-        uid: 9873647,
-        offset: new Date().getTimezoneOffset(),
-        method: 'request',
-        status: 'confirmed',
-        start: start,
-        end: end,
-        timezone: 'US/Central',
-        summary: 'Priestly Duties',
-        description: 'Home flu visit.',
-      });
+      // const event = new iCalEvent({
+      //   uid: 9873647,
+      //   offset: new Date().getTimezoneOffset(),
+      //   method: 'request',
+      //   status: 'confirmed',
+      //   start: start,
+      //   end: end,
+      //   timezone: 'US/Central',
+      //   summary: 'Priestly Duties',
+      //   description: 'Home flu visit.',
+      // });
 
-      const icsFile = event.toFile();
+      // const icsFile = event.toFile();
 
-      window.open('data:text/calendar;charset=utf8,' + icsFile);
-      console.log(event.toFile());
+      // window.open('data:text/calendar;charset=utf8,' + icsFile);
+      // console.log(event.toFile());
 
       return;
 

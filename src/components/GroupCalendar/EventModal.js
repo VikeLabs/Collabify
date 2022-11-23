@@ -7,16 +7,19 @@ import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
 import { localToUTCTime, calendarQuery } from './helpers';
 
+import { AddToCalendar } from './helpers/addToCalendar.js';
+
 export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
-  const eventUTCStart = localToUTCTime(modalInfo.startStr);
-  const eventUTCEnd = localToUTCTime(modalInfo.endStr);
-  const eventQueryString = calendarQuery(
-    'GOOGLE',
-    eventUTCStart,
-    eventUTCEnd,
-    modalInfo.title,
-    modalInfo.extendedProps.description
-  );
+  const event = {
+    start: modalInfo.start,
+    end: modalInfo.end,
+    title: modalInfo.title,
+    details: modalInfo.extendedProps.description,
+  };
+  const addToCal = new AddToCalendar(event);
+
+  // console.log(modalInfo.end);
+  console.log(addToCal.google());
 
   return (
     <Modal
@@ -51,7 +54,7 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
             className={utilities.button}
           >
             <a
-              href={eventQueryString}
+              href={addToCal.google()}
               target='_blank'
               className={style.btnAddToCal}
             >
