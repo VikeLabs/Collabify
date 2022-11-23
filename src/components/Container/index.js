@@ -14,10 +14,10 @@ export const Container = ({
   menu = null
 }) => {
   const { isMobile } = useDeviceDetect();
-
+  // Menu drop down
   const [isOpen, setIsOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
-
+  // Icon init
   const LeftIconComponent = Icons[leftIcon];
   const RightIconComponent = Icons[rightIcon];
   const MenuIconComponent = Icons['ExpandMore']
@@ -51,6 +51,7 @@ export const Container = ({
         }}/>}
         <h1 className={style.header}>{header}</h1>
       </header>
+      {/* Drop down menu */}
       <Menu
         anchorEl={anchorEl}
         getContentAnchorEl={null}
