@@ -53,7 +53,7 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
             <a
               href={eventQueryString}
               target='_blank'
-              className={style.btnAddToCal}
+              className={style.btnAddToCal} rel="noreferrer"
             >
               ADD TO CALENDAR&nbsp;
               <span>
