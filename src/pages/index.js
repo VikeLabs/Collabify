@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
-import { GroupInfo, Icons, RecentlyVisited } from 'components/Home';
+import { GroupInfo, Icons } from 'components/Home';
 import { getAllIcons } from 'components/MuiIcon';
+
 // MUI
 import Button from '@mui/material/Button';
 
@@ -14,6 +15,7 @@ import { GROUP, RECENT_GROUPS_STORED } from '../constants';
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 import { TimeSlots } from 'components/Home';
+import { LandingBanner } from 'components/Home/LandingBanner';
 
 export default function Home() {
   const router = useRouter();
@@ -78,7 +80,8 @@ export default function Home() {
       <Container header='create a group'>
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
-          {recentGroups && <RecentlyVisited groups={recentGroups} />}
+          { /* Landing Banner */}
+          <LandingBanner/>
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
