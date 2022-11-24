@@ -1,0 +1,29 @@
+.addToCalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: max-content;
+  padding: 0;
+  color: white;
+  isolation: isolate;
+}
+
+.addToCal_list {
+  position: absolute;
+  top: 90%;
+  width: 100%;
+  z-index: -1;
+}
+
+.addToCal_list > ul {
+  overflow: hidden;
+  background-color: var(--primary-main);
+  transition: all 100ms linear;
+  border-radius: 0 0 10px 10px;
+}
+
+.addToCal_list ul > li {
+  padding: 0.8em;
+  border-top: 1px solid hsla(0deg, 0%, 20%, 40%);
+}

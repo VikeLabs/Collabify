@@ -9,7 +9,7 @@ import { v1 as uuidV1 } from 'uuid';
  *   details: string
  * }
  */
-class AddToCalendar {
+class CalendarURI {
   startUTC = '';
   endUTC = '';
   title = '';
@@ -17,26 +17,23 @@ class AddToCalendar {
 
   duration = ''; // to be calculated
 
+  // iCal does not need encoding
+  iCalTitle = '';
+  iCalDetails = '';
+
   constructor(event) {
-    this.startUTC = this._localToUTC(event.start);
-    this.endUTC = this._localToUTC(event.end);
-    this.duration = this._getDuration(event.start, event.end);
-    this.title = encodeURIComponent(event.title);
-    this.details = encodeURIComponent(event.details);
+    const { start, end, title, details } = event;
 
-    // Get duration for yahoo
-    this.duration = this._getDuration(event.startStr, event.endStr);
+    this.startUTC = this._localToUTC(start);
+    this.endUTC = this._localToUTC(end);
 
-    /* for debugging.
-    console.log(
-      this.startUTC,
-      this.endUTC,
-      this.duration,
-      this.title,
-      this.details
-    ); 
-    */
-    //TODO: delete before prod
+    this.title = encodeURIComponent(title);
+    this.iCalTitle = event.title;
+
+    this.details = encodeURIComponent(details);
+    this.iCalDetails = event.details;
+
+    this.duration = this._getDuration(start, end); // yahoo does `duration` instead of `endtime`
   }
 
   google() {
@@ -47,7 +44,7 @@ class AddToCalendar {
     return calendarUrl;
   }
 
-  outlookcom() {
+  outlook() {
     let calendarUrl = 'https://outlook.live.com/owa/?rru=addevent';
     calendarUrl += `&startdt=${this / this.startUTC}`;
     calendarUrl += `&enddt=${this.endUTC}`;
@@ -78,8 +75,8 @@ class AddToCalendar {
       `URL:${document.URL}`,
       `DTSTART:${this.startUTC}`,
       `DTEND:${this.endUTC}`,
-      `SUMMARY:${this.title}`,
-      `DESCRIPTION:${this.details}`,
+      `SUMMARY:${this.iCalTitle}`,
+      `DESCRIPTION:${this.iCalDetails}`,
       'END:VEVENT',
       'END:VCALENDAR',
     ].join('\n');
@@ -126,4 +123,4 @@ class AddToCalendar {
   }
 }
 
-export { AddToCalendar };
+export { CalendarURI };

@@ -2,12 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Box, Modal, Button, Divider } from '@mui/material';
+import { AddToCalendar } from './AddToCalendar';
 import { Close, Google } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
-import { localToUTCTime, calendarQuery } from './helpers';
-
-import { AddToCalendar } from './helpers/addToCalendar.js';
 
 export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
   const event = {
@@ -16,10 +14,7 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
     title: modalInfo.title,
     details: modalInfo.extendedProps.description,
   };
-  const addToCal = new AddToCalendar(event);
-
-  // console.log(modalInfo.end);
-  console.log(addToCal.google());
+  // const addToCal = new AddToCalendar(event);
 
   return (
     <Modal
@@ -48,23 +43,7 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
           </p>
         </Box>
 
-        <Box className={utilities.buttonContainer}>
-          <Button
-            variant='contained'
-            className={utilities.button}
-          >
-            <a
-              href={addToCal.google()}
-              target='_blank'
-              className={style.btnAddToCal}
-            >
-              ADD TO CALENDAR&nbsp;
-              <span>
-                <Google />
-              </span>
-            </a>
-          </Button>
-        </Box>
+        <AddToCalendar event={event} />
 
         <button
           onClick={() => setIsOpen(() => false)}

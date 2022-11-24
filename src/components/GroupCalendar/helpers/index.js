@@ -1,2 +1,1 @@
-export { localToUTCTime } from './localToUTCTime';
-export { calendarQuery } from './calendarQuery';
+export { CalendarURI } from './calendarURI';
