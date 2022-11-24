@@ -32,13 +32,16 @@ export default function Home() {
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
   useEffect(() => {
-    fetch(`${GROUP}/${JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))?.map(e => e._id).join(',')}`)
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.ok) {
-          setRecentGroups(result.groups)
-        }
-      });
+    const groupsStored = JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))
+    if (groupsStored) {
+      fetch(`${GROUP}/${groupsStored.map(e => e._id).join(',')}`)
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.ok) {
+            setRecentGroups(result.groups)
+          }
+        });
+    }
   }, [])
 
   const createGroup = () => {
