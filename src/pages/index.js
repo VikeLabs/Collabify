@@ -32,17 +32,17 @@ export default function Home() {
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
   useEffect(() => {
-    const groupsStored = JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))
+    const groupsStored = JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED));
     if (groupsStored) {
-      fetch(`${GROUP}/${groupsStored.map(e => e._id).join(',')}`)
+      fetch(`${GROUP}/${groupsStored.map((e) => e._id).join(',')}`)
         .then((res) => res.json())
         .then((result) => {
           if (result.ok) {
-            setRecentGroups(result.groups)
+            setRecentGroups(result.groups);
           }
         });
     }
-  }, [])
+  }, []);
 
   const createGroup = () => {
     if (name === '' || description === '') {
@@ -69,8 +69,8 @@ export default function Home() {
         .then((res) => res.json())
         .then((result) => {
           if (result.ok) router.push(`/${result.groupID}`);
-          else { 
-            setIsSaving(false)
+          else {
+            setIsSaving(false);
             setHasError(result.message);
           }
         });
@@ -80,20 +80,25 @@ export default function Home() {
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container 
-      header='create a group'
-      menu={[
-        {icon: 'Groups', text: 'Recent Groups', onClick: ()=> router.push('/tools/recentGroups')},
-        {icon: 'Search', text: 'Find Group', onClick: ()=> console.log('test')}
-      ]}
+      <Container
+        header='create a group'
+        menu={[
+          {
+            icon: 'Groups',
+            text: 'Recent Groups',
+            onClick: () => router.push('/tools/recentGroups'),
+          },
+          {
+            icon: 'Search',
+            text: 'Find Group',
+            onClick: () => console.log('test'),
+          },
+        ]}
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
-<<<<<<< HEAD
-          { /* Landing Banner */}
-          <LandingBanner/>
-=======
->>>>>>> 663e9e8 (Drop down menu added)
+          {/* Landing Banner */}
+          <LandingBanner />
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
