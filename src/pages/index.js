@@ -89,6 +89,8 @@ export default function Home() {
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
+          { /* Landing Banner */}
+          <LandingBanner/>
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
