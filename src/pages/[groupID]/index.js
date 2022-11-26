@@ -78,7 +78,7 @@ export default function GroupHome() {
       <Container
         header={data?.group?.name}
         leftIcon={'ArrowBack'}
-        leftIconClick={() => router.replace(`/`)}
+        leftIconClick={() => router.back()}
         rightIcon={'EventAvailable'}
         rightIconClick={() =>
           router.replace(`/${groupID}/availability/${getTodaysDate()}`)
