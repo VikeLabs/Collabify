@@ -39,30 +39,3 @@
   flex-direction: column;
   gap: 1em;
 }
-
-.recentlyVisitedContainer {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 0.5em;
-  justify-content: flex-start;
-  align-items: stretch;
-  /* centering the icons */
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.recentlyVisitedElement {
-  display: flex;
-  width: 5em;
-  flex-direction: column;
-  align-items: center;
-}
-
-.recentlyVisitedText {
-  margin-top: 0.4em;
-  text-align: center;
-  color: var(--primary-main);
-  font-weight: 600;
-  word-wrap: break-word;
-}

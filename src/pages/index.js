@@ -1,6 +1,6 @@
 import { Alert } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
@@ -10,7 +10,7 @@ import { getAllIcons } from 'components/MuiIcon';
 // MUI
 import Button from '@mui/material/Button';
 
-import { GROUP, RECENT_GROUPS_STORED } from '../constants';
+import { GROUP } from '../constants';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
@@ -25,24 +25,10 @@ export default function Home() {
   // Information related
   const [hasError, setHasError] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [recentGroups, setRecentGroups] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
-
-  useEffect(() => {
-    const groupsStored = JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))
-    if (groupsStored) {
-      fetch(`${GROUP}/${groupsStored.map(e => e._id).join(',')}`)
-        .then((res) => res.json())
-        .then((result) => {
-          if (result.ok) {
-            setRecentGroups(result.groups)
-          }
-        });
-    }
-  }, [])
 
   const createGroup = () => {
     if (name === '' || description === '') {
@@ -80,7 +66,13 @@ export default function Home() {
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container header='create a group'>
+      <Container 
+      header='create a group'
+      menu={[
+        {icon: 'Groups', text: 'Recent Groups', onClick: ()=> router.push('/tools/recentGroups')},
+        {icon: 'Search', text: 'Find Group', onClick: ()=> router.push('/tools/findGroup')}
+      ]}
+      >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
           { /* Landing Banner */}

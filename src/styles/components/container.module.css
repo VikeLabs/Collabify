@@ -25,6 +25,20 @@
   color: white;
 }
 
+.menu ul {
+  background-color: var(--primary-main);
+}
+
+.menu li {
+  padding-top: 10px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.menu h4 {
+  margin-left: 10px;
+}
+
 .child {
   overflow: hidden;
 }

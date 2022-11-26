@@ -6,6 +6,7 @@
   height: 11vh;
   box-shadow: 2px 2px 12px #57575790;
   border-radius: 4px;
+  background-color: var(--tertiary-light);
 }
 
 .iconContainer {
@@ -16,4 +17,5 @@
   width: 4.5em;
   height: 4.5em;
   box-shadow: 2px 2px 12px #7c7c7c90;
+  background-color: var(--tertiary-main);
 }

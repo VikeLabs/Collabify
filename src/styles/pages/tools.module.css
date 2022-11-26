@@ -1,0 +1,29 @@
+.listBox {
+    background-color: var(--secondary-light);
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    border-radius: 4px;
+}
+
+.listBox:hover {
+    background-color: var(--secondary-main);
+}
+
+.listBox h3 {
+    color: var(--primary-main);
+}
+
+.listBox p {
+    color: #766c78;
+}
+
+.iconContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+    box-shadow: 2px 2px 12px #7c7c7c90;
+    background-color: var(--tertiary-main);
+}
