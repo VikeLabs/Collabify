@@ -4,11 +4,11 @@ import style from 'styles/components/container.module.css';
 import { useState } from 'react';
 import { Divider, Menu, MenuItem } from '@mui/material';
 
-export const Container = ({ 
-  header = '', 
-  leftIcon = null, 
+export const Container = ({
+  header = '',
+  leftIcon = null,
   leftIconClick,
-  rightIcon = null, 
+  rightIcon = null,
   rightIconClick,
   children,
   menu = null
@@ -49,6 +49,35 @@ export const Container = ({
           marginTop: '0.2em',
           right: isMobile ? '3vw' : '2.5vw'
         }}/>}
+        {leftIcon && (
+          <div aria-label='back button'>
+            <LeftIconComponent
+              onClick={leftIconClick}
+              icon={leftIcon}
+              style={{
+                color: 'white',
+                position: 'absolute',
+                marginTop: '0.2em',
+                cursor: 'pointer',
+              }}
+            />
+          </div>
+        )}
+        {rightIcon && (
+          <div aria-label='create availability'>
+            <RightIconComponent
+              onClick={rightIconClick}
+              icon={rightIcon}
+              style={{
+                color: 'white',
+                position: 'absolute',
+                marginTop: '0.2em',
+                right: isMobile ? '3vw' : '2.5vw',
+                cursor: 'pointer',
+              }}
+            />
+          </div>
+        )}
         <h1 className={style.header}>{header}</h1>
       </header>
       {/* Drop down menu */}

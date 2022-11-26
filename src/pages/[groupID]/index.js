@@ -87,19 +87,20 @@ export default function GroupHome() {
         <GroupBanner icon={data?.group?.icon} />
         <br />
         <h2 className={utilities.heading}>
-          AVAILABILITY LINK:
+          AVAILABILITY LINK:&nbsp;
           <span className={utilities.subHeading}>
-            {' '}
             Send to your group members to get results
           </span>
         </h2>
         <Box className={style.container}>
           <IconButton
+            aria-label='copy link'
             color={linkCopied ? 'success' : 'primary'}
             onClick={copyLink}
           >
             {linkCopied ? <Check /> : <CopyAllOutlined />}
           </IconButton>
+
           <Box
             className={style.linkContainer}
             onClick={copyLink}
