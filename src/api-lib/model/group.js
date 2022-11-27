@@ -2,12 +2,17 @@ import mongoose from 'mongoose';
 import { Collections } from '../constants';
 
 const GroupSchema = new mongoose.Schema({
+  isPrivate: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  password: { type: String },
   name: {
     type: String,
+    required: true,
   },
-  description: {
-    type: String,
-  },
+  description: { type: String },
   icon: { type: String },
   // Calendar slot times
   calendarMinTime: { type: String },
