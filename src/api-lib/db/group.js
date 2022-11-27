@@ -46,9 +46,8 @@ export const getGroup = async ({ groupID }) => {
 export const getManyGroups = async ({ groupIDs }) => {
   // groupIDs should be an array of ids
   let error = false;
-  const groupIDsArray = groupIDs?.map(e => mongoose.Types.ObjectId(e))
-  const groups = await Group.find({ _id: { $in: groupIDsArray} 
-  });
+  const groupIDsArray = groupIDs?.map((e) => mongoose.Types.ObjectId(e));
+  const groups = await Group.find({ _id: { $in: groupIDsArray } });
 
   if (!groups) {
     error = true;
@@ -72,4 +71,4 @@ export const getAllGroups = async () => {
     error,
     groups,
   };
-}
+};
