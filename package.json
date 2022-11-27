@@ -23,6 +23,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.8",
     "@mui/styles": "^5.10.10",
+    "bcrypt": "^5.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mongoose": "^6.6.5",

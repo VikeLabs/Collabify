@@ -1,9 +1,34 @@
 import mongoose from 'mongoose';
 import { Group } from '../model';
+import * as bcrypt from 'bcrypt';
 
+/**
+ * createGroup
+ * @params {object} group: group Schema
+ * @return {object} : {error: boolean, groupID: primitive.ObjecID}
+ */
 export const createGroup = async ({ group }) => {
-  // Creates group
-  // If theres an error function will return true
+  /* HASH PW (if needed) */
+  if (group.isPrivate) {
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      if (err) {
+        // TODO: custom logging
+        throw new Error(err);
+      }
+
+      bcrypt.hash(group.password, salt, (err, hashedPW) => {
+        if (err) {
+          // TODO: custom logging
+          throw new Error(err);
+        }
+
+        group.password = hashedPW; // override raw password with hashed
+      });
+    });
+  }
+
+  /* CREATE GROUP */
   const model = new Group(group);
   const { error, groupID } = await model
     .save()
