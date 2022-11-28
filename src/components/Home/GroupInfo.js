@@ -23,7 +23,6 @@ export const GroupInfo = ({ name, setName, description, setDescription }) => {
           label='Description'
           variant='filled'
           className={utilities.input}
-          required
           onChange={(e) => setDescription(() => e.target.value)}
           value={description}
         />
