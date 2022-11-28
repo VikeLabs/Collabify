@@ -6,6 +6,8 @@ import DraftsIcon from '@mui/icons-material/Drafts';
 import WindowIcon from '@mui/icons-material/Window';
 import { Button, Box, Container } from '@mui/material';
 
+import { CalendarURI } from '../helpers/calendarURI';
+
 import style from 'styles/components/AddToCalendar.module.css';
 
 export const AddToCalendar = ({ event }) => {
