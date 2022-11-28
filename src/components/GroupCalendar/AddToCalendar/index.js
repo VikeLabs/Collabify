@@ -36,7 +36,7 @@ export const AddToCalendar = ({ event }) => {
           <li>
             <a
               href={uri.google()}
-              target='_blank'
+              target='_blank' rel="noreferrer"
             >
               <span>
                 <GoogleIcon />
@@ -48,7 +48,7 @@ export const AddToCalendar = ({ event }) => {
           <li>
             <a
               href={uri.apple()}
-              target='_blank'
+              target='_blank' rel="noreferrer"
             >
               <span>
                 <AppleIcon />
@@ -60,7 +60,7 @@ export const AddToCalendar = ({ event }) => {
           <li>
             <a
               href={uri.outlook()}
-              target='_blank'
+              target='_blank' rel="noreferrer"
             >
               <span>
                 <WindowIcon />
@@ -72,7 +72,7 @@ export const AddToCalendar = ({ event }) => {
           <li>
             <a
               href={uri.yahoo()}
-              target='_blank'
+              target='_blank' rel="noreferrer"
             >
               <span>
                 <YahooIcon />
