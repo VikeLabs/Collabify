@@ -24,7 +24,6 @@ export const Container = ({
   return (
     <section className={style.container}>
       <header className={style.headerContainer}>
-        {/* MENU */}
         {menu && (
           <MenuIconComponent
             onClick={(e) => {
@@ -38,8 +37,6 @@ export const Container = ({
             }}
           />
         )}
-
-        {/* LEFT BUTTON */}
         {leftIcon && (
           <LeftIconComponent
             onClick={leftIconClick}
@@ -50,8 +47,6 @@ export const Container = ({
             }}
           />
         )}
-
-        {/* RIGHT BUTTON */}
         {rightIcon && (
           <RightIconComponent
             onClick={rightIconClick}
@@ -65,8 +60,6 @@ export const Container = ({
         )}
         <h1 className={style.header}>{header}</h1>
       </header>
-
-      {/* Drop down menu */}
       <Menu
         anchorEl={anchorEl}
         getContentAnchorEl={null}
