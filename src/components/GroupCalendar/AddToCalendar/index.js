@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Button, Box, Container} from '@mui/material';
+
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import WindowIcon from '@mui/icons-material/Window';
-
-import { CalendarURI } from '../helpers/calendarURI';
+import { Button, Box, Container } from '@mui/material';
 
 import style from 'styles/components/AddToCalendar.module.css';
 
@@ -21,8 +20,7 @@ export const AddToCalendar = ({ event }) => {
         className={style.addToCal}
         onClick={() => setOpen((open) => !open)}
       >
-        <h1> ADD TO CALENDER </h1>
-
+        <h2> ADD TO CALENDER </h2>
       </Button>
       <Box className={style.addToCal_list}>
         <ul
@@ -37,7 +35,7 @@ export const AddToCalendar = ({ event }) => {
               href={uri.google()}
               target='_blank'
             >
-              <GoogleIcon/> Google
+              <GoogleIcon /> Google
             </a>
           </li>
 
@@ -46,7 +44,7 @@ export const AddToCalendar = ({ event }) => {
               href={uri.apple()}
               target='_blank'
             >
-              <AppleIcon/> Apple
+              <AppleIcon /> Apple
             </a>
           </li>
 
@@ -55,7 +53,7 @@ export const AddToCalendar = ({ event }) => {
               href={uri.outlook()}
               target='_blank'
             >
-               <WindowIcon/> Outlook
+              <WindowIcon /> Outlook
             </a>
           </li>
 
@@ -64,7 +62,7 @@ export const AddToCalendar = ({ event }) => {
               href={uri.yahoo()}
               target='_blank'
             >
-             <DraftsIcon/> Yahoo
+              <DraftsIcon /> Yahoo
             </a>
           </li>
         </ul>

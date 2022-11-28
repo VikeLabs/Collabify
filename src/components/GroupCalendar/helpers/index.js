@@ -1,1 +1,0 @@
-export { CalendarURI } from './calendarURI';
