@@ -30,28 +30,41 @@ export default function Home() {
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
   useEffect(() => {
-    fetch(`${GROUP}/${JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))?.map(e => e._id).join(',')}`)
+    fetch(
+      `${GROUP}/${JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))
+        ?.map((e) => e._id)
+        .join(',')}`
+    )
       .then((res) => res.json())
       .then((result) => {
         if (result.ok) {
-          setRecentGroups(result.groups)
+          setRecentGroups(result.groups);
         }
       });
-  }, [])
+  }, []);
 
-  const createGroup = () => {
-    if (name === '' ) {
+  const createGroup = async () => {
+    /* NAME ERROR */
+    if (name === '') {
       setHasError('Missing required inputs (name)');
-    } else if (
-      parseInt(calendarMinTime.replace(':', '')) >
-      parseInt(calendarMaxTime.replace(':', ''))
-    ) {
-      setHasError('Minimum Time cannot be greater than Maximum Time');
-    } else if (name?.length > 20) {
+      return;
+    }
+    if (name?.length > 20) {
       setHasError('Name must be under 20 characters');
-    } else {
-      setIsSaving(true);
-      fetch(GROUP, {
+      return;
+    }
+
+    /* TIME ERROR */
+    const minTime = parseInt(calendarMinTime.replace(':', ''));
+    const maxTime = parseInt(calendarMaxTime.replace(':', ''));
+    if (minTime > maxTime) {
+      setHasError('Minimum Time cannot be greater than Maximum Time');
+      return;
+    }
+
+    setIsSaving(() => true);
+    try {
+      const response = await fetch(GROUP, {
         method: 'POST',
         body: JSON.stringify({
           name,
@@ -60,15 +73,19 @@ export default function Home() {
           calendarMinTime,
           calendarMaxTime,
         }),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          if (result.ok) router.push(`/${result.groupID}`);
-          else { 
-            setIsSaving(false)
-            setHasError(result.message);
-          }
-        });
+      });
+
+      const result = await response.json();
+      if (result.ok) {
+        router.push(`/${result.groupID}`);
+      } else {
+        setIsSaving(() => false);
+        setHasError(result.message);
+      }
+    } catch (e) {
+      console.log(e); // TODO: custom logging
+      setHasError(result.message);
+      setIsSaving(() => false);
     }
   };
 
