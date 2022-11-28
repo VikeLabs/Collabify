@@ -7,7 +7,6 @@ const GroupSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
-  password: { type: String },
   name: {
     type: String,
     required: true,
