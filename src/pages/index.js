@@ -30,19 +30,27 @@ export default function Home() {
   const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
-  const createGroup = () => {
-    if (name === '' || description === '') {
-      setHasError('Missing required inputs (name/description)');
-    } else if (
-      parseInt(calendarMinTime.replace(':', '')) >
-      parseInt(calendarMaxTime.replace(':', ''))
-    ) {
-      setHasError('Minimum Time cannot be greater than Maximum Time');
-    } else if (name?.length > 20) {
+  const createGroup = async () => {
+    if (name === '') {
+      setHasError('Missing required inputs (name)');
+      return;
+    }
+    if (name?.length > 20) {
       setHasError('Name must be under 20 characters');
-    } else {
-      setIsSaving(true);
-      fetch(GROUP, {
+      return;
+    }
+
+    const minTime = parseInt(calendarMinTime.replace(':', ''));
+    const maxTime = parseInt(calendarMaxTime.replace(':', ''));
+    if (minTime > maxTime) {
+      setHasError('Minimum Time cannot be greater than Maximum Time');
+      return;
+    }
+
+    try {
+      setIsSaving(() => true);
+
+      const response = await fetch(GROUP, {
         method: 'POST',
         body: JSON.stringify({
           name,
@@ -51,15 +59,19 @@ export default function Home() {
           calendarMinTime,
           calendarMaxTime,
         }),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          if (result.ok) router.push(`/${result.groupID}`);
-          else {
-            setIsSaving(false);
-            setHasError(result.message);
-          }
-        });
+      });
+
+      const result = await response.json();
+
+      if (result.ok) {
+        router.push(`/${result.groupID}`);
+      } else {
+        setIsSaving(false);
+        setHasError(result.message);
+      }
+    } catch (e) {
+      setHasError(e);
+      setIsSaving(() => false);
     }
   };
 
