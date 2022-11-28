@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Button, Box, Container} from '@mui/material';
+
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
-import DraftsIcon from '@mui/icons-material/Drafts';
+import YahooIcon from '@mui/icons-material/Email'; // the closet thing MUI got for yahoo icon :/
 import WindowIcon from '@mui/icons-material/Window';
+import { Button, Box, Container, Typography } from '@mui/material';
 
-import { CalendarURI } from '../helpers/calendarURI';
+import { CalendarURI } from './calendarURI';
 
 import style from 'styles/components/AddToCalendar.module.css';
 
@@ -21,9 +22,9 @@ export const AddToCalendar = ({ event }) => {
         className={style.addToCal}
         onClick={() => setOpen((open) => !open)}
       >
-        <h1> ADD TO CALENDER </h1>
-
+        <Typography variant='h6'>ADD TO CALENDAR</Typography>
       </Button>
+
       <Box className={style.addToCal_list}>
         <ul
           style={{
@@ -35,36 +36,48 @@ export const AddToCalendar = ({ event }) => {
           <li>
             <a
               href={uri.google()}
-              target='_blank'
+              target='_blank' rel="noreferrer"
             >
-              <GoogleIcon/> Google
+              <span>
+                <GoogleIcon />
+              </span>
+              Google
             </a>
           </li>
 
           <li>
             <a
               href={uri.apple()}
-              target='_blank'
+              target='_blank' rel="noreferrer"
             >
-              <AppleIcon/> Apple
+              <span>
+                <AppleIcon />
+              </span>
+              Apple
             </a>
           </li>
 
           <li>
             <a
               href={uri.outlook()}
-              target='_blank'
+              target='_blank' rel="noreferrer"
             >
-               <WindowIcon/> Outlook
+              <span>
+                <WindowIcon />
+              </span>
+              Outlook
             </a>
           </li>
 
           <li>
             <a
               href={uri.yahoo()}
-              target='_blank'
+              target='_blank' rel="noreferrer"
             >
-             <DraftsIcon/> Yahoo
+              <span>
+                <YahooIcon />
+              </span>
+              Yahoo
             </a>
           </li>
         </ul>

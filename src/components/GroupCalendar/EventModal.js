@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Box, Modal, Button, Divider } from '@mui/material';
+import { Box, Modal, Divider } from '@mui/material';
 import { AddToCalendar } from './AddToCalendar';
-import { Close, Google } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
-import utilities from 'styles/utilities.module.css';
 
 export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
   const event = {
@@ -14,7 +13,6 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
     title: modalInfo.title,
     details: modalInfo.extendedProps.description,
   };
-  // const addToCal = new AddToCalendar(event);
 
   return (
     <Modal

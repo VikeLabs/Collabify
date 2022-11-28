@@ -1,19 +1,21 @@
 import { Alert } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
-import { GroupInfo, Icons, RecentlyVisited } from 'components/Home';
+import { GroupInfo, Icons } from 'components/Home';
 import { getAllIcons } from 'components/MuiIcon';
+
 // MUI
 import Button from '@mui/material/Button';
 
-import { GROUP, RECENT_GROUPS_STORED } from '../constants';
+import { GROUP } from '../constants';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 import { TimeSlots } from 'components/Home';
+import { LandingBanner } from 'components/Home/LandingBanner';
 
 export default function Home() {
   const router = useRouter();
@@ -23,48 +25,24 @@ export default function Home() {
   // Information related
   const [hasError, setHasError] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [recentGroups, setRecentGroups] = useState(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
-  useEffect(() => {
-    fetch(
-      `${GROUP}/${JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED))
-        ?.map((e) => e._id)
-        .join(',')}`
-    )
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.ok) {
-          setRecentGroups(result.groups);
-        }
-      });
-  }, []);
-
-  const createGroup = async () => {
-    /* NAME ERROR */
-    if (name === '') {
-      setHasError('Missing required inputs (name)');
-      return;
-    }
-    if (name?.length > 20) {
-      setHasError('Name must be under 20 characters');
-      return;
-    }
-
-    /* TIME ERROR */
-    const minTime = parseInt(calendarMinTime.replace(':', ''));
-    const maxTime = parseInt(calendarMaxTime.replace(':', ''));
-    if (minTime > maxTime) {
+  const createGroup = () => {
+    if (name === '' || description === '') {
+      setHasError('Missing required inputs (name/description)');
+    } else if (
+      parseInt(calendarMinTime.replace(':', '')) >
+      parseInt(calendarMaxTime.replace(':', ''))
+    ) {
       setHasError('Minimum Time cannot be greater than Maximum Time');
-      return;
-    }
-
-    setIsSaving(() => true);
-    try {
-      const response = await fetch(GROUP, {
+    } else if (name?.length > 20) {
+      setHasError('Name must be under 20 characters');
+    } else {
+      setIsSaving(true);
+      fetch(GROUP, {
         method: 'POST',
         body: JSON.stringify({
           name,
@@ -73,29 +51,40 @@ export default function Home() {
           calendarMinTime,
           calendarMaxTime,
         }),
-      });
-
-      const result = await response.json();
-      if (result.ok) {
-        router.push(`/${result.groupID}`);
-      } else {
-        setIsSaving(() => false);
-        setHasError(result.message);
-      }
-    } catch (e) {
-      console.log(e); // TODO: custom logging
-      setHasError(result.message);
-      setIsSaving(() => false);
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.ok) router.push(`/${result.groupID}`);
+          else {
+            setIsSaving(false);
+            setHasError(result.message);
+          }
+        });
     }
   };
 
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container header='create a group'>
+      <Container
+        header='create a group'
+        menu={[
+          {
+            icon: 'Groups',
+            text: 'Recent Groups',
+            onClick: () => router.push('/tools/recentGroups'),
+          },
+          {
+            icon: 'Search',
+            text: 'Find Group',
+            onClick: () => router.push('/tools/findGroup'),
+          },
+        ]}
+      >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
-          {recentGroups && <RecentlyVisited groups={recentGroups} />}
+          {/* Landing Banner */}
+          <LandingBanner />
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
@@ -120,7 +109,7 @@ export default function Home() {
         <div className={utilities.buttonContainer}>
           <Button
             variant='contained'
-            disabled={!name || isSaving ? true : false}
+            disabled={!name || !description || isSaving ? true : false}
             onClick={createGroup}
             className={utilities.button}
           >
