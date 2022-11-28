@@ -58,8 +58,38 @@ export const Container = ({
             }}
           />
         )}
+        {leftIcon && (
+          <div aria-label='back button'>
+            <LeftIconComponent
+              onClick={leftIconClick}
+              icon={leftIcon}
+              style={{
+                color: 'white',
+                position: 'absolute',
+                marginTop: '0.2em',
+                cursor: 'pointer',
+              }}
+            />
+          </div>
+        )}
+        {rightIcon && (
+          <div aria-label='create availability'>
+            <RightIconComponent
+              onClick={rightIconClick}
+              icon={rightIcon}
+              style={{
+                color: 'white',
+                position: 'absolute',
+                marginTop: '0.2em',
+                right: isMobile ? '3vw' : '2.5vw',
+                cursor: 'pointer',
+              }}
+            />
+          </div>
+        )}
         <h1 className={style.header}>{header}</h1>
       </header>
+      {/* Drop down menu */}
       <Menu
         anchorEl={anchorEl}
         getContentAnchorEl={null}
