@@ -89,8 +89,11 @@ export default function Home() {
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
+<<<<<<< HEAD
           { /* Landing Banner */}
           <LandingBanner/>
+=======
+>>>>>>> 663e9e8 (Drop down menu added)
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
