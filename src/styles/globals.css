@@ -26,7 +26,9 @@ tbody .fc-day-today {
   background-color: transparent !important;
 }
 
-.fc table, td, th {
+.fc table,
+td,
+th {
   border-color: #b4b4cf !important;
 }
 

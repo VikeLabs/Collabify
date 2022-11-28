@@ -55,8 +55,8 @@ export default function Home() {
         .then((res) => res.json())
         .then((result) => {
           if (result.ok) router.push(`/${result.groupID}`);
-          else { 
-            setIsSaving(false)
+          else {
+            setIsSaving(false);
             setHasError(result.message);
           }
         });
@@ -66,17 +66,25 @@ export default function Home() {
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container 
-      header='create a group'
-      menu={[
-        {icon: 'Groups', text: 'Recent Groups', onClick: ()=> router.push('/tools/recentGroups')},
-        {icon: 'Search', text: 'Find Group', onClick: ()=> router.push('/tools/findGroup')}
-      ]}
+      <Container
+        header='create a group'
+        menu={[
+          {
+            icon: 'Groups',
+            text: 'Recent Groups',
+            onClick: () => router.push('/tools/recentGroups'),
+          },
+          {
+            icon: 'Search',
+            text: 'Find Group',
+            onClick: () => router.push('/tools/findGroup'),
+          },
+        ]}
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
-          { /* Landing Banner */}
-          <LandingBanner/>
+          {/* Landing Banner */}
+          <LandingBanner />
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}

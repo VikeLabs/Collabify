@@ -1,22 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Box, Modal, Button, Divider } from '@mui/material';
-import { Close, Google } from '@mui/icons-material';
+import { Box, Modal, Divider } from '@mui/material';
+import { AddToCalendar } from './AddToCalendar';
+import { Close } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
-import utilities from 'styles/utilities.module.css';
-import { localToUTCTime, calendarQuery } from './helpers';
 
 export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
-  const eventUTCStart = localToUTCTime(modalInfo.startStr);
-  const eventUTCEnd = localToUTCTime(modalInfo.endStr);
-  const eventQueryString = calendarQuery(
-    'GOOGLE',
-    eventUTCStart,
-    eventUTCEnd,
-    modalInfo.title,
-    modalInfo.extendedProps.description
-  );
+  const event = {
+    start: modalInfo.start,
+    end: modalInfo.end,
+    title: modalInfo.title,
+    details: modalInfo.extendedProps.description,
+  };
 
   return (
     <Modal
@@ -45,23 +41,7 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
           </p>
         </Box>
 
-        <Box className={utilities.buttonContainer}>
-          <Button
-            variant='contained'
-            className={utilities.button}
-          >
-            <a
-              href={eventQueryString}
-              target='_blank'
-              className={style.btnAddToCal} rel="noreferrer"
-            >
-              ADD TO CALENDAR&nbsp;
-              <span>
-                <Google />
-              </span>
-            </a>
-          </Button>
-        </Box>
+        <AddToCalendar event={event} />
 
         <button
           onClick={() => setIsOpen(() => false)}
