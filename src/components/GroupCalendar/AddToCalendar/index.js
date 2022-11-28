@@ -2,9 +2,9 @@ import { useState } from 'react';
 
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
-import DraftsIcon from '@mui/icons-material/Drafts';
+import YahooIcon from '@mui/icons-material/Email'; // the closet thing MUI got for yahoo icon :/
 import WindowIcon from '@mui/icons-material/Window';
-import { Button, Box, Container } from '@mui/material';
+import { Button, Box, Container, Typography } from '@mui/material';
 
 import { CalendarURI } from '../helpers/calendarURI';
 
@@ -22,8 +22,9 @@ export const AddToCalendar = ({ event }) => {
         className={style.addToCal}
         onClick={() => setOpen((open) => !open)}
       >
-        <h2> ADD TO CALENDER </h2>
+        <Typography variant='h6'>ADD TO CALENDAR</Typography>
       </Button>
+
       <Box className={style.addToCal_list}>
         <ul
           style={{
@@ -37,7 +38,10 @@ export const AddToCalendar = ({ event }) => {
               href={uri.google()}
               target='_blank'
             >
-              <GoogleIcon /> Google
+              <span>
+                <GoogleIcon />
+              </span>
+              Google
             </a>
           </li>
 
@@ -46,7 +50,10 @@ export const AddToCalendar = ({ event }) => {
               href={uri.apple()}
               target='_blank'
             >
-              <AppleIcon /> Apple
+              <span>
+                <AppleIcon />
+              </span>
+              Apple
             </a>
           </li>
 
@@ -55,7 +62,10 @@ export const AddToCalendar = ({ event }) => {
               href={uri.outlook()}
               target='_blank'
             >
-              <WindowIcon /> Outlook
+              <span>
+                <WindowIcon />
+              </span>
+              Outlook
             </a>
           </li>
 
@@ -64,7 +74,10 @@ export const AddToCalendar = ({ event }) => {
               href={uri.yahoo()}
               target='_blank'
             >
-              <DraftsIcon /> Yahoo
+              <span>
+                <YahooIcon />
+              </span>
+              Yahoo
             </a>
           </li>
         </ul>
