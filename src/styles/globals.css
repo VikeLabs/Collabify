@@ -1,7 +1,7 @@
 :root {
   --primary-main: #4b4a67;
-  --secondary-main: #219ebc;
-  --secondary-light: #8ecae6;
+  --secondary-main: #a2d6ef;
+  --secondary-light: #b8def0;
   --tertiary-main: #fb8500;
   --tertiary-light: #ffb703;
   --background-main: #2d5abc;
@@ -11,7 +11,7 @@
 
 body {
   background-color: var(--background-main);
-  background-image: url('../assets/app_background.png');
+  background-image: url('../../public/assets/app_background.png');
   background-repeat: repeat;
   overflow-x: hidden;
 }
