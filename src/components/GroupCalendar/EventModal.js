@@ -6,6 +6,8 @@ import { AddToCalendar } from './AddToCalendar';
 import { Close } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
 
+import { AddToCalendar } from './helpers/addToCalendar.js';
+
 export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
   const event = {
     start: modalInfo.start,
@@ -13,7 +15,6 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
     title: modalInfo.title,
     details: modalInfo.extendedProps.description,
   };
-  // const addToCal = new AddToCalendar(event);
 
   return (
     <Modal
