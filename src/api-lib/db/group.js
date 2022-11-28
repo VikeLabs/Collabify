@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
-import { Group } from '../model';
+import { Group, GroupPw } from '../model';
 import * as bcrypt from 'bcrypt';
+import ld from 'lodash';
 
 /**
  * createGroup
@@ -8,31 +9,39 @@ import * as bcrypt from 'bcrypt';
  * @return {object} : {error: boolean, groupID: primitive.ObjecID}
  */
 export const createGroup = async ({ group }) => {
-  /* HASH PW (if needed) */
-  if (group.isPrivate) {
-    const saltRounds = 10;
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-      if (err) {
-        // TODO: custom logging
-        throw new Error(err);
-      }
-
-      bcrypt.hash(group.password, salt, (err, hashedPW) => {
-        if (err) {
-          // TODO: custom logging
-          throw new Error(err);
-        }
-
-        group.password = hashedPW; // override raw password with hashed
-      });
-    });
-  }
+  const pw = ld.cloneDeep(group.password);
+  delete group.password;
 
   /* CREATE GROUP */
   const model = new Group(group);
   const { error, groupID } = await model
     .save()
     .then((e) => {
+      if (group.isPrivate) {
+        const saltRounds = 10;
+        bcrypt.genSalt(saltRounds, (err, salt) => {
+          if (err) {
+            // TODO: custom logging
+            throw new Error(err);
+          }
+
+          bcrypt.hash(pw, salt, async (err, hashedPW) => {
+            if (err) {
+              // TODO: custom logging
+              throw new Error(err);
+            }
+
+            const passwordDoc = new GroupPw({
+              password: hashedPW,
+              groupId: e._id,
+            });
+            await passwordDoc.save().catch((e) => {
+              throw new Error(`Failed to save password: ${e}`);
+            });
+          });
+        });
+      }
+
       return {
         error: false,
         groupID: e._id,
@@ -45,6 +54,10 @@ export const createGroup = async ({ group }) => {
         groupID: null,
       };
     });
+
+  /* HASH PW (if needed) */
+  if (group.isPrivate) {
+  }
 
   return {
     error,
