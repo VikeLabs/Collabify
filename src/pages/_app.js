@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head.js';
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { GlobalStyle } from '../styles/global.js';
 import '@fullcalendar/common/main.css';
 import '@fullcalendar/daygrid/main.css';
