@@ -59,3 +59,17 @@ export const getManyGroups = async ({ groupIDs }) => {
     groups,
   };
 };
+
+export const getAllGroups = async () => {
+  let error = false;
+  const groups = await Group.find();
+
+  if (!groups) {
+    error = true;
+  }
+
+  return {
+    error,
+    groups,
+  };
+}
