@@ -3,6 +3,7 @@ import * as Icons from '@mui/icons-material';
 import style from 'styles/components/container.module.css';
 import { useState } from 'react';
 import { Divider, Menu, MenuItem } from '@mui/material';
+import { IntroTooltip } from 'components/IntroTooltip';
 
 export const Container = ({
   header = '',
@@ -17,25 +18,37 @@ export const Container = ({
   // Menu drop down
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  // showing tooltip
+  const [showTooltip, setShowToolTip] = useState(true)
   // Icon init
   const LeftIconComponent = Icons[leftIcon];
   const RightIconComponent = Icons[rightIcon];
   const MenuIconComponent = Icons['ExpandMore'];
+
   return (
     <section className={style.container}>
       <header className={style.headerContainer}>
         {menu && (
-          <MenuIconComponent
-            onClick={(e) => {
-              setAnchorEl(e.currentTarget);
-              setIsOpen(true);
-            }}
-            style={{
-              color: 'white',
-              position: 'absolute',
-              marginTop: '0.2em',
-            }}
-          />
+          <IntroTooltip
+            text="extend for more options"
+            visible={showTooltip}
+            close={()=> setShowToolTip(false)}
+            closeAll={() => setShowToolTip(false)}
+          >
+            <MenuIconComponent
+              id='menu'
+              onClick={(e) => {
+                setAnchorEl(e.currentTarget);
+                setShowToolTip(false);
+                setIsOpen(true);
+              }}
+              style={{
+                color: 'white',
+                position: 'absolute',
+                marginTop: '0.2em',
+              }}
+            />
+          </IntroTooltip>
         )}
         {leftIcon && (
           <LeftIconComponent
