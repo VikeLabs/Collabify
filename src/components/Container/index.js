@@ -1,9 +1,10 @@
-import { useDeviceDetect } from 'hooks';
+import { useDeviceDetect, useLocalStorage } from 'hooks';
 import * as Icons from '@mui/icons-material';
 import style from 'styles/components/container.module.css';
 import { useState } from 'react';
 import { Divider, Menu, MenuItem } from '@mui/material';
 import { IntroTooltip } from 'components/IntroTooltip';
+import { CLOSE_ALL_TOOLTIPS } from 'constants';
 
 export const Container = ({
   header = '',
@@ -19,7 +20,7 @@ export const Container = ({
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   // showing tooltip
-  const [showTooltip, setShowToolTip] = useState(true)
+  const [showTooltip, setShowToolTip] = useLocalStorage(CLOSE_ALL_TOOLTIPS)
   // Icon init
   const LeftIconComponent = Icons[leftIcon];
   const RightIconComponent = Icons[rightIcon];
@@ -31,9 +32,12 @@ export const Container = ({
         {menu && (
           <IntroTooltip
             text="extend for more options"
-            visible={showTooltip}
+            visible={showTooltip === undefined ?? true}
             close={()=> setShowToolTip(false)}
-            closeAll={() => setShowToolTip(false)}
+            closeAll={() => {
+              setShowToolTip(false)
+              localStorage.setItem(CLOSE_ALL_TOOLTIPS, true)
+            }}
           >
             <MenuIconComponent
               id='menu'
