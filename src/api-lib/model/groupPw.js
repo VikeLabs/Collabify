@@ -3,8 +3,7 @@ import { Collections } from '../constants';
 
 const GroupPwSchema = new mongoose.Schema({
   password: String,
-  groupId: mongoose.ObjectId,
+  group: String,
 });
 
-export const GroupPw =
-  mongoose.models.groupPw || mongoose.model(Collections.groupPw, GroupPwSchema);
+export const GroupPw = mongoose.model(Collections.groupPw, GroupPwSchema);

@@ -5,7 +5,7 @@ import ld from 'lodash';
 import { Group, GroupPw } from '../../model';
 
 import { publicGroup, privateGroup } from './mockdata/db_group_mock';
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
 
 beforeAll(async () => {
   await dbConnect();
@@ -16,12 +16,12 @@ beforeEach(() => {
   privateGroup_clone = ld.cloneDeep(privateGroup);
 });
 
-const savedID = []; // test groups to be deleted
-const savedPw = [];
+let savedID = []; // test groups to be deleted
 afterAll(async () => {
   // clean up
   await Group.deleteMany({ _id: { $in: savedID } });
-  await GroupPw.deleteMany({ _id: { $in: savedPw } });
+  await GroupPw.deleteMany({ group: { $in: savedID } });
+  savedID = [];
 });
 
 describe('/api-lib/db/group test suite', () => {
@@ -32,8 +32,9 @@ describe('/api-lib/db/group test suite', () => {
       savedID.push(groupID);
 
       // query db for id
-      const savedDoc = await Group.findById(groupID);
-      expect(savedDoc.isPrivate).toBe(false);
+      Group.findById(groupID, (_, doc) => {
+        expect(doc.isPrivate).toBe(false);
+      });
     });
 
     describe('saves a private group', () => {
@@ -43,6 +44,10 @@ describe('/api-lib/db/group test suite', () => {
         });
         expect(error).toBe(false);
         savedID.push(groupID);
+
+        Group.findById(groupID, (_, doc) => {
+          expect(doc.isPrivate).toBe(true);
+        });
       });
     });
   });
