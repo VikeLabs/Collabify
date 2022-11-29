@@ -31,8 +31,8 @@ export default function Home() {
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
   const createGroup = () => {
-    if (name === '' || description === '') {
-      setHasError('Missing required inputs (name/description)');
+    if (name === '') {
+      setHasError('Missing required input (name)');
     } else if (
       parseInt(calendarMinTime.replace(':', '')) >
       parseInt(calendarMaxTime.replace(':', ''))
@@ -109,7 +109,7 @@ export default function Home() {
         <div className={utilities.buttonContainer}>
           <Button
             variant='contained'
-            disabled={!name || !description || isSaving ? true : false}
+            disabled={!name || isSaving ? true : false}
             onClick={createGroup}
             className={utilities.button}
           >
