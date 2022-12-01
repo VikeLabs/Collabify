@@ -56,10 +56,10 @@ export default function RecentGroups() {
         groups?.filter(e => e.name.includes(search)).map(e => (
             <List 
             key={e._id} 
-            className={style.listBox}
             onClick={()=> router.replace(`/${e._id}`)}
             >
             <ListItem
+            className={style.listBox}
             secondaryAction={
                 <ArrowForward />
             }

@@ -47,10 +47,10 @@ export default function RecentGroups() {
       recentGroups?.map(e => (
         <List 
         key={e._id} 
-        className={style.listBox}
         onClick={()=> router.replace(`/${e._id}`)}
         >
           <ListItem
+          className={style.listBox}
           secondaryAction={
             <ArrowForward />
           }
