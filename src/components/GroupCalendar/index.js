@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDeviceDetect } from 'hooks';
 
 import FullCalendar from '@fullcalendar/react';
@@ -11,12 +11,14 @@ import EventModal from './EventModal';
 import CreateEventModal from './CreateEventModal';
 
 import style from 'styles/components/groupCalendar.module.css';
+import moment from 'moment';
 
 export const GroupCalendar = ({
   calendarEvents,
   createEvent,
   slotMinTime,
   slotMaxTime,
+  setDate,
 }) => {
   const { isMobile } = useDeviceDetect();
   //Event Modal State
@@ -37,6 +39,8 @@ export const GroupCalendar = ({
     names: [],
     numbers: [],
   });
+  // Creating calendar ref
+  const calendarRef = useRef()
 
   // This function only runs once when the page first render
   useEffect(() => {
@@ -124,6 +128,7 @@ export const GroupCalendar = ({
 
       {/* CALENDAR */}
       <FullCalendar
+        ref={calendarRef}
         plugins={[timeGridPlugin, dayGridPlugin, interactionPlugin]}
         initialView='timeGridWeek'
         events={calendarEvents}
@@ -132,6 +137,22 @@ export const GroupCalendar = ({
           setEventModal(true);
         }}
         weekends={true}
+        customButtons={{
+        prev: {
+          click: function () {
+            const calendarApi = calendarRef.current.getApi()
+            calendarApi.prev()
+            setDate(e => moment(e).subtract(7, 'd').format('YYYY-MM-DD'))
+          },
+        },
+        next: {
+          click: function () {
+            const calendarApi = calendarRef.current.getApi()
+            calendarApi.next()
+            setDate(e => moment(e).add(7, 'd').format('YYYY-MM-DD'))
+          },
+        },
+      }}
         headerToolbar={{
           start: 'prev',
           center: 'title',

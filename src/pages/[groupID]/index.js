@@ -21,6 +21,7 @@ export default function GroupHome() {
     `${GROUP_CALENDAR}/${groupID}`
   );
   const [hasError, setHasError] = useState(apiError);
+  const [date, setDate] = useState(getTodaysDate())
   const [linkCopied, setLinkCopied] = useState(false);
   // If availability has been filled out show alert for 5 seconds
   const [successAlert, setSuccessAlert] = useState(false);
@@ -58,7 +59,7 @@ export default function GroupHome() {
 
   const copyLink = () => {
     navigator.clipboard.writeText(
-      `https://${BASE_URL}/${groupID}/availability/${getTodaysDate()}`
+      `https://${BASE_URL}/${groupID}/availability/${date}`
     );
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), 3000);
@@ -81,7 +82,7 @@ export default function GroupHome() {
         leftIconClick={() => router.back()}
         rightIcon={'EventAvailable'}
         rightIconClick={() =>
-          router.replace(`/${groupID}/availability/${getTodaysDate()}`)
+          router.replace(`/${groupID}/availability/${date}`)
         }
       >
         <GroupBanner icon={data?.group?.icon} />
@@ -106,7 +107,7 @@ export default function GroupHome() {
             onClick={copyLink}
           >
             <p className={style.linkText}>
-              {BASE_URL}/{groupID}/availability/{getTodaysDate()}
+              {BASE_URL}/{groupID}/availability/{date}
             </p>
           </Box>
         </Box>
@@ -116,6 +117,7 @@ export default function GroupHome() {
           createEvent={createEvent}
           slotMinTime={data?.group?.calendarMinTime}
           slotMaxTime={data?.group?.calendarMaxTime}
+          setDate={setDate}
         />
       </Container>
     </>
