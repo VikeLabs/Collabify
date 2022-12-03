@@ -7,5 +7,5 @@ const GroupPasswordSchema = new mongoose.Schema({
 });
 
 export const GroupPasswords =
-  mongoose.models.GroupPasswords ||
+  mongoose.models.group_passwords ||
   mongoose.model(Collections.groupPasswords, GroupPasswordSchema);
