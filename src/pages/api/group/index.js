@@ -14,10 +14,6 @@ export default async function handler(req, res) {
 
   try {
     const group = JSON.parse(body);
-    if (body.isPrivate === true) {
-      // hash password here
-    }
-
     const { error, groupID } = await createGroup({ group });
     if (error === true) sendDatabaseError(res);
     else

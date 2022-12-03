@@ -6,4 +6,6 @@ const GroupPwSchema = new mongoose.Schema({
   group: String,
 });
 
-export const GroupPw = mongoose.model(Collections.groupPw, GroupPwSchema);
+export const GroupPw =
+  mongoose.models.groupPws ||
+  mongoose.model(Collections.groupPw, GroupPwSchema);

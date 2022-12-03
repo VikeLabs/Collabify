@@ -5,15 +5,16 @@ import ld from 'lodash';
 import { Group, GroupPw } from '../../model';
 
 import { publicGroup, privateGroup } from './mockdata/db_group_mock';
-import mongoose from 'mongoose';
 
 beforeAll(async () => {
   await dbConnect();
 });
 
 let privateGroup_clone;
+let publicGroup_clone;
 beforeEach(() => {
   privateGroup_clone = ld.cloneDeep(privateGroup);
+  publicGroup_clone = ld.cloneDeep(publicGroup);
 });
 
 let savedID = []; // test groups to be deleted
@@ -27,7 +28,9 @@ afterAll(async () => {
 describe('/api-lib/db/group test suite', () => {
   describe('test for `private` functionality', () => {
     it('saves a public group', async () => {
-      const { error, groupID } = await createGroup({ group: publicGroup });
+      const { error, groupID } = await createGroup({
+        group: publicGroup_clone,
+      });
       expect(error).toBe(false);
       savedID.push(groupID);
 
@@ -38,6 +41,26 @@ describe('/api-lib/db/group test suite', () => {
     });
 
     describe('saves a private group', () => {
+      it('throws an error for `sendRequestError`', async () => {
+        publicGroup_clone.isPrivate = true;
+
+        const { error, groupID } = await createGroup({
+          group: publicGroup_clone,
+        });
+        expect(error).toBe(true);
+        expect(groupID).toBe(null);
+      });
+
+      it('deletes password after hashed', async () => {
+        const { error, groupID } = await createGroup({
+          group: privateGroup_clone,
+        });
+        savedID.push(groupID);
+
+        expect(error).toBe(false);
+        expect(privateGroup_clone.password).toBeUndefined();
+      });
+
       it('`isPrivate` is true', async () => {
         const { error, groupID } = await createGroup({
           group: privateGroup_clone,
