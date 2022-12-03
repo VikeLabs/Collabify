@@ -3,5 +3,5 @@ export const Collections = {
   users: 'users',
   events: 'events',
   availabilities: 'availabilities',
-  groupPw: 'groupPws',
+  groupPasswords: 'group_passwords',
 };
