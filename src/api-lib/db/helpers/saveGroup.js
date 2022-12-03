@@ -1,40 +1,57 @@
-import { Group } from '../../model';
+import { GroupPasswordError } from '../../util/exceptions';
+import { Group, GroupPasswords } from '../../model';
 import _ from 'lodash';
 import * as bcrypt from 'bcrypt';
 
-export const saveGroup = async (group) => {
+export const saveGroup = (group) => {
   return new Promise(async (resolve, reject) => {
-    /* SAVE GROUP */
-    if (!group.isPrivate) {
-      const newGroup = new Group(group);
-      const groupID = await newGroup
-        .save()
-        .then((savedDoc) => savedDoc._id)
-        .catch((e) => reject(e));
+    // extracting password
+    let pw;
+    if (group.isPrivate) {
+      pw = _.cloneDeep(group.password);
+      delete group.password;
+    }
 
-      resolve({ groupID, hash: null });
+    /* SAVE GROUP */
+    const newGroup = new Group(group);
+    const groupID = await newGroup
+      .save()
+      .then((savedDoc) => savedDoc._id)
+      .catch((e) => reject(e));
+
+    if (!group.isPrivate) {
+      resolve(groupID);
+      return;
     }
 
     /* ENCRYPT PASSWORD */
-    if (group.isPrivate) {
-      const pw = _.cloneDeep(group.password);
-      delete group.password;
-      // hash pw
-      const saltRounds = 10;
-      bcrypt.hash(pw, saltRounds, async (err, hash) => {
-        if (err) {
-          reject(`failed to hash password`);
-        }
+    const saltRounds = 10;
+    bcrypt.hash(pw, saltRounds, async (hashErr, hash) => {
+      if (hashErr) {
+        const passwordErr = new GroupPasswordError({
+          message: hashErr.message,
+          groupID,
+        });
+        reject(passwordErr);
+        return;
+      }
 
-        /* SAVE GROUP */
-        const newGroup = new Group(group);
-        const groupID = await newGroup
-          .save()
-          .then((savedDoc) => savedDoc._id)
-          .catch((e) => reject(e));
-
-        resolve({ groupID, hash });
+      // save pw
+      const newPassword = new GroupPasswords({
+        password: hash,
+        group: groupID,
+        // TODO: Add token for session cookie
       });
-    }
+      await newPassword.save().catch((e) => {
+        const passwordErr = new GroupPasswordError({
+          message: e.message,
+          groupID,
+        });
+        reject(passwordErr);
+        return;
+      });
+
+      resolve(groupID);
+    });
   });
 };
