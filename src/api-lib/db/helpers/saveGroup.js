@@ -40,7 +40,6 @@ export const saveGroup = (group) => {
       const newPassword = new GroupPasswords({
         password: hash,
         group: groupID,
-        // TODO: Add token for session cookie
       });
       await newPassword.save().catch((e) => {
         const passwordErr = new GroupPasswordError({
