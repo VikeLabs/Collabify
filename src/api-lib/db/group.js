@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import { Group } from '../model';
-import { GroupPasswordError } from '../util/exceptions';
+import { Group } from 'api-lib/model';
+import { GroupPasswordError } from 'api-lib/util/exceptions';
 
 import { saveGroup } from './helpers';
 

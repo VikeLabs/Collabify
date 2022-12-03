@@ -1,5 +1,5 @@
-import { GroupPasswordError } from '../../util/exceptions';
-import { Group, GroupPasswords } from '../../model';
+import { GroupPasswordError } from 'api-lib/util/exceptions';
+import { Group, GroupPasswords } from 'api-lib/model';
 import _ from 'lodash';
 import * as bcrypt from 'bcrypt';
 
