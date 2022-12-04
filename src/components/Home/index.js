@@ -1,5 +1,5 @@
 import { GroupInfo } from './GroupInfo';
 import { Icons } from './Icons';
 import { TimeSlots } from './TimeSlots';
-
-export { GroupInfo, Icons, TimeSlots };
+import {PrivateGroupInfo} from './PrivateGroupInfo';
+export { GroupInfo, Icons, TimeSlots ,PrivateGroupInfo};

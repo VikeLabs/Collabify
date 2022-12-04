@@ -14,8 +14,9 @@ import { GROUP } from '../constants';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
-import { TimeSlots } from 'components/Home';
+import { TimeSlots,PrivateGroupInfo} from 'components/Home';
 import { LandingBanner } from 'components/Home/LandingBanner';
+
 
 export default function Home() {
   const router = useRouter();
@@ -29,6 +30,10 @@ export default function Home() {
   const [description, setDescription] = useState('');
   const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
+  // private group
+  const [isPrivate, setIsPrivate] = useState(true);
+  const [password, setPassword] = useState("");
+  
 
   const createGroup = () => {
     if (name === '') {
@@ -61,6 +66,13 @@ export default function Home() {
           }
         });
     }
+  };
+
+  const handleChangePrivateSwitch = () => {
+    setIsPrivate(!isPrivate);
+  };
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -104,6 +116,14 @@ export default function Home() {
             description={description}
             setDescription={setDescription}
           />
+          {/* PRIVATE GROUP*/}
+          <PrivateGroupInfo
+            isPrivate = {isPrivate}
+            password = {password}
+            handlePasswordChange ={handlePasswordChange}
+            handleChangePrivateSwitch ={handleChangePrivateSwitch}
+          />
+          
         </div>
         {/* Submit button */}
         <div className={utilities.buttonContainer}>
