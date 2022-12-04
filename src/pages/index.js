@@ -16,6 +16,7 @@ import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 import { TimeSlots } from 'components/Home';
 import { LandingBanner } from 'components/Home/LandingBanner';
+import Head from 'next/head';
 
 export default function Home() {
   const router = useRouter();
@@ -117,6 +118,10 @@ export default function Home() {
           </Button>
         </div>
       </Container>
+      <Head>
+        <title>Collabify</title>
+        <meta name="description" content="Collabify makes coordinating times easier"/>
+      </Head>
     </>
   );
 }
