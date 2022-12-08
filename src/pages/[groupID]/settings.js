@@ -1,35 +1,52 @@
 import { Alert } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
-import { GroupInfo, Icons, LandingBanner, TimeSlots } from 'components/Home';
-import { getAllIcons } from 'components/MuiIcon';
+import { GroupInfo, Icons, TimeSlots } from 'components/Home';
 
 // MUI
 import Button from '@mui/material/Button';
 
-import { GROUP } from '../constants';
+import { GROUP } from '../../constants';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
-import Head from 'next/head';
+import { useAsyncFetch } from 'hooks';
+import { SettingsSkeleton } from 'components/Settings/SettingsSkeleton';
 
-export default function Home() {
+export default function GroupSettings() {
   const router = useRouter();
 
-  // Icons related
-  const [activeIcon, setActiveIcon] = useState(getAllIcons()[0]); // default first icon
-  // Information related
-  const [hasError, setHasError] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
-  const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
+  const { groupID } = router.query;
 
-  const createGroup = () => {
+  const [data, isLoading, apiError] = useAsyncFetch(
+    `${GROUP}/${groupID}`
+  );
+
+  // Icons related
+  const [activeIcon, setActiveIcon] = useState(null);
+  // Information related
+  const [hasError, setHasError] = useState(apiError);
+  const [isSaving, setIsSaving] = useState(false);
+  const [name, setName] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [calendarMinTime, setCalendarMinTime] = useState(null);
+  const [calendarMaxTime, setCalendarMaxTime] = useState(null);
+
+  useEffect(()=> {
+    const { group } = data
+    if (group) {
+        setActiveIcon(group.icon)
+        setName(group.name)
+        setDescription(group.description)
+        setCalendarMinTime(group.calendarMinTime)
+        setCalendarMaxTime(group.calendarMaxTime)
+    }
+  }, [data])
+
+  const editGroup = () => {
     if (name === '') {
       setHasError('Missing required input (name)');
     } else if (
@@ -41,8 +58,8 @@ export default function Home() {
       setHasError('Name must be under 20 characters');
     } else {
       setIsSaving(true);
-      fetch(GROUP, {
-        method: 'POST',
+      fetch(`${GROUP}/${groupID}`, {
+        method: 'PATCH',
         body: JSON.stringify({
           name,
           description,
@@ -62,28 +79,18 @@ export default function Home() {
     }
   };
 
+  if (isLoading) return <SettingsSkeleton/>
+
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
-        header='create a group'
-        menu={[
-          {
-            icon: 'Groups',
-            text: 'Recent Groups',
-            onClick: () => router.push('/tools/recentGroups'),
-          },
-          {
-            icon: 'Search',
-            text: 'Find Group',
-            onClick: () => router.push('/tools/findGroup'),
-          },
-        ]}
+        header='settings'
+        leftIcon={'ArrowBack'}
+        leftIconClick={() => router.back()}
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
-          {/* Landing Banner */}
-          <LandingBanner />
           {/* ICON */}
           <Icons
             activeIcon={activeIcon}
@@ -109,17 +116,13 @@ export default function Home() {
           <Button
             variant='contained'
             disabled={!name || isSaving ? true : false}
-            onClick={createGroup}
+            onClick={editGroup}
             className={utilities.button}
           >
-            Create Group
+            Save Changes
           </Button>
         </div>
       </Container>
-      <Head>
-        <title>Collabify</title>
-        <meta name="description" content="Collabify makes coordinating times easier"/>
-      </Head>
     </>
   );
 }

@@ -78,8 +78,18 @@ export default function GroupHome() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
-        leftIcon={'ArrowBack'}
-        leftIconClick={() => router.back()}
+        menu={[
+          {
+            icon: 'Settings',
+            text: 'Group Settings',
+            onClick: () => router.replace(`/${groupID}/settings`),
+          },
+          {
+            icon: 'ArrowBack',
+            text: 'Back',
+            onClick: () => router.back(),
+          },
+        ]}
         rightIcon={'EventAvailable'}
         rightIconClick={() =>
           router.replace(`/${groupID}/availability/${date}`)
