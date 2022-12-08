@@ -87,7 +87,7 @@ export default function GroupSettings() {
       <Container
         header='settings'
         leftIcon={'ArrowBack'}
-        leftIconClick={() => router.back()}
+        leftIconClick={() => router.replace(`/${groupID}`)}
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>

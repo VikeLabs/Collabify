@@ -41,7 +41,7 @@ export default function RecentGroups() {
       <Container 
       header='find group'
       leftIcon={'ArrowBack'}
-      leftIconClick={() => router.back()}
+      leftIconClick={() => router.replace('/')}
       >
       <TextField
         label='Group Search'
