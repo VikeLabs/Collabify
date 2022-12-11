@@ -22,11 +22,15 @@ export default function GroupHome() {
   );
   const [hasError, setHasError] = useState(apiError);
   const [linkCopied, setLinkCopied] = useState(false);
+
   // If availability has been filled out show alert for 5 seconds
   const [successAlert, setSuccessAlert] = useState(false);
   useEffect(() => {
     setSuccessAlert(availabilityFilled === 'true');
-    setTimeout(() => setSuccessAlert(false), 5000);
+
+    const alertTimeoutID = setTimeout(() => setSuccessAlert(false), 5000);
+
+    return clearTimeout(alertTimeoutID);
   }, [availabilityFilled]);
 
   // Adds group to recent groups storage
