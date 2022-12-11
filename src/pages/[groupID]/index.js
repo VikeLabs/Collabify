@@ -17,18 +17,59 @@ export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
 
+  /*
   const [data, isLoading, apiError] = useAsyncFetch(
     `${GROUP_CALENDAR}/${groupID}`
   );
+  */
+
+  /* FETCH GROUP INFORMATION ON MOUNT */
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [apiError, setApiError] = useState(null);
+
+  useEffect(() => {
+    setIsLoading(() => true);
+    setApiError(() => null);
+
+    fetch(`${GROUP_CALENDAR}/${groupID}`, {
+      headers: {
+        method: 'GET',
+        'Content-Type': 'application/json',
+        credentials: 'include',
+      },
+    })
+      .then((res) => {
+        if (res.status === 401) {
+          setData(() => null);
+          setIsLoading(() => false);
+          setApiError(() => 'unauthorized message');
+          // Do something here when user is unauthorized
+          return;
+        }
+
+        return res.json();
+      })
+      .then((result) => {
+        setData(() => result);
+        setIsLoading(() => false);
+        setApiError(() => null);
+      })
+      .catch((err) => {
+        setApiError(() => err.message);
+        setIsLoading(() => false);
+      });
+  }, []);
+
   const [hasError, setHasError] = useState(apiError);
   const [linkCopied, setLinkCopied] = useState(false);
 
   // If availability has been filled out show alert for 5 seconds
   const [successAlert, setSuccessAlert] = useState(false);
   useEffect(() => {
-    setSuccessAlert(availabilityFilled === 'true');
+    setSuccessAlert(() => availabilityFilled === 'true');
 
-    const alertTimeoutID = setTimeout(() => setSuccessAlert(false), 5000);
+    const alertTimeoutID = setTimeout(() => setSuccessAlert(() => false), 5000);
 
     return clearTimeout(alertTimeoutID);
   }, [availabilityFilled]);
