@@ -5,4 +5,10 @@ class GroupPasswordError extends Error {
   }
 }
 
-export { GroupPasswordError };
+class UnauthorizedError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
+export { GroupPasswordError, UnauthorizedError };
