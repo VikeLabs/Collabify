@@ -5,7 +5,13 @@ import { useBool } from 'hooks';
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
-import { GroupInfo, Icons, LandingBanner, TimeSlots } from 'components/Home';
+import {
+  GroupInfo,
+  Icons,
+  LandingBanner,
+  TimeSlots,
+  PrivateGroupInfo,
+} from 'components/Home';
 import { getAllIcons } from 'components/MuiIcon';
 
 // MUI
@@ -14,8 +20,6 @@ import { Alert } from '@mui/material'; // `Skeleton` not used
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
-import { TimeSlots, PrivateGroupInfo } from 'components/Home';
-import { LandingBanner } from 'components/Home/LandingBanner';
 import Head from 'next/head';
 
 import { GROUP } from '../constants';
