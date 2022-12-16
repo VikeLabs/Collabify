@@ -18,6 +18,7 @@ export const PrivateGroupInfo = ({
   const handlePasswordChange = (event) => {
     setPassword(() => event.target.value);
   };
+
   return (
     <section id='Group-password'>
       <div className={cx(utilities.heading, styles.privateHeading)}>
@@ -35,7 +36,7 @@ export const PrivateGroupInfo = ({
         </span>
       </div>
 
-      {/*password*/}
+      {/* PASSWORD  */}
       <AnimatePresence>
         {isPrivate && (
           <motion.div
@@ -46,7 +47,7 @@ export const PrivateGroupInfo = ({
             style={{ overflow: 'hidden' }}
           >
             <TextField
-              label='Password (minimum 8 characters)'
+              label='Password (between 8 and 16 characters)'
               variant='filled'
               type='password'
               value={password}

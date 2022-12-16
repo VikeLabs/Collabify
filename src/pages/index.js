@@ -48,7 +48,7 @@ export default function Home() {
       return;
     }
 
-    if (groupPrivate.bool && password.length < 8) {
+    if (groupPrivate.bool && (password.length < 8 || password.length > 16)) {
       isDisabled.setBool(() => true);
     } else {
       isDisabled.setBool(() => false);
@@ -71,6 +71,8 @@ export default function Home() {
         method: 'POST',
         body: JSON.stringify({
           name,
+          isPrivate,
+          password,
           description,
           icon: activeIcon,
           calendarMinTime,
