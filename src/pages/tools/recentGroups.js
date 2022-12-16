@@ -11,6 +11,7 @@ import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/tools.module.css';
 import { Stack } from '@mui/system';
 import { ArrowForward } from '@mui/icons-material';
+import Head from 'next/head';
 
 export default function RecentGroups() {
   const router = useRouter();
@@ -38,40 +39,46 @@ export default function RecentGroups() {
   if (isLoading) return <ListSkeleton />;
 
   return (
-    <Container 
-      header='recently visited'
-      leftIcon={'ArrowBack'}
-      leftIconClick={() => router.back()}
-      >
-      {recentGroups?.length > 0 ?
-      recentGroups?.map(e => (
-        <List 
-        key={e._id} 
-        onClick={()=> router.replace(`/${e._id}`)}
+    <>
+      <Container 
+        header='recently visited'
+        leftIcon={'ArrowBack'}
+        leftIconClick={() => router.replace('/')}
         >
-          <ListItem
-          className={style.listBox}
-          secondaryAction={
-            <ArrowForward />
-          }
+        {recentGroups?.length > 0 ?
+        recentGroups?.map(e => (
+          <List 
+          key={e._id} 
+          onClick={()=> router.replace(`/${e._id}`)}
           >
-            <ListItemAvatar>
-              <div
-                className={style.iconContainer}
-              >
-                <MuiIcon icon={e.icon} />
-              </div>
-            </ListItemAvatar>
-            <Stack>
-              <h3>{e.name}</h3>
-              <p>{e.description}</p>
-            </Stack>
-          </ListItem>
-        </List>
-      )) :
-      <h2 className={utilities.textCenter}>You have no recent groups, try using "Find Group"</h2>
-      }
+            <ListItem
+            className={style.listBox}
+            secondaryAction={
+              <ArrowForward />
+            }
+            >
+              <ListItemAvatar>
+                <div
+                  className={style.iconContainer}
+                >
+                  <MuiIcon icon={e.icon} />
+                </div>
+              </ListItemAvatar>
+              <Stack>
+                <h3>{e.name}</h3>
+                <p>{e.description}</p>
+              </Stack>
+            </ListItem>
+          </List>
+        )) :
+        <h2 className={utilities.textCenter}>You have no recent groups, try using "Find Group"</h2>
+        }
 
-    </Container>
+      </Container>
+      <Head>
+        <title>Collabify - Recent Group</title>
+        <meta name="description" content="Revisit your recently visited groups"/>
+      </Head>
+    </>
   )
 }
