@@ -1,47 +1,58 @@
-
 // MUI
-
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { TextField } from '@mui/material';
 
-import style from 'styles/pages/home.module.css';
+import cx from 'classnames';
+import styles from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 
+import { motion, AnimatePresence } from 'framer-motion';
 
-
-export const PrivateGroupInfo =({isPrivate,password,handlePasswordChange,handleChangePrivateSwitch})=> {
+export const PrivateGroupInfo = ({
+  isPrivate,
+  password,
+  handlePasswordChange,
+  handleChangePrivateSwitch,
+}) => {
   return (
-    <>
-          {/*Private Group*/}
-          <div className={style.privateHeading}>
-             
-            <p>PRIVATE:
-              <FormControlLabel
-              control={<Switch checked={isPrivate} onChange={handleChangePrivateSwitch}/>}
-              inputProps={{ 'aria-label': 'controlled' }}
+    <section id='Group-password'>
+      <div className={cx(utilities.heading, styles.privateHeading)}>
+        <h4>PRIVATE:</h4>
+        <span>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isPrivate}
+                onChange={handleChangePrivateSwitch}
               />
-            </p>
-          
-          {/*password*/}
-          { isPrivate &&
-             <div className={utilities.inputFields}>
-              {
-                <TextField
-                  label='Password'
-                  variant='filled'
-                  type="password"
-                  value={password}
-                  className={utilities.input}
-                  onChange={handlePasswordChange}
-                />
-              }
-              </div>
             }
-    
-          </div>
+            inputProps={{ 'aria-label': 'controlled' }}
+          />
+        </span>
+      </div>
 
-       
-    </>
+      {/*password*/}
+      <AnimatePresence>
+        {isPrivate && (
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{ height: 'max-content' }}
+            exit={{ height: 0 }}
+            className={utilities.inputFields}
+            style={{ overflow: 'hidden' }}
+          >
+            <TextField
+              label='Password'
+              variant='filled'
+              type='password'
+              value={password}
+              className={utilities.input}
+              onChange={handlePasswordChange}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
   );
-}
+};

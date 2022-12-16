@@ -5,10 +5,9 @@ import utilities from 'styles/utilities.module.css';
 
 export const GroupInfo = ({ name, setName, description, setDescription }) => {
   return (
-    <>
+    <section id='group-information'>
       {/* Name input */}
       <h2 className={utilities.heading}>INFORMATION:</h2>
-
       <div className={utilities.inputFields}>
         <TextField
           label='Group name'
@@ -27,7 +26,7 @@ export const GroupInfo = ({ name, setName, description, setDescription }) => {
           value={description}
         />
       </div>
-    </>
+    </section>
   );
 };
 
