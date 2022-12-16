@@ -12,9 +12,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 export const PrivateGroupInfo = ({
   isPrivate,
   password,
-  handlePasswordChange,
-  handleChangePrivateSwitch,
+  setPassword,
+  handleToggleSwitch,
 }) => {
+  const handlePasswordChange = (event) => {
+    setPassword(() => event.target.value);
+  };
   return (
     <section id='Group-password'>
       <div className={cx(utilities.heading, styles.privateHeading)}>
@@ -24,7 +27,7 @@ export const PrivateGroupInfo = ({
             control={
               <Switch
                 checked={isPrivate}
-                onChange={handleChangePrivateSwitch}
+                onChange={handleToggleSwitch}
               />
             }
             inputProps={{ 'aria-label': 'controlled' }}
@@ -43,12 +46,13 @@ export const PrivateGroupInfo = ({
             style={{ overflow: 'hidden' }}
           >
             <TextField
-              label='Password'
+              label='Password (minimum 8 characters)'
               variant='filled'
               type='password'
               value={password}
               className={utilities.input}
               onChange={handlePasswordChange}
+              required={isPrivate}
             />
           </motion.div>
         )}

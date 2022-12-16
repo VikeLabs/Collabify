@@ -1,6 +1,7 @@
-import { Alert } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useBool } from 'hooks';
+
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
@@ -9,31 +10,48 @@ import { getAllIcons } from 'components/MuiIcon';
 
 // MUI
 import Button from '@mui/material/Button';
-
-import { GROUP } from '../constants';
+import { Alert } from '@mui/material'; // `Skeleton` not used
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
-import { TimeSlots,PrivateGroupInfo} from 'components/Home';
+import { TimeSlots, PrivateGroupInfo } from 'components/Home';
 import { LandingBanner } from 'components/Home/LandingBanner';
 
+import { GROUP } from '../constants';
 
 export default function Home() {
   const router = useRouter();
 
-  // Icons related
+  /* GROUP ICON */
   const [activeIcon, setActiveIcon] = useState(getAllIcons()[0]); // default first icon
-  // Information related
-  const [hasError, setHasError] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+
+  /* GROUP INFORMAION */
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
-  // private group
-  const [isPrivate, setIsPrivate] = useState(true);
-  const [password, setPassword] = useState("");
-  
+
+  /* PRIVATE GROUP */
+  const groupPrivate = useBool(true);
+  const [password, setPassword] = useState('');
+
+  /* FORM VALIDATION */
+  const [hasError, setHasError] = useState(false);
+  const isDisabled = useBool(true);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (name === '' || isSaving) {
+      isDisabled.setBool(() => true);
+      return;
+    }
+
+    if (groupPrivate.bool && password.length < 8) {
+      isDisabled.setBool(() => true);
+    } else {
+      isDisabled.setBool(() => false);
+    }
+  }, [groupPrivate.bool, name, password]);
 
   const createGroup = () => {
     if (name === '') {
@@ -68,13 +86,6 @@ export default function Home() {
     }
   };
 
-  const handleChangePrivateSwitch = () => {
-    setIsPrivate(!isPrivate);
-  };
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
@@ -95,7 +106,7 @@ export default function Home() {
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
-          {/* Landing Banner */}
+          {/* LANDING BANNER */}
           <LandingBanner />
           {/* ICON */}
           <Icons
@@ -118,18 +129,17 @@ export default function Home() {
           />
           {/* PRIVATE GROUP*/}
           <PrivateGroupInfo
-            isPrivate = {isPrivate}
-            password = {password}
-            handlePasswordChange ={handlePasswordChange}
-            handleChangePrivateSwitch ={handleChangePrivateSwitch}
+            isPrivate={groupPrivate.bool}
+            password={password}
+            setPassword={setPassword}
+            handleToggleSwitch={groupPrivate.toggleBool}
           />
-          
         </div>
-        {/* Submit button */}
+        {/* SUBMIT BUTTON */}
         <div className={utilities.buttonContainer}>
           <Button
             variant='contained'
-            disabled={!name || isSaving ? true : false}
+            disabled={isDisabled.bool}
             onClick={createGroup}
             className={utilities.button}
           >
