@@ -39,3 +39,13 @@
   flex-direction: column;
   gap: 1em;
 }
+
+.privateHeading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.privateHeading h2 {
+  color: var(--primary-main);
+}

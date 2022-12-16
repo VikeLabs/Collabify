@@ -62,6 +62,7 @@ export default function GroupHome() {
   }, []);
 
   const [hasError, setHasError] = useState(apiError);
+  const [date, setDate] = useState(getTodaysDate())
   const [linkCopied, setLinkCopied] = useState(false);
 
   // If availability has been filled out show alert for 5 seconds
@@ -103,7 +104,7 @@ export default function GroupHome() {
 
   const copyLink = () => {
     navigator.clipboard.writeText(
-      `https://${BASE_URL}/${groupID}/availability/${getTodaysDate()}`
+      `https://${BASE_URL}/${groupID}/availability/${date}`
     );
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), 3000);
@@ -122,11 +123,21 @@ export default function GroupHome() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
-        leftIcon={'ArrowBack'}
-        leftIconClick={() => router.back()}
+        menu={[
+          {
+            icon: 'Settings',
+            text: 'Group Settings',
+            onClick: () => router.replace(`/${groupID}/settings`),
+          },
+          {
+            icon: 'ArrowBack',
+            text: 'Back',
+            onClick: () => router.replace('/'),
+          },
+        ]}
         rightIcon={'EventAvailable'}
         rightIconClick={() =>
-          router.replace(`/${groupID}/availability/${getTodaysDate()}`)
+          router.replace(`/${groupID}/availability/${date}`)
         }
       >
         <GroupBanner icon={data?.group?.icon} />
@@ -151,7 +162,7 @@ export default function GroupHome() {
             onClick={copyLink}
           >
             <p className={style.linkText}>
-              {BASE_URL}/{groupID}/availability/{getTodaysDate()}
+              {BASE_URL}/{groupID}/availability/{date}
             </p>
           </Box>
         </Box>
@@ -161,6 +172,7 @@ export default function GroupHome() {
           createEvent={createEvent}
           slotMinTime={data?.group?.calendarMinTime}
           slotMaxTime={data?.group?.calendarMaxTime}
+          setDate={setDate}
         />
       </Container>
     </>

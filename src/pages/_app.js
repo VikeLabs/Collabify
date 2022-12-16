@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head.js';
+import { Analytics } from '@vercel/analytics/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { GlobalStyle } from '../styles/global.js';
 import '@fullcalendar/common/main.css';
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <GlobalStyle />
+      <Analytics />
       <Head>
         <title>Collabify</title>
         <meta

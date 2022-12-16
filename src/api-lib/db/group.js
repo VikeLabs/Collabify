@@ -79,3 +79,30 @@ export const getAllGroups = async () => {
     groups,
   };
 };
+
+export const updateGroup = async ({ groupID, group }) => {
+  // Updates group
+  // If theres an error function will return true
+  const { error } = await Group.updateOne(
+    { _id: groupID },
+    {
+      $set: group,
+    }
+  )
+    .then((e) => {
+      console.log(e);
+      return {
+        error: false,
+      };
+    })
+    .catch((err) => {
+      console.error(err);
+      return {
+        error: true,
+      };
+    });
+
+  return {
+    error,
+  };
+};
