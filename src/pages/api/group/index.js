@@ -1,10 +1,13 @@
 import dbConnect from 'api-lib/dbConnect';
 import { createGroup } from 'api-lib/db';
 import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
+
 import jwt from 'jsonwebtoken';
 import Cookie from 'cookies';
 
-const SECRET = process.env.PRIVATE_GROUP_SECRET;
+import { PRIVATE_GROUP_TOKEN } from 'constants';
+
+const PRIVATE_GROUP_SECRET = process.env.PRIVATE_GROUP_SECRET;
 
 export default async function handler(req, res) {
   const { method, body } = req;
@@ -35,18 +38,20 @@ export default async function handler(req, res) {
       return;
     }
 
-    const tokenOpt = {
-      expiresIn: 60 * 60 * 24 * 7, // expires in 7 days
-    };
-    const token = jwt.sign({ groupID }, SECRET, tokenOpt);
+    if (group.isPrivate) {
+      const tokenOpt = {
+        expiresIn: 60 * 60 * 24 * 7, // expires in 7 days
+      };
+      const token = jwt.sign({ groupID }, PRIVATE_GROUP_SECRET, tokenOpt);
 
-    const cookieOpt = {
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: false,
-    };
-    const cookies = new Cookie(req, res);
-    cookies.set('private-group-token', token, cookieOpt);
+      const cookieOpt = {
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: false,
+      };
+      const cookies = new Cookie(req, res);
+      cookies.set(PRIVATE_GROUP_TOKEN, token, cookieOpt);
+    }
 
     res.status(200).json({
       ok: true,

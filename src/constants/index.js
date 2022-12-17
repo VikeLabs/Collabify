@@ -8,4 +8,6 @@ export const EVENT = '/api/event';
 // LOCAL STORAGE CONSTANTS
 export const RECENT_GROUPS_STORED = 'CollabifyRecentGroups';
 export const THEME_STORED = 'CollabifyTheme';
-export const CLOSE_ALL_TOOLTIPS = 'CollabifyCloseAllToolTips'
+export const CLOSE_ALL_TOOLTIPS = 'CollabifyCloseAllToolTips';
+// DB CONSTANTS
+export const PRIVATE_GROUP_TOKEN = 'private-group-token';
