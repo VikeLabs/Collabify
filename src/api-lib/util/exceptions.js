@@ -6,7 +6,7 @@ class GroupPasswordError extends Error {
 }
 
 class UnauthorizedError extends Error {
-  constructor(message) {
+  constructor(message = 'Unauthorized access') {
     super(message);
   }
 }
