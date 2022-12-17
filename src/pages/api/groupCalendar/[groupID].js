@@ -4,11 +4,16 @@ import {
   getGroup,
   getAvailabilitiesFromGroup,
 } from 'api-lib/db';
+import { verifyJwt } from 'api-lib/auth';
+import { UnauthorizedError } from 'api-lib/util/exceptions';
 import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
 import {
   parseAvailabilities,
   parseEvents,
 } from 'api-lib/util/calendarStrength';
+
+import Cookie from 'cookies';
+import { PRIVATE_GROUP_TOKEN } from 'constants';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -20,6 +25,16 @@ export default async function handler(req, res) {
       try {
         const { groupID } = req.query;
         const { groupError, group } = await getGroup({ groupID });
+
+        // validate authorization for private group
+        if (group.isPrivate) {
+          const cookie = new Cookie(req, res);
+          const token = cookie.get(PRIVATE_GROUP_TOKEN);
+          const decoded = await verifyJwt(token);
+          if (decoded.groupID !== groupID) {
+            throw new UnauthorizedError();
+          }
+        }
 
         const { availabilitiesError, availabilities } =
           await getAvailabilitiesFromGroup({
@@ -43,6 +58,10 @@ export default async function handler(req, res) {
           });
         }
       } catch (error) {
+        if (error instanceof UnauthorizedError) {
+          return res.status(401);
+        }
+
         sendRequestError(res, error);
       }
 
