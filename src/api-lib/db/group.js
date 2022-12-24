@@ -30,25 +30,24 @@ export const createGroup = async ({ group }) => {
 export const getGroup = async ({ groupID }) => {
   // Gets the group by the group name
   // Doesn't return error because it gets handled on api side (result.length > 0)
-  let error = false;
-  const group = await Group.findOne({ _id: groupID });
-
-  if (!group) {
-    error = true;
+  try {
+    const group = await Group.findOne({ _id: groupID });
+    return group
+      ? { groupError: true, group: null }
+      : { groupError: false, group };
+  } catch (e) {
+    return {
+      groupError: true,
+      group: null,
+    };
   }
-
-  return {
-    error,
-    group,
-  };
 };
 
 export const getManyGroups = async ({ groupIDs }) => {
   // groupIDs should be an array of ids
   let error = false;
-  const groupIDsArray = groupIDs?.map(e => mongoose.Types.ObjectId(e))
-  const groups = await Group.find({ _id: { $in: groupIDsArray} 
-  });
+  const groupIDsArray = groupIDs?.map((e) => mongoose.Types.ObjectId(e));
+  const groups = await Group.find({ _id: { $in: groupIDsArray } });
 
   if (!groups) {
     error = true;
@@ -72,17 +71,19 @@ export const getAllGroups = async () => {
     error,
     groups,
   };
-}
+};
 
 export const updateGroup = async ({ groupID, group }) => {
   // Updates group
   // If theres an error function will return true
-  const { error } = await Group.updateOne({_id: groupID}, 
+  const { error } = await Group.updateOne(
+    { _id: groupID },
     {
-      $set: group
-    })
+      $set: group,
+    }
+  )
     .then((e) => {
-      console.log(e)
+      console.log(e);
       return {
         error: false,
       };
@@ -95,6 +96,6 @@ export const updateGroup = async ({ groupID, group }) => {
     });
 
   return {
-    error
+    error,
   };
 };
