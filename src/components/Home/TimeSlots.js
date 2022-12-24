@@ -23,27 +23,21 @@ const formatTime = (time) => {
   return { displayTime, timeValue };
 };
 
-/**
- * Hardcoding this so the app does not have to loop and generate these
- * values on mount
- */
 const allTimeOptions = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
   23,
 ];
 
-/** NOTE: this component makes sure that the `calendarMaxTime` can never be
- * less than the `calendarminTime`
- */
 export const TimeSlots = ({
   calendarMinTime,
   setCalendarMinTime,
   calendarMaxTime,
   setCalendarMaxTime,
 }) => {
+  // Programmatically enforcing max time to be greater than min time.
   const minTime = parseInt(calendarMinTime);
-  const maxTimeOptions = allTimeOptions.slice(minTime + 1);
-  const minTimeOptions = allTimeOptions.slice(6, 23);
+  const maxTimeOptions = allTimeOptions.slice(minTime);
+  const minTimeOptions = allTimeOptions.slice(6, 22);
 
   const getAllTimeOptions = (timeOptions, setState) => {
     return timeOptions.map((option) => {
@@ -86,7 +80,7 @@ export const TimeSlots = ({
 
         <ArrowForwardIcon sx={{ flexGrow: '1' }} />
 
-        {/* MIN TIME */}
+        {/* MAX TIME */}
         <FormControl
           variant='filled'
           sx={{ flexGrow: '9' }}
@@ -104,5 +98,7 @@ export const TimeSlots = ({
 
 TimeSlots.propTypes = {
   calendarMinTime: PropTypes.string.isRequired,
+  setCalendarMinTime: PropTypes.func.isRequired,
   calendarMaxTime: PropTypes.string.isRequired,
+  setCalendarMaxTime: PropTypes.func.isRequired,
 };
