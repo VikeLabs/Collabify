@@ -59,7 +59,7 @@ export default async function handler(req, res) {
         }
       } catch (error) {
         if (error instanceof UnauthorizedError) {
-          return res.status(401);
+          return res.status(error.statusCode).json({ message: error.message });
         }
 
         sendRequestError(res, error);

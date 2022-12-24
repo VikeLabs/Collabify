@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { Group } from 'api-lib/model';
-import { GroupPasswordError } from 'api-lib/util/exceptions';
+import { GroupPasswordError, NotFoundError } from 'api-lib/util/exceptions';
 
 import { saveGroup } from './helpers';
 
@@ -40,11 +40,11 @@ export const getGroup = async ({ groupID }) => {
   try {
     const group = await Group.findOne({ _id: groupID });
     return group
-      ? { groupError: true, group: null }
-      : { groupError: false, group };
+      ? { groupError: new NotFoundError('Group not found'), group: null }
+      : { groupError: null, group };
   } catch (e) {
     return {
-      groupError: true,
+      groupError: new Error(e),
       group: null,
     };
   }
