@@ -10,38 +10,38 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET':
-        try {
-            const { groupError, group } = await getGroup({ groupID });
-            if (groupError) {
-                sendNoDocumentError(res);
-            } else {
-            res.status(200).json({
-                ok: true,
-                group,
-            });
-            }
-        } catch (error) {
-            sendRequestError(res, error);
+      try {
+        const { groupError, group } = await getGroup({ groupID });
+        if (groupError) {
+          sendNoDocumentError(res);
+        } else {
+          res.status(200).json({
+            ok: true,
+            group,
+          });
         }
-        break;
+      } catch (error) {
+        sendRequestError(res, error);
+      }
+      break;
     case 'PATCH':
-        const group = JSON.parse(body);
-        try {
-            const { groupError } = await updateGroup({ groupID, group });
-            if (groupError) {
-                sendNoDocumentError(res);
-            } else {
-            res.status(200).json({
-                ok: true,
-                groupID,
-            });
-            }
-        } catch (error) {
-            sendRequestError(res, error);
+      const group = JSON.parse(body);
+      try {
+        const { groupError } = await updateGroup({ groupID, group });
+        if (groupError) {
+          sendNoDocumentError(res);
+        } else {
+          res.status(200).json({
+            ok: true,
+            groupID,
+          });
         }
-        break;
+      } catch (error) {
+        sendRequestError(res, error);
+      }
+      break;
     default:
-        res.status(405).json({ message: 'Method Not Allowed' });
-        break;
+      res.status(405).json({ message: 'Method Not Allowed' });
+      break;
   }
 }
