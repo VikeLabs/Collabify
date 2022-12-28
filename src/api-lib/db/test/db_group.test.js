@@ -46,7 +46,7 @@ describe('/api-lib/db/group test suite', () => {
         const { groupID, createGroupError } = await createGroup({
           group: privateGroup_clone,
         });
-        expect(createGroupError).toBe(false);
+        expect(createGroupError).toBe(null);
         savedID.push(groupID);
         Group.findById(groupID, (_, doc) => {
           expect(doc.isPrivate).toBe(true);
@@ -62,7 +62,7 @@ describe('/api-lib/db/group test suite', () => {
           group: publicGroup_clone,
         });
 
-        expect(createGroupError).toBe(true);
+        expect(createGroupError).toBe(null);
         expect(groupID).toBe(null);
       });
 
