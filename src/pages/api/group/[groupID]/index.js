@@ -11,22 +11,23 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET': {
-      const { groupError, group } = await getGroup({ groupID });
-
-      if (groupError === null) {
-        return res.status(200).json({
-          ok: true,
-          group,
-        });
+      const { group, groupError } = await getGroup({ groupID });
+      if (groupError !== null) {
+        if (groupError instanceof NotFoundError) {
+          sendNoDocumentError(res, groupError);
+        } else {
+          sendRequestError(res, groupError);
+        }
+        break;
       }
 
-      if (groupError instanceof NotFoundError) {
-        sendNoDocumentError(res, groupError);
-      } else {
-        sendRequestError(res, groupError);
-      }
+      res.status(200).json({
+        ok: true,
+        group,
+      });
       break;
     }
+
     case 'PATCH': {
       const group = JSON.parse(body);
       try {

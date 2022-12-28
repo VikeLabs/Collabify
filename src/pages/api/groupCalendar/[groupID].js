@@ -5,7 +5,7 @@ import {
   getAvailabilitiesFromGroup,
 } from 'api-lib/db';
 import { verifyJwt } from 'api-lib/auth';
-import { UnauthorizedError } from 'api-lib/util/exceptions';
+import { NotFoundError, UnauthorizedError } from 'api-lib/util/exceptions';
 import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
 import {
   parseAvailabilities,
@@ -24,7 +24,16 @@ export default async function handler(req, res) {
     case 'GET':
       try {
         const { groupID } = req.query;
-        const { groupError, group } = await getGroup({ groupID });
+
+        const { group, groupError } = await getGroup({ groupID });
+        if (groupError !== null) {
+          if (groupError instanceof NotFoundError) {
+            console.log(groupError.message);
+            sendNoDocumentError(res);
+            return;
+          }
+          sendRequestError(res, groupError);
+        }
 
         /* Validate authorization for private group */
         if (group.isPrivate) {

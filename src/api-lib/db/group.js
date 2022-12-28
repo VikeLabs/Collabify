@@ -39,12 +39,15 @@ export const getGroup = async ({ groupID }) => {
   try {
     const group = await Group.findById(groupID);
     return group
-      ? { groupError: null, group }
-      : { groupError: new NotFoundError('Group not found'), group: null };
+      ? { group, groupError: null }
+      : {
+          group: null,
+          groupError: new NotFoundError(`Group not found: ${groupID}`),
+        };
   } catch (e) {
     return {
-      groupError: new Error(e),
       group: null,
+      groupError: new Error(e),
     };
   }
 };
