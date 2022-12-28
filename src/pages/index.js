@@ -74,6 +74,9 @@ export default function Home() {
     try {
       const response = await fetch(GROUP, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           name,
           isPrivate: groupPrivate.bool,
@@ -84,16 +87,14 @@ export default function Home() {
           calendarMaxTime,
         }),
       });
-
       const result = await response.json();
 
-      if (!result.ok) {
+      if (response.status !== 200) {
         setIsSaving(false);
         setHasError(result.message);
-        return;
+      } else {
+        router.push(`/${result.groupID}`);
       }
-
-      router.push(`/${result.groupID}`);
     } catch (e) {
       console.log(e);
       setIsSaving(() => false);
