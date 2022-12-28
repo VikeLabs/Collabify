@@ -7,29 +7,29 @@ import { saveGroup } from './helpers';
 /**
  * createGroup
  * @params {object} group: group Schema
- * @return {object}: { error: boolean, groupID: mongoose.ObjectId | null }
+ * @return {object}: { groupID: monoose.Types.objectID | null, createGroupError: Error | null }
  *
  * Saves group info then handle password encryption. If it fails to
  * encrypt the password it will delete the saved group and returns an
  * error. This is due to the nature that not all group is private,
  * and in case a private group does not provide any password.
- *
- * PERF: can be optimized somehow? consult with a teamlead before optimizing.
  */
 export const createGroup = async ({ group }) => {
   try {
     const groupID = await saveGroup(group);
-    return { error: false, groupID };
+    return { groupID, createGroupError: null };
   } catch (e) {
     // handling saveGroup promise rejection for private group with no password
     if (e instanceof GroupPasswordError) {
       Group.findOneAndDelete({ _id: e.groupID }, (err, _) => {
         console.error(`failed to save group: ${group.name}`);
-        if (err) console.log(err);
+        if (err) {
+          console.warn(`Requires manual deletion of group: ${group}`);
+        }
       });
     }
 
-    return { error: true, groupID: null };
+    return { groupID: null, createGroupError: new Error(e) };
   }
 };
 

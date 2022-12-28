@@ -28,10 +28,10 @@ afterAll(async () => {
 describe('/api-lib/db/group test suite', () => {
   describe('public group behaviours', () => {
     it('saves a public group', async () => {
-      const { error, groupID } = await createGroup({
+      const { groupID, createGroupError } = await createGroup({
         group: publicGroup_clone,
       });
-      expect(error).toBe(false);
+      expect(createGroupError).toBe(null);
       savedID.push(groupID);
 
       Group.findById(groupID, (_, doc) => {
@@ -43,10 +43,10 @@ describe('/api-lib/db/group test suite', () => {
   describe('private group behaviours', () => {
     describe('_groups_ collection', () => {
       it('_isPrivate_', async () => {
-        const { error, groupID } = await createGroup({
+        const { groupID, createGroupError } = await createGroup({
           group: privateGroup_clone,
         });
-        expect(error).toBe(false);
+        expect(createGroupError).toBe(false);
         savedID.push(groupID);
         Group.findById(groupID, (_, doc) => {
           expect(doc.isPrivate).toBe(true);
@@ -58,11 +58,11 @@ describe('/api-lib/db/group test suite', () => {
       it('returns a (bool) error for _sendRequestError_', async () => {
         publicGroup_clone.isPrivate = true;
 
-        const { error, groupID } = await createGroup({
+        const { groupID, createGroupError } = await createGroup({
           group: publicGroup_clone,
         });
 
-        expect(error).toBe(true);
+        expect(createGroupError).toBe(true);
         expect(groupID).toBe(null);
       });
 

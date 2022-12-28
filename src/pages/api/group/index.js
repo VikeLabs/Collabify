@@ -28,9 +28,8 @@ export default async function handler(req, res) {
   await dbConnect();
 
   try {
-    const { error, groupID } = await createGroup({ group });
-
-    if (error === true) {
+    const { groupID, createGroupError } = await createGroup({ group });
+    if (createGroupError !== null) {
       sendDatabaseError(res);
       return;
     }
