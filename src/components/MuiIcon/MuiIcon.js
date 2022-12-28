@@ -11,8 +11,10 @@ export const MuiIcon = ({ icon }) => {
 
   // Error: Not one of the icon selected during team meeting
   if (!getAllIcons().includes(icon)) {
-    throw new Error(`not allowed icon: ${icon}`);
+    console.warn(`not allowed icon: ${icon}`);
   }
+
+  if (!icon) return;
 
   const IconComponent = Icons[icon];
   return <IconComponent style={style} />;

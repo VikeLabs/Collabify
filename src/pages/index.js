@@ -76,7 +76,7 @@ export default function Home() {
         method: 'POST',
         body: JSON.stringify({
           name,
-          isPrivate,
+          isPrivate: groupPrivate.bool,
           password,
           description,
           icon: activeIcon,
@@ -95,6 +95,7 @@ export default function Home() {
 
       router.push(`/${result.groupID}`);
     } catch (e) {
+      console.log(e);
       setIsSaving(() => false);
       setHasError(() => 'Something went wrong, try again later.');
     }

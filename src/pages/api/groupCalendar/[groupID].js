@@ -14,6 +14,7 @@ import {
 
 import Cookie from 'cookies';
 import { PRIVATE_GROUP_TOKEN } from 'constants';
+import { groupEnd } from 'console';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -26,8 +27,9 @@ export default async function handler(req, res) {
         const { groupID } = req.query;
         const { groupError, group } = await getGroup({ groupID });
 
+        /* TODO: implement this
         // validate authorization for private group
-        if (group.isPrivate) {
+        if (group.isPrivate !== null) {
           const cookie = new Cookie(req, res);
           const token = cookie.get(PRIVATE_GROUP_TOKEN);
           const decoded = await verifyJwt(token);
@@ -35,6 +37,7 @@ export default async function handler(req, res) {
             throw new UnauthorizedError();
           }
         }
+      */
 
         const { availabilitiesError, availabilities } =
           await getAvailabilitiesFromGroup({
@@ -59,7 +62,7 @@ export default async function handler(req, res) {
         }
       } catch (error) {
         if (error instanceof UnauthorizedError) {
-          return res.status(error.statusCode).json({ message: error.message });
+          return res.status(401).json({ message: error.message });
         }
 
         sendRequestError(res, error);

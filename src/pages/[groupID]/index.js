@@ -32,37 +32,38 @@ export default function GroupHome() {
     setIsLoading(() => true);
     setApiError(() => null);
 
-    fetch(`${GROUP_CALENDAR}/${groupID}`, {
-      headers: {
-        method: 'GET',
-        'Content-Type': 'application/json',
-        credentials: 'include',
-      },
-    })
-      .then((res) => {
-        if (res.status === 401) {
-          setData(() => null);
-          setIsLoading(() => false);
-          setApiError(() => 'unauthorized message');
-          // Do something here when user is unauthorized
-          return;
-        }
+    groupID &&
+      fetch(`${GROUP_CALENDAR}/${groupID}`, {
+        headers: {
+          method: 'GET',
+          'Content-Type': 'application/json',
+          credentials: 'include',
+        },
+      })
+        .then((res) => {
+          if (res.status === 401) {
+            setData(() => null);
+            setIsLoading(() => false);
+            setApiError(() => 'unauthorized message');
+            // Do something here when user is unauthorized
+            return;
+          }
 
-        return res.json();
-      })
-      .then((result) => {
-        setData(() => result);
-        setIsLoading(() => false);
-        setApiError(() => null);
-      })
-      .catch((err) => {
-        setApiError(() => err.message);
-        setIsLoading(() => false);
-      });
-  }, []);
+          return res.json();
+        })
+        .then((result) => {
+          setData(() => result);
+          setIsLoading(() => false);
+          setApiError(() => null);
+        })
+        .catch((err) => {
+          setApiError(() => err.message);
+          setIsLoading(() => false);
+        });
+  }, [groupID]);
 
   const [hasError, setHasError] = useState(apiError);
-  const [date, setDate] = useState(getTodaysDate())
+  const [date, setDate] = useState(getTodaysDate());
   const [linkCopied, setLinkCopied] = useState(false);
 
   // If availability has been filled out show alert for 5 seconds
@@ -72,7 +73,7 @@ export default function GroupHome() {
 
     const alertTimeoutID = setTimeout(() => setSuccessAlert(() => false), 5000);
 
-    return clearTimeout(alertTimeoutID);
+    return () => clearTimeout(alertTimeoutID);
   }, [availabilityFilled]);
 
   // Adds group to recent groups storage

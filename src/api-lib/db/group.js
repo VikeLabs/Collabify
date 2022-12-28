@@ -21,7 +21,6 @@ export const createGroup = async ({ group }) => {
     const groupID = await saveGroup(group);
     return { error: false, groupID };
   } catch (e) {
-    console.error(e);
     // handling saveGroup promise rejection for private group with no password
     if (e instanceof GroupPasswordError) {
       Group.findOneAndDelete({ _id: e.groupID }, (err, _) => {
@@ -38,10 +37,10 @@ export const getGroup = async ({ groupID }) => {
   // Gets the group by the group name
   // Doesn't return error because it gets handled on api side (result.length > 0)
   try {
-    const group = await Group.findOne({ _id: groupID });
+    const group = await Group.findById(groupID);
     return group
-      ? { groupError: new NotFoundError('Group not found'), group: null }
-      : { groupError: null, group };
+      ? { groupError: null, group }
+      : { groupError: new NotFoundError('Group not found'), group: null };
   } catch (e) {
     return {
       groupError: new Error(e),
