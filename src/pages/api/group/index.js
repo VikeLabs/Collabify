@@ -3,9 +3,7 @@ import { createGroup } from 'api-lib/db';
 import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 
 import jwt from 'jsonwebtoken';
-import Cookie from 'cookies';
-
-import { PRIVATE_GROUP_TOKEN } from 'constants';
+import { Cookie } from 'api-lib/requests/cookie';
 
 const PRIVATE_GROUP_SECRET = process.env.PRIVATE_GROUP_SECRET;
 
@@ -44,13 +42,8 @@ export default async function handler(req, res) {
       };
       const token = jwt.sign({ groupID }, PRIVATE_GROUP_SECRET, tokenOpt);
 
-      const cookieOpt = {
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: false,
-      };
-      const cookies = new Cookie(req, res);
-      cookies.set(PRIVATE_GROUP_TOKEN, token, cookieOpt);
+      const cookie = Cookie.New(req, res);
+      cookie.setPrivateGroupToken(token);
     }
 
     res.status(200).json({

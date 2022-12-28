@@ -12,8 +12,7 @@ import {
   parseEvents,
 } from 'api-lib/util/calendarStrength';
 
-import Cookie from 'cookies';
-import { PRIVATE_GROUP_TOKEN } from 'constants';
+import { Cookie } from 'api-lib/requests/cookie';
 import { groupEnd } from 'console';
 
 export default async function handler(req, res) {
@@ -27,17 +26,20 @@ export default async function handler(req, res) {
         const { groupID } = req.query;
         const { groupError, group } = await getGroup({ groupID });
 
-        /* TODO: implement this
-        // validate authorization for private group
-        if (group.isPrivate !== null) {
-          const cookie = new Cookie(req, res);
-          const token = cookie.get(PRIVATE_GROUP_TOKEN);
+        /* Validate authorization for private group */
+        if (group.isPrivate) {
+          const cookie = Cookie.New(req, res);
+          const token = cookie.getPrivateGroupToken();
+
+          if (!token) {
+            return res.status(401); // no token
+          }
+
           const decoded = await verifyJwt(token);
           if (decoded.groupID !== groupID) {
-            throw new UnauthorizedError();
+            return res.status(401); // token invalid
           }
         }
-      */
 
         const { availabilitiesError, availabilities } =
           await getAvailabilitiesFromGroup({
