@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
+import { LogInForm } from 'components/Home/LogInForm';
 import { Check, CopyAllOutlined } from '@mui/icons-material';
 import { getTodaysDate } from 'helper/getTodaysDate';
 import { GroupSkeleton } from 'components/GroupHome';
@@ -27,6 +28,7 @@ export default function GroupHome() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
+  const [isAuth, setIsAuth] = useState(false); // TODO: integrate this
 
   useEffect(() => {
     setIsLoading(() => true);
@@ -122,60 +124,66 @@ export default function GroupHome() {
         </Alert>
       )}
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container
-        header={data?.group?.name}
-        menu={[
-          {
-            icon: 'Settings',
-            text: 'Group Settings',
-            onClick: () => router.replace(`/${groupID}/settings`),
-          },
-          {
-            icon: 'ArrowBack',
-            text: 'Back',
-            onClick: () => router.replace('/'),
-          },
-        ]}
-        rightIcon={'EventAvailable'}
-        rightIconClick={() =>
-          router.replace(`/${groupID}/availability/${date}`)
-        }
-      >
-        <GroupBanner icon={data?.group?.icon} />
-        <br />
-        <h2 className={utilities.heading}>
-          AVAILABILITY LINK:&nbsp;
-          <span className={utilities.subHeading}>
-            Send to your group members to get results
-          </span>
-        </h2>
-        <Box className={style.container}>
-          <IconButton
-            aria-label='copy link'
-            color={linkCopied ? 'success' : 'primary'}
-            onClick={copyLink}
-          >
-            {linkCopied ? <Check /> : <CopyAllOutlined />}
-          </IconButton>
+      {!isAuth ? (
+        <Container>
+          <LogInForm setIsAuth={setIsAuth} />
+        </Container>
+      ) : (
+        <Container
+          header={data?.group?.name}
+          menu={[
+            {
+              icon: 'Settings',
+              text: 'Group Settings',
+              onClick: () => router.replace(`/${groupID}/settings`),
+            },
+            {
+              icon: 'ArrowBack',
+              text: 'Back',
+              onClick: () => router.replace('/'),
+            },
+          ]}
+          rightIcon={'EventAvailable'}
+          rightIconClick={() =>
+            router.replace(`/${groupID}/availability/${date}`)
+          }
+        >
+          <GroupBanner icon={data?.group?.icon} />
+          <br />
+          <h2 className={utilities.heading}>
+            AVAILABILITY LINK:&nbsp;
+            <span className={utilities.subHeading}>
+              Send to your group members to get results
+            </span>
+          </h2>
+          <Box className={style.container}>
+            <IconButton
+              aria-label='copy link'
+              color={linkCopied ? 'success' : 'primary'}
+              onClick={copyLink}
+            >
+              {linkCopied ? <Check /> : <CopyAllOutlined />}
+            </IconButton>
 
-          <Box
-            className={style.linkContainer}
-            onClick={copyLink}
-          >
-            <p className={style.linkText}>
-              {BASE_URL}/{groupID}/availability/{date}
-            </p>
+            <Box
+              className={style.linkContainer}
+              onClick={copyLink}
+            >
+              <p className={style.linkText}>
+                {BASE_URL}/{groupID}/availability/{date}
+              </p>
+            </Box>
           </Box>
-        </Box>
-        <br />
-        <GroupCalendar
-          calendarEvents={data?.calendarEvents}
-          createEvent={createEvent}
-          slotMinTime={data?.group?.calendarMinTime}
-          slotMaxTime={data?.group?.calendarMaxTime}
-          setDate={setDate}
-        />
-      </Container>
+          <br />
+          <GroupCalendar
+            calendarEvents={data?.calendarEvents}
+            createEvent={createEvent}
+            slotMinTime={data?.group?.calendarMinTime}
+            slotMaxTime={data?.group?.calendarMaxTime}
+            setDate={setDate}
+          />
+        </Container>
+      )}
     </>
   );
 }
