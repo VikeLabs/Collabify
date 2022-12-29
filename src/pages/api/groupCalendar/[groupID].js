@@ -13,7 +13,6 @@ import {
 } from 'api-lib/util/calendarStrength';
 
 import { Cookie } from 'api-lib/requests/cookie';
-import { groupEnd } from 'console';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -50,27 +49,19 @@ export default async function handler(req, res) {
           }
         }
 
-        const { availabilitiesError, availabilities } =
-          await getAvailabilitiesFromGroup({
-            groupID,
-          });
+        const { availabilities, events } = group;
+        const groupAvails = getAvailabilitiesFromGroup(availabilities);
+        const groupEvents = getEventsFromGroup(events);
 
-        const { eventsError, events } = await getEventsFromGroup({
-          groupID,
+        const value = await Promise.all([groupAvails, groupEvents]);
+        const allAvailabilities = parseAvailabilities(value[0]);
+        const allEvents = parseEvents(value[1]);
+
+        res.status(200).json({
+          ok: true,
+          group,
+          calendarEvents: [...allAvailabilities, ...allEvents],
         });
-
-        if (groupError || availabilitiesError || eventsError) {
-          sendNoDocumentError(res);
-        } else {
-          const allAvailabilities = parseAvailabilities(availabilities);
-          const allEvents = parseEvents(events);
-
-          res.status(200).json({
-            ok: true,
-            group,
-            calendarEvents: [...allAvailabilities, ...allEvents],
-          });
-        }
       } catch (error) {
         if (error instanceof UnauthorizedError) {
           return res.status(401).json({ message: error.message });

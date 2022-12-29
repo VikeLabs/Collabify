@@ -29,31 +29,16 @@ export const addAvailabilityToGroup = async ({ groupID, availability }) => {
   return error;
 };
 
-export const getAvailabilitiesFromGroup = async ({ groupID }) => {
-  const group = await Group.findOne({ _id: groupID });
-
-  let error = false;
-  let availabilities = [];
-
-  if (!group) {
-    error = true;
-  } else {
-    for (let availabilityID of group.availabilities) {
-      const availability = await Availability.findOne({ _id: availabilityID });
-      if (!availability) {
-        console.warn(`The following id was not found: ${availabilityID}`);
-      } else {
-        availabilities.push(availability);
+export const getAvailabilitiesFromGroup = (groupAvailabilities) => {
+  return new Promise((resolve, reject) => {
+    Availability.find(
+      {
+        _id: { $in: groupAvailabilities },
+      },
+      (err, availabilities) => {
+        if (err) return reject(err);
+        return resolve(availabilities);
       }
-    }
-  }
-
-  if (availabilities.length === 0) {
-    error = true;
-  }
-
-  return {
-    error,
-    availabilities,
-  };
+    );
+  });
 };
