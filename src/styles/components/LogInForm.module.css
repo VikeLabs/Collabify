@@ -1,0 +1,25 @@
+.authPasswordContainer{
+    margin-top: 4vw;
+}
+
+
+.inputFieldAuth{
+    margin-bottom: 2vw;
+    margin-top: 2vw;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    }
+
+.containerButton{
+    margin-top: 1cm;
+    text-align: center;
+}
+
+.buttonSubmitAuth{
+    padding-left: 3vw;
+    padding-right: 3vw;
+    height: 3.5rem;
+    margin-bottom: 1em;
+}
+
