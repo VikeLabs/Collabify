@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 import { Container, TextField } from '@mui/material';
-import { Button } from '@mui/material';
+import { Button , Stack , Alert, Snackbar } from '@mui/material';
+
 
 import utilities from 'styles/utilities.module.css';
 import styles from 'styles/components/LogInForm.module.css';
@@ -15,11 +16,20 @@ export const LogInForm = ({ setIAuth }) => {
 
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [open, setOpen] = useState(false);
 
   const handlePasswordChange=(e)=>{
     setPasswordError('');
     setPassword(e.target.value);
   }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   const handleFormSubmit=(e)=>{
     if(password=='') {
       setPasswordError('Password Required');
@@ -31,6 +41,7 @@ export const LogInForm = ({ setIAuth }) => {
     else {
       setPasswordError('Wrong Password');
     }
+    setOpen(true)
   }
   
   return(
@@ -48,8 +59,13 @@ export const LogInForm = ({ setIAuth }) => {
               onChange={handlePasswordChange}  
             />
       </div>
+      
      
-      {passwordError&&<div className ='error-msg'>{passwordError}</div>}
+      {passwordError&&<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert variant="filled" onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          {passwordError}
+        </Alert>
+      </Snackbar>}
       
       <div className={styles.containerButton}>
         <Button className={styles.buttonSubmitAuth} 
