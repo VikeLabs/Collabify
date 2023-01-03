@@ -12,6 +12,27 @@ import styles from 'styles/components/LogInForm.module.css';
  */
 export const LogInForm = ({ setIAuth }) => {
   {/* Entering Password To Authenticate*/}
+
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const handlePasswordChange=(e)=>{
+    setPasswordError('');
+    setPassword(e.target.value);
+  }
+  const handleFormSubmit=(e)=>{
+    if(password=='') {
+      setPasswordError('Password Required');
+    }
+    else if (password=='test'){
+      //want to actually check password from database but not worrying about that rn
+      //want to load group page after submitting
+    }
+    else {
+      setPasswordError('Wrong Password');
+    }
+  }
+  
   return(
     <section className={styles.authPasswordContainer}>
       <h1 className={utilities.heading} >Private Group Authentication Required:</h1>
@@ -19,18 +40,27 @@ export const LogInForm = ({ setIAuth }) => {
 
       <div>
       <TextField className={styles.inputFieldAuth}
+              
               label='Password (enter to gain access)'
               variant='filled'
               type='password'
-              size='large'      
+              size='large' 
+              onChange={handlePasswordChange}  
             />
       </div>
+     
+      {passwordError&&<div className ='error-msg'>{passwordError}</div>}
       
       <div className={styles.containerButton}>
-        <Button className={styles.buttonSubmitAuth}  size='large' variant="contained">
+        <Button className={styles.buttonSubmitAuth} 
+        size='large' 
+        variant="contained"
+        onClick={handleFormSubmit}>
           Submit
         </Button>
       </div>
+
+     
 
     </section>
   )
