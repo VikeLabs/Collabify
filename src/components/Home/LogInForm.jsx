@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import { Container, TextField } from '@mui/material';
-import { Button , Stack , Alert, Snackbar } from '@mui/material';
+import { Button ,  Alert, Snackbar, TextField} from '@mui/material';
 
 
 import utilities from 'styles/utilities.module.css';
@@ -34,12 +33,15 @@ export const LogInForm = ({ setIAuth }) => {
     if(password=='') {
       setPasswordError('Password Required');
     }
+    else if (password.length<8 || password.length>16){
+      setPasswordError('Invaid Password');
+    }
     else if (password=='test'){
       //want to actually check password from database but not worrying about that rn
       //want to load group page after submitting
     }
     else {
-      setPasswordError('Wrong Password');
+      setPasswordError('Incorrect Password');
     }
     setOpen(true)
   }
