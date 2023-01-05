@@ -18,7 +18,6 @@ class ApiError {
 /**
  * UnauthorizedError
  * @class
- * @public
  * @constructor
  * @extends ApiError
  *
@@ -34,7 +33,6 @@ class UnauthorizedError extends ApiError {
 /**
  * NotFoundError
  * @class
- * @public
  * @constructor
  * @extends ApiError
  *
@@ -51,4 +49,21 @@ class NotFoundError extends ApiError {
   }
 }
 
-export { UnauthorizedError, NotFoundError };
+/**
+ * InternalServerError
+ * @class
+ * @constructor
+ * @extends ApiError
+ */
+class InternalServerError extends ApiError {
+  /**
+   * constructor
+   * @param {Error | string} err
+   */
+  constructor(err) {
+    super('Something went wrong, try again later.', 500);
+    console.log(err);
+  }
+}
+
+export { ApiError, UnauthorizedError, NotFoundError, InternalServerError };
