@@ -1,1 +1,1 @@
-export { verifyJwt } from './verifyJwt';
+export * from './jwt';
