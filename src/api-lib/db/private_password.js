@@ -1,11 +1,10 @@
+import bcrypt from 'bcrypt';
 import { GroupPasswords } from 'api-lib/model/groupPw';
 import {
   NotFoundError,
   UnauthorizedError,
   InternalServerError,
 } from 'api-lib/util/exceptions';
-
-import bcrypt from 'bcrypt';
 
 /**
  * validateGroupPassword
