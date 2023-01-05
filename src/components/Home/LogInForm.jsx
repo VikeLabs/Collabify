@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Button ,  Alert, Snackbar, TextField} from '@mui/material';
+import { Button ,  Alert, Snackbar, TextField,CircularProgress} from '@mui/material';
 
 
 import utilities from 'styles/utilities.module.css';
@@ -16,6 +16,7 @@ export const LogInForm = ({ setIAuth }) => {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [open, setOpen] = useState(false);
+  const [loading,setLoading]= useState(false);
 
   const handlePasswordChange=(e)=>{
     setPasswordError('');
@@ -36,9 +37,11 @@ export const LogInForm = ({ setIAuth }) => {
     else if (password.length<8 || password.length>16){
       setPasswordError('Invaid Password');
     }
-    else if (password=='test'){
-      //want to actually check password from database but not worrying about that rn
-      //want to load group page after submitting
+    else if (password.length>=8 || password.length<=16){
+      setLoading(true);
+      ////////fetch data here
+      setLoading(false); //remove this if you want to see loading state as the fetch fnction is not done. so its really quick.
+      
     }
     else {
       setPasswordError('Incorrect Password');
@@ -74,7 +77,9 @@ export const LogInForm = ({ setIAuth }) => {
         size='large' 
         variant="contained"
         onClick={handleFormSubmit}>
-          Submit
+          {loading ? (
+          <CircularProgress color="secondary" />
+          ) : "Submit"}
         </Button>
       </div>
 
@@ -86,6 +91,7 @@ export const LogInForm = ({ setIAuth }) => {
 };
 
 const mockFetch = (fetchStatus) => {
+
   return new Promise((resolve, _) => {
     setTimeout(() => {
       switch (fetchStatus) {
@@ -98,4 +104,5 @@ const mockFetch = (fetchStatus) => {
       }
     }, 500);
   });
+
 };
