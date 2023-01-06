@@ -1,59 +1,64 @@
-import { expect, it, describe, afterAll } from '@jest/globals';
+import { expect, it, describe } from '@jest/globals';
 import { validateGroupPassword } from 'api-lib/db/private_password';
 import { Group, GroupPasswords } from 'api-lib/model';
 import { NotFoundError, UnauthorizedError } from 'api-lib/util/exceptions';
 import { saveGroup } from 'api-lib/db/helpers/saveGroup';
 import ld from 'lodash';
 import { privateGroup } from './mockdata/db_group_mock';
+import dbConnect from 'api-lib/dbConnect';
 
-const savedGroupIDs = [];
+const test_group = async (callback) => {
+  await dbConnect();
+  try {
+    const test_group = ld.cloneDeep(privateGroup);
+    const groupID = await saveGroup(test_group);
+    await callback(groupID);
 
-const test_group = (callback) => {
-  const test_group = ld.cloneDeep(privateGroup);
-  saveGroup(test_group)
-    .then((groupID) => {
-      savedGroupIDs.push(groupID);
-      callback(groupID);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    // delete saved group
+    await Group.deleteOne({ _id: groupID });
+    // delete saved password
+    await GroupPasswords.deleteOne({ group: groupID });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-afterAll(async () => {
-  try {
-    // delete saved group
-    await Group.deleteMany({ _id: { $in: savedGroupIDs } });
-    // delete saved password
-    await GroupPasswords.deleteMany({ group: { $in: savedGroupIDs } });
-  } catch (e) {
-    console.warn(`Test error:\n${e}`);
-  }
-});
-
 describe("Testing arg for validateGroupPassword's callback", () => {
-  it('_err_ is null if password is correct', () => {
-    test_group((groupID) => {
+  it('_err_ is null if password is correct', async () => {
+    await test_group(async (groupID) => {
       validateGroupPassword(
-        { groupID: groupID, password: privateGroup.password },
-        (err) => expect(err).toBeNull()
+        { groupID, password: privateGroup.password },
+        (err) => {
+          expect(err).toBeNull();
+        }
       );
     });
   });
 
-  it('_err_ is NotFoundError', () => {
-    test_group((_) => {
+  it('_err_ is NotFoundError', async () => {
+    await test_group(async (_) => {
       validateGroupPassword(
-        { groupID: 'somerandomeid', password: privateGroup.password },
-        (err) => expect(err).toBeInstanceOf(NotFoundError)
+        {
+          groupID: 'wrongGroupID',
+          password: privateGroup.password,
+        },
+        (err) => {
+          expect(err).toBeInstanceOf(NotFoundError);
+        }
       );
     });
   });
 
-  it('_err_ is UnauthorizedError', () => {
-    test_group((groupID) => {
-      validateGroupPassword({ groupID, password: 'wrongpassword' }, (err) =>
-        expect(err).toBeInstanceOf(UnauthorizedError)
+  it('_err_ is UnauthorizedError', async () => {
+    await test_group(async (groupID) => {
+      validateGroupPassword(
+        {
+          groupID,
+          password: 'wrongGroupPassword',
+        },
+        (err) => {
+          expect(err).toBeInstanceOf(UnauthorizedError);
+        }
       );
     });
   });
