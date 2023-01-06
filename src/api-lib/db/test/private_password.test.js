@@ -25,7 +25,7 @@ const test_group = async (callback) => {
 
 describe("Testing arg for validateGroupPassword's callback", () => {
   it('_err_ is null if password is correct', async () => {
-    await test_group(async (groupID) => {
+    await test_group((groupID) => {
       validateGroupPassword(
         { groupID, password: privateGroup.password },
         (err) => {
@@ -36,7 +36,7 @@ describe("Testing arg for validateGroupPassword's callback", () => {
   });
 
   it('_err_ is NotFoundError', async () => {
-    await test_group(async (_) => {
+    await test_group((_) => {
       validateGroupPassword(
         {
           groupID: 'wrongGroupID',
@@ -50,7 +50,7 @@ describe("Testing arg for validateGroupPassword's callback", () => {
   });
 
   it('_err_ is UnauthorizedError', async () => {
-    await test_group(async (groupID) => {
+    await test_group((groupID) => {
       validateGroupPassword(
         {
           groupID,
