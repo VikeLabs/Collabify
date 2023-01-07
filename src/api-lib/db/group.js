@@ -9,16 +9,10 @@ import {
 import { saveGroup } from './helpers';
 
 /**
- * createGroup
- * @params {{ group: mongoose.model.Group }}: an instance of `Group` schema
- * @return {{ groupID: mongoose.Types.objectID | string | null, createGroupError: InternalServerError | null }}
- *
- * Saves group info then handle password encryption. If it fails to
- * encrypt the password it will delete the saved group and returns an
- * error. This is due to the nature that not all group is private,
- * and in case a private group does not provide any password.
+ * @param {{ group: mongoose.model.Group }}: an instance of `Group` schema
+ * @return {{ groupID: string | null, createGroupError: InternalServerError | null }}
  */
-export const createGroup = async ({ group }) => {
+export const createGroup = async (group) => {
   try {
     const groupID = await saveGroup(group);
     return { groupID, createGroupError: null };
