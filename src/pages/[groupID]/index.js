@@ -18,17 +18,11 @@ export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
 
-  /*
-  const [data, isLoading, apiError] = useAsyncFetch(
-    `${GROUP_CALENDAR}/${groupID}`
-  );
-  */
-
   /* FETCH GROUP INFORMATION ON MOUNT */
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
-  const [isAuth, setIsAuth] = useState(false); // TODO: integrate this
+  const [isAuth, setIsAuth] = useState(true);
 
   useEffect(() => {
     setIsLoading(() => true);
@@ -47,7 +41,7 @@ export default function GroupHome() {
             setData(() => null);
             setIsLoading(() => false);
             setApiError(() => 'unauthorized message');
-            // Do something here when user is unauthorized
+            setIsAuth(() => false);
             return;
           }
 

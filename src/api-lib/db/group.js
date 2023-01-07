@@ -1,33 +1,59 @@
 import mongoose from 'mongoose';
-import { Group } from 'api-lib/model';
+import { Group, GroupPasswords } from 'api-lib/model';
 import {
   GroupPasswordError,
   NotFoundError,
   InternalServerError,
 } from 'api-lib/util/exceptions';
-
-import { saveGroup } from './helpers';
+import _ from 'lodash';
+import bcrypt from 'bcrypt';
 
 /**
- * @param {{ group: mongoose.model.Group }}: an instance of `Group` schema
+ * @param {{ group: mongoose.model.Group }} group - an instance of `Group` schema
+ * @param {(groupID: string, err: InternalServerError | null) => void} callback
  * @return {{ groupID: string | null, createGroupError: InternalServerError | null }}
  */
-export const createGroup = async (group) => {
+export const createGroup = async (group, callback) => {
   try {
-    const groupID = await saveGroup(group);
-    return { groupID, createGroupError: null };
-  } catch (e) {
-    // handling saveGroup promise rejection for private group with no password
-    if (e instanceof GroupPasswordError) {
-      Group.findOneAndDelete({ _id: e.groupID }, (err, _) => {
-        console.error(`failed to save group: ${group.name}`);
-        if (err) {
-          console.warn(`Requires manual deletion of group: ${group}`);
-        }
-      });
+    // extracting password
+    let pw;
+    if (group.isPrivate) {
+      pw = _.cloneDeep(group.password);
+      delete group.password;
     }
+    /* SAVE GROUP */
+    const newGroup = new Group(group);
+    const groupID = await newGroup.save().then((savedDoc) => {
+      console.log(savedDoc);
+      return savedDoc['_id'];
+    });
 
-    return { groupID: null, createGroupError: new InternalServerError(e) };
+    if (!group.isPrivate) {
+      return callback(groupID, null);
+    }
+    /* ENCRYPT PASSWORD */
+    const saltRounds = 10;
+    bcrypt.hash(pw, saltRounds, async (hashErr, hash) => {
+      if (hashErr) {
+        const passwordErr = new GroupPasswordError({
+          message: hashErr.message,
+          groupID,
+        });
+        return callback(null, new InternalServerError(passwordErr));
+      }
+
+      // save pw
+      const newPassword = new GroupPasswords({
+        password: hash,
+        group: groupID,
+      });
+
+      await newPassword.save().then(() => {
+        return callback(groupID, null);
+      });
+    });
+  } catch (e) {
+    return callback(null, new InternalServerError(e));
   }
 };
 
