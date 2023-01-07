@@ -1,13 +1,17 @@
 import mongoose from 'mongoose';
 import { Group } from 'api-lib/model';
-import { GroupPasswordError, NotFoundError } from 'api-lib/util/exceptions';
+import {
+  GroupPasswordError,
+  NotFoundError,
+  InternalServerError,
+} from 'api-lib/util/exceptions';
 
 import { saveGroup } from './helpers';
 
 /**
  * createGroup
- * @params {object} group: group Schema
- * @return {object}: { groupID: monoose.Types.objectID | null, createGroupError: Error | null }
+ * @params {{ group: mongoose.model.Group }}: an instance of `Group` schema
+ * @return {{ groupID: mongoose.Types.objectID | string | null, createGroupError: InternalServerError | null }}
  *
  * Saves group info then handle password encryption. If it fails to
  * encrypt the password it will delete the saved group and returns an
@@ -29,7 +33,7 @@ export const createGroup = async ({ group }) => {
       });
     }
 
-    return { groupID: null, createGroupError: new Error(e) };
+    return { groupID: null, createGroupError: new InternalServerError(e) };
   }
 };
 

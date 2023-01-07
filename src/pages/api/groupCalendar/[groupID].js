@@ -39,14 +39,16 @@ export default async function handler(req, res) {
           const cookie = Cookie.New(req, res);
           const token = cookie.getPrivateGroupToken();
 
-          if (!token) {
-            return res.status(401); // no token
+          if (!token || token === '') {
+            throw new UnauthorizedError();
           }
 
-          const decoded = await verifyJwt(token);
-          if (decoded.groupID !== groupID) {
-            return res.status(401); // token invalid
-          }
+          console.log('error made it here');
+          verifyJwt(token, (decodedToken) => {
+            if (decodedToken !== groupID) {
+              throw new UnauthorizedError();
+            }
+          });
         }
 
         const { availabilities, events } = group;
@@ -58,13 +60,12 @@ export default async function handler(req, res) {
         const allEvents = parseEvents(value[1]);
 
         res.status(200).json({
-          ok: true,
           group,
           calendarEvents: [...allAvailabilities, ...allEvents],
         });
       } catch (error) {
         if (error instanceof UnauthorizedError) {
-          return res.status(401).json({ message: error.message });
+          return res.status(401).json();
         }
 
         sendRequestError(res, error);
