@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * @deprecated use `useFetchState` instead, see `./src/hooks/useFetchState.js`
+ * @param {string} endpoint
+ * @return {[any, boolean, null | string]}
+ */
 const useAsyncFetch = (endpoint) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
