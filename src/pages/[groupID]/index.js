@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Alert, Box, IconButton } from '@mui/material';
 
-import { useAddRecentGroup, useAsyncFetch } from 'hooks';
+import { useAddRecentGroup } from 'hooks';
 import { BASE_URL, EVENT, GROUP_CALENDAR } from 'constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
-import { LogInForm } from 'components/Home/LogInForm';
 import { Check, CopyAllOutlined } from '@mui/icons-material';
 import { getTodaysDate } from 'helper/getTodaysDate';
 import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
+import { UnauthorizedError } from 'api-lib/util/exceptions/apiExceptions';
 
 export default function GroupHome() {
   const router = useRouter();
@@ -22,7 +22,15 @@ export default function GroupHome() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
-  const [isAuth, setIsAuth] = useState(true);
+
+  // reset state
+  useEffect(() => {
+    return () => {
+      setData(() => null);
+      setIsLoading(() => false);
+      setApiError(() => null);
+    };
+  });
 
   useEffect(() => {
     setIsLoading(() => true);
@@ -38,13 +46,8 @@ export default function GroupHome() {
       })
         .then((res) => {
           if (res.status === 401) {
-            setData(() => null);
-            setIsLoading(() => false);
-            setApiError(() => 'unauthorized message');
-            setIsAuth(() => true);
-            return;
+            throw new UnauthorizedError();
           }
-          console.log(res);
 
           return res.json();
         })
@@ -54,7 +57,10 @@ export default function GroupHome() {
           setApiError(() => null);
         })
         .catch((err) => {
-          console.log(err);
+          if (err instanceof UnauthorizedError) {
+            router.push(`/auth/${groupID}`);
+            return;
+          }
           setApiError(() => err.message);
           setIsLoading(() => false);
         });
@@ -120,66 +126,60 @@ export default function GroupHome() {
         </Alert>
       )}
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      {!isAuth ? (
-        <Container>
-          <LogInForm setIsAuth={setIsAuth} />
-        </Container>
-      ) : (
-        <Container
-          header={data?.group?.name}
-          menu={[
-            {
-              icon: 'Settings',
-              text: 'Group Settings',
-              onClick: () => router.replace(`/${groupID}/settings`),
-            },
-            {
-              icon: 'ArrowBack',
-              text: 'Back',
-              onClick: () => router.replace('/'),
-            },
-          ]}
-          rightIcon={'EventAvailable'}
-          rightIconClick={() =>
-            router.replace(`/${groupID}/availability/${date}`)
-          }
-        >
-          <GroupBanner icon={data?.group?.icon} />
-          <br />
-          <h2 className={utilities.heading}>
-            AVAILABILITY LINK:&nbsp;
-            <span className={utilities.subHeading}>
-              Send to your group members to get results
-            </span>
-          </h2>
-          <Box className={style.container}>
-            <IconButton
-              aria-label='copy link'
-              color={linkCopied ? 'success' : 'primary'}
-              onClick={copyLink}
-            >
-              {linkCopied ? <Check /> : <CopyAllOutlined />}
-            </IconButton>
+      <Container
+        header={data?.group?.name}
+        menu={[
+          {
+            icon: 'Settings',
+            text: 'Group Settings',
+            onClick: () => router.replace(`/${groupID}/settings`),
+          },
+          {
+            icon: 'ArrowBack',
+            text: 'Back',
+            onClick: () => router.replace('/'),
+          },
+        ]}
+        rightIcon={'EventAvailable'}
+        rightIconClick={() =>
+          router.replace(`/${groupID}/availability/${date}`)
+        }
+      >
+        <GroupBanner icon={data?.group?.icon} />
+        <br />
+        <h2 className={utilities.heading}>
+          AVAILABILITY LINK:&nbsp;
+          <span className={utilities.subHeading}>
+            Send to your group members to get results
+          </span>
+        </h2>
+        <Box className={style.container}>
+          <IconButton
+            aria-label='copy link'
+            color={linkCopied ? 'success' : 'primary'}
+            onClick={copyLink}
+          >
+            {linkCopied ? <Check /> : <CopyAllOutlined />}
+          </IconButton>
 
-            <Box
-              className={style.linkContainer}
-              onClick={copyLink}
-            >
-              <p className={style.linkText}>
-                {BASE_URL}/{groupID}/availability/{date}
-              </p>
-            </Box>
+          <Box
+            className={style.linkContainer}
+            onClick={copyLink}
+          >
+            <p className={style.linkText}>
+              {BASE_URL}/{groupID}/availability/{date}
+            </p>
           </Box>
-          <br />
-          <GroupCalendar
-            calendarEvents={data?.calendarEvents}
-            createEvent={createEvent}
-            slotMinTime={data?.group?.calendarMinTime}
-            slotMaxTime={data?.group?.calendarMaxTime}
-            setDate={setDate}
-          />
-        </Container>
-      )}
+        </Box>
+        <br />
+        <GroupCalendar
+          calendarEvents={data?.calendarEvents}
+          createEvent={createEvent}
+          slotMinTime={data?.group?.calendarMinTime}
+          slotMaxTime={data?.group?.calendarMaxTime}
+          setDate={setDate}
+        />
+      </Container>
     </>
   );
 }
