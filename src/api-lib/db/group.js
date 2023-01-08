@@ -9,52 +9,49 @@ import _ from 'lodash';
 import bcrypt from 'bcrypt';
 
 /**
+ * createGroup
  * @param {{ group: mongoose.model.Group }} group - an instance of `Group` schema
  * @param {(groupID: string, err: InternalServerError | null) => void} callback
- * @return {{ groupID: string | null, createGroupError: InternalServerError | null }}
  */
-export const createGroup = async (group, callback) => {
-  try {
-    // extracting password
-    let pw;
-    if (group.isPrivate) {
-      pw = _.cloneDeep(group.password);
-      delete group.password;
-    }
-    /* SAVE GROUP */
-    const newGroup = new Group(group);
-    const groupID = await newGroup.save().then((savedDoc) => {
-      console.log(savedDoc);
-      return savedDoc['_id'];
-    });
+export const createGroup = (group, callback) => {
+  /* Extracting password */
+  let pw;
+  if (group.isPrivate) {
+    pw = _.cloneDeep(group.password);
+    delete group.password;
+  }
 
-    if (!group.isPrivate) {
-      return callback(groupID, null);
-    }
-    /* ENCRYPT PASSWORD */
-    const saltRounds = 10;
-    bcrypt.hash(pw, saltRounds, async (hashErr, hash) => {
-      if (hashErr) {
-        const passwordErr = new GroupPasswordError({
-          message: hashErr.message,
-          groupID,
-        });
-        return callback(null, new InternalServerError(passwordErr));
-      }
+  /* Save group */
+  const newGroup = new Group(group).save();
+  const groupID = newGroup['_id'];
 
-      // save pw
+  if (!group.isPrivate) {
+    return callback(groupID, null);
+  }
+
+  /* Encrypt and save password */
+  const saltRounds = 10;
+  bcrypt
+    .hash(pw, saltRounds)
+    .then((hash) => {
       const newPassword = new GroupPasswords({
         password: hash,
         group: groupID,
       });
 
-      await newPassword.save().then(() => {
-        return callback(groupID, null);
+      newPassword.save().then(() => {
+        callback(groupID, null);
       });
+    })
+    .catch((hashErr) => {
+      const passwordErr = new GroupPasswordError({
+        message: hashErr.message,
+        groupID,
+      });
+      console.log(hashErr);
+      // callback('', new InternalServerError(passwordErr));
+      return;
     });
-  } catch (e) {
-    return callback(null, new InternalServerError(e));
-  }
 };
 
 export const getGroup = async ({ groupID }) => {

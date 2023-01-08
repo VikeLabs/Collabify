@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -11,37 +11,50 @@ import {
 import utilities from 'styles/utilities.module.css';
 import styles from 'styles/components/LogInForm.module.css';
 
+/**
+ * @return {[boolean, string | null, React.Dispatch<React.SetStateAction<boolean>>, React.Dispatch<React.SetStateAction<string | null>>]}
+ */
+const useError = () => {
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState(null);
+
+  // display error for 3 seconds
+  useEffect(() => {
+    if (error) {
+      setOpen(() => true);
+      const timeoutID = setTimeout(() => setOpen(() => false), 3000);
+      return () => timeoutID;
+    }
+  }, [error]);
+
+  return [open, error, setError, setError];
+};
+
 export const LogInForm = ({ handleSubmit }) => {
   const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [open, passwordError, setOpen, setPasswordError] = useError();
 
   const handlePasswordChange = (e) => {
-    setPasswordError('');
-    setPassword(e.target.value);
+    setPasswordError(() => '');
+    setPassword(() => e.target.value);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-    setOpen(false);
+    setOpen(() => false);
   };
 
-  const handleFormSubmit = (e) => {
-    if (password == '') {
-      setPasswordError('Password Required');
-    } else if (password.length < 8 || password.length > 16) {
-      setPasswordError('Invaid Password');
-    } else if (password.length >= 8 && password.length <= 16) {
-      setLoading(true);
-      //fetch data here
-      setLoading(false); //remove this if you want to see loading state as the fetch fnction is not done. so its really quick.
-    } else {
-      setPasswordError('Incorrect Password');
-    }
-    setOpen(true);
+  const handleFormSubmit = () => {
+    setIsLoading(() => true);
+    handleSubmit(password, (errorMessage) => {
+      if (errorMessage) {
+        setIsLoading(() => false);
+        setPasswordError(() => errorMessage);
+      }
+    });
   };
 
   return (
@@ -54,7 +67,7 @@ export const LogInForm = ({ handleSubmit }) => {
       <div>
         <TextField
           className={styles.inputFieldAuth}
-          label='Password (enter to gain access)'
+          label='Password (8 to 16 characters)'
           variant='filled'
           type='password'
           size='large'
@@ -85,25 +98,11 @@ export const LogInForm = ({ handleSubmit }) => {
           size='large'
           variant='contained'
           onClick={handleFormSubmit}
+          disabled={password.length < 8 || password.length > 16}
         >
-          {loading ? <CircularProgress color='secondary' /> : 'Submit'}
+          {isLoading ? <CircularProgress color='secondary' /> : 'Submit'}
         </Button>
       </div>
     </section>
   );
-};
-
-const mockFetch = (fetchStatus) => {
-  return new Promise((resolve, _) => {
-    setTimeout(() => {
-      switch (fetchStatus) {
-        case 'failed':
-          return resolve({ status: 401 });
-        case 'ok':
-          return resolve({ status: 200 });
-        default:
-          return resolve({ status: 500 });
-      }
-    }, 500);
-  });
 };

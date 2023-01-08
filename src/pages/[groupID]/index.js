@@ -23,15 +23,6 @@ export default function GroupHome() {
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState(null);
 
-  // reset state
-  useEffect(() => {
-    return () => {
-      setData(() => null);
-      setIsLoading(() => false);
-      setApiError(() => null);
-    };
-  });
-
   useEffect(() => {
     setIsLoading(() => true);
     setApiError(() => null);
@@ -52,6 +43,7 @@ export default function GroupHome() {
           return res.json();
         })
         .then((result) => {
+          console.log(result);
           setData(() => result);
           setIsLoading(() => false);
           setApiError(() => null);

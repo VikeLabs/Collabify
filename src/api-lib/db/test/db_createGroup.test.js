@@ -9,15 +9,19 @@ import {
   privateGroup as _privateGroup,
 } from './mockdata/db_group_mock';
 
-const run = async (callback) => {
+const run_test = () => {
+  return new Promise(() => {
+    dbConnect().then(() => {
+      return {
+        privateGroup: ld.cloneDeep(_privateGroup),
+        publicGroup: ld.cloneDeep(_publicGroup),
+      };
+    });
+  });
+};
+
+const cleanUp = async (groupID) => {
   try {
-    await dbConnect();
-
-    const privateGroup = ld.cloneDeep(_privateGroup);
-    const publicGroup = ld.cloneDeep(_publicGroup);
-
-    const groupID = await callback({ privateGroup, publicGroup });
-
     await Group.findOneAndDelete({ _id: groupID });
     await GroupPasswords.findOneAndDelete({ group: groupID });
   } catch (e) {
@@ -27,41 +31,43 @@ const run = async (callback) => {
 
 describe('/api-lib/db/group test suite', () => {
   describe('Public group', () => {
-    it('Saves public group', async () => {
-      await run(async ({ publicGroup }) => {
-        const { groupID, createGroupError } = createGroup(publicGroup);
-        expect(createGroupError).toBeFalsy();
-
-        return groupID;
-      });
+    it('Saves public group', () => {
+      run_test()
+        .then(({ publicGroup }) => {
+          createGroup(publicGroup, (groupID, err) => {
+            expect(err).toBeNull();
+            return groupID;
+          });
+        })
+        .then((groupID) => cleanUp(groupID));
     });
-    //
+
     describe('Private group tests', () => {
-      it('Saves private group', async () => {
-        await run(async ({ privateGroup }) => {
-          const { groupID, createGroupError } = createGroup(privateGroup);
-          expect(createGroupError).toBeFalsy();
-
-          return groupID;
+      it('Saves private group', () => {
+        run_test(async ({ privateGroup }) => {
+          createGroup(privateGroup, (groupID, err) => {
+            expect(err).toBeFalsy();
+            return groupID;
+          }).then((groupID) => cleanUp(groupID));
         });
       });
       //
-      it('Deletes private group password', async () => {
-        await run(async ({ privateGroup }) => {
-          const { groupID } = createGroup(privateGroup);
-          expect(privateGroup.password).toBeUndefined();
-
-          return groupID;
+      it('Deletes private group password', () => {
+        run_test(({ privateGroup }) => {
+          createGroup(privateGroup, (groupID, _) => {
+            expect(privateGroup.password).toBeUndefined();
+            return groupID;
+          }).then((groupID) => cleanUp(groupID));
         });
       });
       //
-      it('Throws error private group password is not provided', async () => {
-        await run(async ({ privateGroup }) => {
+      it('Throws error private group password is not provided', () => {
+        run_test(({ privateGroup }) => {
           delete privateGroup.password;
-          const { groupID, createGroupError } = createGroup(privateGroup);
-          expect(createGroupError).toBeTruthy();
-
-          return groupID;
+          createGroup(privateGroup, (groupID, err) => {
+            expect(err).toBeTruthy();
+            return groupID;
+          }).then((groupID) => cleanUp(groupID));
         });
       });
     });
