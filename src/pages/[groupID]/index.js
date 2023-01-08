@@ -41,9 +41,10 @@ export default function GroupHome() {
             setData(() => null);
             setIsLoading(() => false);
             setApiError(() => 'unauthorized message');
-            setIsAuth(() => false);
+            setIsAuth(() => true);
             return;
           }
+          console.log(res);
 
           return res.json();
         })
@@ -53,6 +54,7 @@ export default function GroupHome() {
           setApiError(() => null);
         })
         .catch((err) => {
+          console.log(err);
           setApiError(() => err.message);
           setIsLoading(() => false);
         });

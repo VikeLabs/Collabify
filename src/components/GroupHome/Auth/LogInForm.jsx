@@ -11,15 +11,7 @@ import {
 import utilities from 'styles/utilities.module.css';
 import styles from 'styles/components/LogInForm.module.css';
 
-/**
- * setIsAuth: setState<boolean>
- *            -- call `setIsAuth(() => true)` on success
- */
-export const LogInForm = ({ setIAuth }) => {
-  {
-    /* Entering Password To Authenticate*/
-  }
-
+export const LogInForm = ({ handleSubmit }) => {
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [open, setOpen] = useState(false);
