@@ -1,18 +1,16 @@
-import C from 'cookies';
+import Cookie_ from 'cookies';
 
 /**
  * @class
  * @constructor
  */
-export class Cookie {
-  cookie;
-
+export class Cookie extends Cookie_ {
   /**
    * @param {Request} req
    * @param {Response} res
    */
   constructor(req, res) {
-    this.cookie = new C(req, res);
+    super(req, res);
   }
 
   /**
@@ -33,11 +31,13 @@ export class Cookie {
    * @return {string} `private_group` from cookie
    */
   getPrivateGroupToken() {
-    return this.cookie.get('private_group');
+    return this.get('private_group');
   }
 
   /**
-   * @return {void} set `private_group` to cookie
+   * @param {string} token
+   *
+   * Sets a cookie entry `private_group` with the value token
    */
   setPrivateGroupToken(token) {
     const cookieOpt = {
@@ -45,6 +45,6 @@ export class Cookie {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: false,
     };
-    this.cookie.set('private_group', token, cookieOpt);
+    this.set('private_group', token, cookieOpt);
   }
 }

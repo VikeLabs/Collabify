@@ -28,7 +28,6 @@ export default function handler(req, res) {
           const { group, groupError } = await getGroup({ groupID });
           if (groupError !== null) {
             if (groupError instanceof NotFoundError) {
-              console.log(groupError.message);
               sendNoDocumentError(res);
               return resolve();
             }
@@ -64,9 +63,10 @@ export default function handler(req, res) {
             calendarEvents: [...allAvailabilities, ...allEvents],
           });
         } catch (error) {
-          console.log(error);
           if (error instanceof UnauthorizedError) {
             return res.status(401).json();
+          } else {
+            console.log(error);
           }
 
           sendRequestError(res, error);

@@ -14,21 +14,21 @@ export default async function handler(req, res) {
       return resolve();
     }
 
-    /* EXTRACTING GROUP INFO */
-    const group = req.body;
-
-    // if group is private and no password is provided
-    if (group.isPrivate && (!group.password || group.password === '')) {
-      res.status(400).json({
-        message: 'Group is private but no password is provided',
-      });
-      return resolve();
-    }
-
-    /* SAVE TO DB */
-    await dbConnect();
-
     try {
+      /* EXTRACTING GROUP INFO */
+      const group = req.body;
+
+      // if group is private and no password is provided
+      if (group.isPrivate && (!group.password || group.password === '')) {
+        res.status(400).json({
+          message: 'Group is private but no password is provided',
+        });
+        return resolve();
+      }
+
+      /* SAVE TO DB */
+      await dbConnect();
+
       createGroup(group, (groupID, err) => {
         //
         if (err) {

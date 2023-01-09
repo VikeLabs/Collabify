@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 import { Group, GroupPasswords } from 'api-lib/model';
-import {
-  GroupPasswordError,
-  NotFoundError,
-  InternalServerError,
-} from 'api-lib/util/exceptions';
+import { NotFoundError, InternalServerError } from 'api-lib/util/exceptions';
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 
@@ -13,52 +9,43 @@ import bcrypt from 'bcrypt';
  * @param {{ group: mongoose.model.Group }} group - an instance of `Group` schema
  * @param {(groupID: string, err: InternalServerError | null) => void} callback
  */
-export const createGroup = (group, callback) => {
-  /* Extracting password */
-  let pw;
-  if (group.isPrivate) {
-    pw = _.cloneDeep(group.password);
-    delete group.password;
+export const createGroup = async (group, callback) => {
+  try {
+    /* Extracting password */
+    let pw;
+    if (group.isPrivate) {
+      pw = _.cloneDeep(group.password);
+      delete group.password;
+    }
+
+    /* Save group */
+    const groupID = await new Group(group).save().then((doc) => doc['_id']);
+
+    if (!group.isPrivate) {
+      return callback(groupID, null);
+    }
+
+    /* Encrypt and save password */
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(pw, saltRounds);
+
+    await new GroupPasswords({
+      password: hashedPassword,
+      group: groupID,
+    }).save();
+
+    callback(groupID, null);
+    return;
+  } catch (e) {
+    callback('', new InternalServerError(e));
   }
-
-  /* Save group */
-  const newGroup = new Group(group).save();
-  const groupID = newGroup['_id'];
-
-  if (!group.isPrivate) {
-    return callback(groupID, null);
-  }
-
-  /* Encrypt and save password */
-  const saltRounds = 10;
-  bcrypt
-    .hash(pw, saltRounds)
-    .then((hash) => {
-      const newPassword = new GroupPasswords({
-        password: hash,
-        group: groupID,
-      });
-
-      newPassword.save().then(() => {
-        callback(groupID, null);
-      });
-    })
-    .catch((hashErr) => {
-      const passwordErr = new GroupPasswordError({
-        message: hashErr.message,
-        groupID,
-      });
-      console.log(hashErr);
-      // callback('', new InternalServerError(passwordErr));
-      return;
-    });
 };
 
 export const getGroup = async ({ groupID }) => {
   // Gets the group by the group name
   // Doesn't return error because it gets handled on api side (result.length > 0)
   try {
-    const group = await Group.findById(groupID);
+    const group = await Group.findById(mongoose.Types.ObjectId(groupID));
     return group
       ? { group, groupError: null }
       : {
