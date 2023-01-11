@@ -3,7 +3,7 @@ import { LogInForm } from 'components/GroupHome/Auth/LogInForm';
 import { AUTH_GROUP } from 'constants';
 import { useRouter } from 'next/router';
 
-export default () => {
+export default function PrivateGroupAuth() {
   const router = useRouter();
   const { groupID } = router.query;
 
