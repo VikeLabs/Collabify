@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Alert, Box, IconButton } from '@mui/material';
 
-import { useAddRecentGroup, useAsyncFetch } from 'hooks';
+import { useAddRecentGroup } from 'hooks';
 import { BASE_URL, EVENT, GROUP_CALENDAR } from 'constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/Container';
@@ -12,22 +12,64 @@ import { getTodaysDate } from 'helper/getTodaysDate';
 import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
+import { UnauthorizedError } from 'api-lib/util/exceptions/apiExceptions';
 
 export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
 
-  const [data, isLoading, apiError] = useAsyncFetch(
-    `${GROUP_CALENDAR}/${groupID}`
-  );
+  /* FETCH GROUP INFORMATION ON MOUNT */
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [apiError, setApiError] = useState(null);
+
+  useEffect(() => {
+    setIsLoading(() => true);
+    setApiError(() => null);
+
+    groupID &&
+      fetch(`${GROUP_CALENDAR}/${groupID}`, {
+        headers: {
+          method: 'GET',
+          'Content-Type': 'application/json',
+          credentials: 'include',
+        },
+      })
+        .then((res) => {
+          if (res.status === 401) {
+            throw new UnauthorizedError();
+          }
+
+          return res.json();
+        })
+        .then((result) => {
+          console.log(result);
+          setData(() => result);
+          setIsLoading(() => false);
+          setApiError(() => null);
+        })
+        .catch((err) => {
+          if (err instanceof UnauthorizedError) {
+            router.push(`/auth/${groupID}`);
+            return;
+          }
+          setApiError(() => err.message);
+          setIsLoading(() => false);
+        });
+  }, [groupID]);
+
   const [hasError, setHasError] = useState(apiError);
-  const [date, setDate] = useState(getTodaysDate())
+  const [date, setDate] = useState(getTodaysDate());
   const [linkCopied, setLinkCopied] = useState(false);
+
   // If availability has been filled out show alert for 5 seconds
   const [successAlert, setSuccessAlert] = useState(false);
   useEffect(() => {
-    setSuccessAlert(availabilityFilled === 'true');
-    setTimeout(() => setSuccessAlert(false), 5000);
+    setSuccessAlert(() => availabilityFilled === 'true');
+
+    const alertTimeoutID = setTimeout(() => setSuccessAlert(() => false), 5000);
+
+    return () => clearTimeout(alertTimeoutID);
   }, [availabilityFilled]);
 
   // Adds group to recent groups storage

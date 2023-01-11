@@ -1,64 +1,104 @@
-import { Alert } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useBool } from 'hooks';
+
 // Components
 import { Container } from 'components/Container';
 import { Spinner } from 'components/Loading';
-import { GroupInfo, Icons, LandingBanner, TimeSlots } from 'components/Home';
+import {
+  GroupInfo,
+  Icons,
+  LandingBanner,
+  TimeSlots,
+  PrivateGroupInfo,
+} from 'components/Home';
 import { getAllIcons } from 'components/MuiIcon';
 
 // MUI
 import Button from '@mui/material/Button';
-
-import { GROUP } from '../constants';
+import { Alert } from '@mui/material'; // `Skeleton` not used
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 import Head from 'next/head';
 
+import { GROUP } from '../constants';
+
 export default function Home() {
   const router = useRouter();
 
-  // Icons related
+  /* GROUP ICON */
   const [activeIcon, setActiveIcon] = useState(getAllIcons()[0]); // default first icon
-  // Information related
-  const [hasError, setHasError] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+
+  /* GROUP INFORMAION */
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
-  const createGroup = () => {
-    if (name === '') {
-      setHasError('Missing required input (name)');
-    } else if (
-      parseInt(calendarMinTime.replace(':', '')) >
-      parseInt(calendarMaxTime.replace(':', ''))
-    ) {
-      setHasError('Minimum Time cannot be greater than Maximum Time');
-    } else if (name?.length > 20) {
-      setHasError('Name must be under 20 characters');
+  /* PRIVATE GROUP */
+  const groupPrivate = useBool(true);
+  const [password, setPassword] = useState('');
+
+  /* FORM VALIDATION */
+  const [hasError, setHasError] = useState(false);
+  const isDisabled = useBool(true);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // check for calendar time
+  // check for private group and sufficient information
+  useEffect(() => {
+    if (name === '' || isSaving) {
+      isDisabled.setBool(() => true);
+      return;
+    }
+
+    if (groupPrivate.bool && (password.length < 8 || password.length > 16)) {
+      isDisabled.setBool(() => true);
     } else {
-      setIsSaving(true);
-      fetch(GROUP, {
+      isDisabled.setBool(() => false);
+    }
+  }, [groupPrivate.bool, name, password]);
+
+  const createGroup = async () => {
+    if (name === '') {
+      return setHasError('Missing required input (name)');
+    }
+
+    if (name.length > 20) {
+      return setHasError('Name must be under 20 characters');
+    }
+
+    setIsSaving(true);
+
+    try {
+      const response = await fetch(GROUP, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           name,
+          isPrivate: groupPrivate.bool,
+          password,
           description,
           icon: activeIcon,
           calendarMinTime,
           calendarMaxTime,
         }),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          if (result.ok) router.push(`/${result.groupID}`);
-          else {
-            setIsSaving(false);
-            setHasError(result.message);
-          }
-        });
+      });
+      const result = await response.json();
+
+      if (response.status !== 200) {
+        setIsSaving(false);
+        setHasError(result.message);
+      } else {
+        router.push(`/${result.groupID}`);
+      }
+    } catch (e) {
+      console.log(e);
+      setIsSaving(() => false);
+      setHasError(() => 'Something went wrong, try again later.');
     }
   };
 
@@ -82,7 +122,7 @@ export default function Home() {
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
-          {/* Landing Banner */}
+          {/* LANDING BANNER */}
           <LandingBanner />
           {/* ICON */}
           <Icons
@@ -103,12 +143,19 @@ export default function Home() {
             description={description}
             setDescription={setDescription}
           />
+          {/* PRIVATE GROUP*/}
+          <PrivateGroupInfo
+            isPrivate={groupPrivate.bool}
+            password={password}
+            setPassword={setPassword}
+            handleToggleSwitch={groupPrivate.toggleBool}
+          />
         </div>
-        {/* Submit button */}
+        {/* SUBMIT BUTTON */}
         <div className={utilities.buttonContainer}>
           <Button
             variant='contained'
-            disabled={!name || isSaving ? true : false}
+            disabled={isDisabled.bool}
             onClick={createGroup}
             className={utilities.button}
           >
@@ -118,7 +165,10 @@ export default function Home() {
       </Container>
       <Head>
         <title>Collabify</title>
-        <meta name="description" content="Collabify makes coordinating times easier"/>
+        <meta
+          name='description'
+          content='Collabify makes coordinating times easier'
+        />
       </Head>
     </>
   );

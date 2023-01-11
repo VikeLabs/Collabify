@@ -4,52 +4,79 @@ import {
   getGroup,
   getAvailabilitiesFromGroup,
 } from 'api-lib/db';
+import { verifyJwt } from 'api-lib/auth';
+import { NotFoundError, UnauthorizedError } from 'api-lib/util/exceptions';
 import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
 import {
   parseAvailabilities,
   parseEvents,
 } from 'api-lib/util/calendarStrength';
 
-export default async function handler(req, res) {
-  const { method } = req;
+import { Cookie } from 'api-lib/requests/cookie';
 
-  await dbConnect();
+export default function handler(req, res) {
+  return new Promise(async (resolve) => {
+    const { method } = req;
 
-  switch (method) {
-    case 'GET':
-      try {
-        const { groupID } = req.query;
-        const { groupError, group } = await getGroup({ groupID });
+    await dbConnect();
 
-        const { availabilitiesError, availabilities } =
-          await getAvailabilitiesFromGroup({
-            groupID,
-          });
+    switch (method) {
+      case 'GET':
+        try {
+          const { groupID } = req.query;
 
-        const { eventsError, events } = await getEventsFromGroup({
-          groupID,
-        });
+          const { group, groupError } = await getGroup({ groupID });
+          if (groupError !== null) {
+            if (groupError instanceof NotFoundError) {
+              sendNoDocumentError(res);
+              return resolve();
+            }
+            sendRequestError(res, groupError);
+          }
 
-        if (groupError || availabilitiesError || eventsError) {
-          sendNoDocumentError(res);
-        } else {
-          const allAvailabilities = parseAvailabilities(availabilities);
-          const allEvents = parseEvents(events);
+          /* Validate authorization for private group */
+          if (group.isPrivate) {
+            const cookie = Cookie.New(req, res);
+            const token = cookie.getPrivateGroupToken();
+
+            if (!token || token === '') {
+              throw new UnauthorizedError();
+            }
+
+            verifyJwt(token, (decodedToken) => {
+              if (decodedToken.groupID !== groupID) {
+                throw new UnauthorizedError();
+              }
+            });
+          }
+
+          const { availabilities, events } = group;
+          const groupAvails = getAvailabilitiesFromGroup(availabilities);
+          const groupEvents = getEventsFromGroup(events);
+
+          const value = await Promise.all([groupAvails, groupEvents]);
+          const allAvailabilities = parseAvailabilities(value[0]);
+          const allEvents = parseEvents(value[1]);
 
           res.status(200).json({
-            ok: true,
             group,
             calendarEvents: [...allAvailabilities, ...allEvents],
           });
+        } catch (error) {
+          if (error instanceof UnauthorizedError) {
+            return res.status(401).json();
+          } else {
+            console.log(error);
+          }
+
+          sendRequestError(res, error);
+          return resolve();
         }
-      } catch (error) {
-        sendRequestError(res, error);
-      }
 
-      break;
-    default:
-      res.status(405).json({ message: 'Method Not Allowed' });
-
-      break;
-  }
+        break;
+      default:
+        res.status(405).json({ message: 'Method Not Allowed' });
+        return resolve();
+    }
+  });
 }

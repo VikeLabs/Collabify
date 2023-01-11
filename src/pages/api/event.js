@@ -22,14 +22,14 @@ export default async function handler(req, res) {
         else {
           numbers.forEach((_, index) => {
             sendText(
-              numbers[index], 
+              numbers[index],
               `Hello ${names[index]}, an EVENT has been created
               \n${startToEndStandardTime(event.time.start, event.time.end)}
               \n${event.title}
               \n${event.description}
               \n\nSee all events: https://collabify.space/${groupID}/`
-              )
-          })
+            );
+          });
           res.status(200).json({ ok: true });
         }
       } catch (error) {

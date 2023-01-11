@@ -40,7 +40,7 @@ export const GroupCalendar = ({
     numbers: [],
   });
   // Creating calendar ref
-  const calendarRef = useRef()
+  const calendarRef = useRef();
 
   // This function only runs once when the page first render
   useEffect(() => {
@@ -138,21 +138,21 @@ export const GroupCalendar = ({
         }}
         weekends={true}
         customButtons={{
-        prev: {
-          click: function () {
-            const calendarApi = calendarRef.current.getApi()
-            calendarApi.prev()
-            setDate(e => moment(e).subtract(7, 'd').format('YYYY-MM-DD'))
+          prev: {
+            click: function () {
+              const calendarApi = calendarRef.current.getApi();
+              calendarApi.prev();
+              setDate((e) => moment(e).subtract(7, 'd').format('YYYY-MM-DD'));
+            },
           },
-        },
-        next: {
-          click: function () {
-            const calendarApi = calendarRef.current.getApi()
-            calendarApi.next()
-            setDate(e => moment(e).add(7, 'd').format('YYYY-MM-DD'))
+          next: {
+            click: function () {
+              const calendarApi = calendarRef.current.getApi();
+              calendarApi.next();
+              setDate((e) => moment(e).add(7, 'd').format('YYYY-MM-DD'));
+            },
           },
-        },
-      }}
+        }}
         headerToolbar={{
           start: 'prev',
           center: 'title',

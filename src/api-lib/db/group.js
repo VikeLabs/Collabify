@@ -1,54 +1,70 @@
 import mongoose from 'mongoose';
-import { Group } from '../model';
+import { Group, GroupPasswords } from 'api-lib/model';
+import { NotFoundError, InternalServerError } from 'api-lib/util/exceptions';
+import _ from 'lodash';
+import bcrypt from 'bcrypt';
 
-export const createGroup = async ({ group }) => {
-  // Creates group
-  // If theres an error function will return true
-  const model = new Group(group);
-  const { error, groupID } = await model
-    .save()
-    .then((e) => {
-      return {
-        error: false,
-        groupID: e._id,
-      };
-    })
-    .catch((err) => {
-      console.error(err);
-      return {
-        error: true,
-        groupID: null,
-      };
-    });
+/**
+ * createGroup
+ * @param {{ group: mongoose.model.Group }} group - an instance of `Group` schema
+ * @param {(groupID: string, err: InternalServerError | null) => void} callback
+ */
+export const createGroup = async (group, callback) => {
+  try {
+    /* Extracting password */
+    let pw;
+    if (group.isPrivate) {
+      pw = _.cloneDeep(group.password);
+      delete group.password;
+    }
 
-  return {
-    error,
-    groupID,
-  };
+    /* Save group */
+    const groupID = await new Group(group).save().then((doc) => doc['_id']);
+
+    if (!group.isPrivate) {
+      return callback(groupID, null);
+    }
+
+    /* Encrypt and save password */
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(pw, saltRounds);
+
+    await new GroupPasswords({
+      password: hashedPassword,
+      group: groupID,
+    }).save();
+
+    callback(groupID, null);
+    return;
+  } catch (e) {
+    callback('', new InternalServerError(e));
+  }
 };
 
 export const getGroup = async ({ groupID }) => {
   // Gets the group by the group name
   // Doesn't return error because it gets handled on api side (result.length > 0)
-  let error = false;
-  const group = await Group.findOne({ _id: groupID });
-
-  if (!group) {
-    error = true;
+  try {
+    const group = await Group.findById(mongoose.Types.ObjectId(groupID));
+    return group
+      ? { group, groupError: null }
+      : {
+          group: null,
+          groupError: new NotFoundError(`Group not found: ${groupID}`),
+        };
+  } catch (e) {
+    return {
+      group: null,
+      groupError: new Error(e),
+    };
   }
-
-  return {
-    error,
-    group,
-  };
 };
 
 export const getManyGroups = async ({ groupIDs }) => {
   // groupIDs should be an array of ids
   let error = false;
-  const groupIDsArray = groupIDs?.map(e => mongoose.Types.ObjectId(e))
-  const groups = await Group.find({ _id: { $in: groupIDsArray} 
-  });
+  const groupIDsArray = groupIDs?.map((e) => mongoose.Types.ObjectId(e));
+  const groups = await Group.find({ _id: { $in: groupIDsArray } });
 
   if (!groups) {
     error = true;
@@ -72,17 +88,19 @@ export const getAllGroups = async () => {
     error,
     groups,
   };
-}
+};
 
 export const updateGroup = async ({ groupID, group }) => {
   // Updates group
   // If theres an error function will return true
-  const { error } = await Group.updateOne({_id: groupID}, 
+  const { error } = await Group.updateOne(
+    { _id: groupID },
     {
-      $set: group
-    })
+      $set: group,
+    }
+  )
     .then((e) => {
-      console.log(e)
+      console.log(e);
       return {
         error: false,
       };
@@ -95,6 +113,6 @@ export const updateGroup = async ({ groupID, group }) => {
     });
 
   return {
-    error
+    error,
   };
 };

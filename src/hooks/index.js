@@ -2,5 +2,12 @@ import useAsyncFetch from './useAsyncFetch';
 import useDeviceDetect from './useDeviceDetect';
 import useAddRecentGroup from './useAddRecentGroup';
 import useLocalStorage from './useLocalStorage';
+import useBool from './useBool';
 
-export { useAsyncFetch, useDeviceDetect, useAddRecentGroup, useLocalStorage };
+export {
+  useBool,
+  useAsyncFetch,
+  useDeviceDetect,
+  useAddRecentGroup,
+  useLocalStorage,
+};

@@ -4,15 +4,11 @@
   --secondary-light: #b8def0;
   --tertiary-main: #fb8500;
   --tertiary-light: #ffb703;
-  --background-main: #2d5abc;
-  --background-light: #d6ecf6;
-  --background-dark: #2753b8;
+  --background: #d6ecf6;
 }
 
 body {
-  background-color: var(--background-main);
-  background-image: url('../../public/assets/app_background.png');
-  background-repeat: repeat;
+  background-color: var(--background);
   overflow-x: hidden;
 }
 
@@ -44,6 +40,6 @@ th {
     font-size: 92%;
   }
   table .fc-col-header {
-    background-color: var(--background-light);
+    background-color: var(--background);
   }
 }

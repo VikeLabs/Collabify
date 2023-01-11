@@ -4,14 +4,23 @@ import { Container } from 'components/Container';
 export function ListSkeleton() {
   return (
     <Container header='loading...'>
-        <Box sx={{ width: '80%', marginLeft: '10%' }}>
-            <Skeleton height={100} />
-            <Skeleton height={100} animation="wave" />
-            <Skeleton height={100} />
-            <Skeleton height={100} animation="wave" />
-            <Skeleton height={100} />
-            <Skeleton height={100} animation="wave" />
-        </Box>
+      <Box sx={{ width: '80%', marginLeft: '10%' }}>
+        <Skeleton height={100} />
+        <Skeleton
+          height={100}
+          animation='wave'
+        />
+        <Skeleton height={100} />
+        <Skeleton
+          height={100}
+          animation='wave'
+        />
+        <Skeleton height={100} />
+        <Skeleton
+          height={100}
+          animation='wave'
+        />
+      </Box>
     </Container>
   );
 }

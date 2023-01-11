@@ -10,7 +10,10 @@ const _c = {
 
 const determineBackground = (namesLength, highestNamesLength) => {
   // Names length divided by the highest names length will give a color strength
-  if (typeof namesLength !== 'number' || typeof highestNamesLength !== 'number') {
+  if (
+    typeof namesLength !== 'number' ||
+    typeof highestNamesLength !== 'number'
+  ) {
     throw new TypeError(
       `expected [number:number], got [${typeof namesLength}:${typeof highestNamesLength}]`
     );

@@ -20,23 +20,24 @@ export const Container = ({
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   // showing tooltip
-  const [showTooltip, setShowToolTip] = useLocalStorage(CLOSE_ALL_TOOLTIPS)
+  const [showTooltip, setShowToolTip] = useLocalStorage(CLOSE_ALL_TOOLTIPS);
   // Icon init
   const LeftIconComponent = Icons[leftIcon];
   const RightIconComponent = Icons[rightIcon];
   const MenuIconComponent = Icons['ExpandMore'];
 
   return (
-    <section className={style.container}>
+    <div>
       <header className={style.headerContainer}>
+        {/*TODO: Talk about having the navbar overtop of child as scroll */}
         {menu && (
           <IntroTooltip
-            text="extend for more options"
+            text='extend for more options'
             visible={showTooltip === undefined ?? true}
-            close={()=> setShowToolTip(false)}
+            close={() => setShowToolTip(false)}
             closeAll={() => {
-              setShowToolTip(false)
-              localStorage.setItem(CLOSE_ALL_TOOLTIPS, true)
+              setShowToolTip(false);
+              localStorage.setItem(CLOSE_ALL_TOOLTIPS, true);
             }}
           >
             <MenuIconComponent
@@ -76,7 +77,7 @@ export const Container = ({
           />
         )}
         {leftIcon && (
-          <div aria-label='back button'>
+          <div>
             <LeftIconComponent
               onClick={leftIconClick}
               icon={leftIcon}
@@ -90,7 +91,7 @@ export const Container = ({
           </div>
         )}
         {rightIcon && (
-          <div aria-label='create availability'>
+          <div>
             <RightIconComponent
               onClick={rightIconClick}
               icon={rightIcon}
@@ -133,6 +134,6 @@ export const Container = ({
         {/* styling for children node is NOT handled by this component */}
         <div className={style.content}>{children}</div>
       </div>
-    </section>
+    </div>
   );
 };

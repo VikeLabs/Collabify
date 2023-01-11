@@ -6,7 +6,7 @@ import { stringifyTime } from './helpers/stringifyTime';
 export const parseAvailabilities = (availabilities) => {
   const [events, people] = dataSanitize(availabilities);
   let parseAvails = []; // to be returned
-  let highestNamesLength = 0
+  let highestNamesLength = 0;
 
   for (const event of events) {
     try {
@@ -33,7 +33,7 @@ export const parseAvailabilities = (availabilities) => {
         }
         // Determining the highestNamesLength
         if (newEventEntry.names.length > highestNamesLength) {
-          highestNamesLength = newEventEntry.names.length
+          highestNamesLength = newEventEntry.names.length;
         }
 
         parseAvails.push(newEventEntry);
@@ -50,7 +50,7 @@ export const parseAvailabilities = (availabilities) => {
     avail.backgroundColor = determineBackground(
       avail.names.length,
       highestNamesLength
-    )
+    );
   }
 
   return parseAvails;

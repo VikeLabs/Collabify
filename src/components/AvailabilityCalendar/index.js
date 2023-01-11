@@ -41,13 +41,13 @@ export const AvailabilityCalendar = ({
       weekends={showWeekend}
       customButtons={{
         undo: {
-          text: <UndoIcon/>,
+          text: <UndoIcon />,
           click: function () {
             updateTimes((arr) => arr.slice(0, -1));
           },
         },
         weekend: {
-          text: <DateRangeIcon/>,
+          text: <DateRangeIcon />,
           click: function () {
             setShowWeekend(!showWeekend);
           },
