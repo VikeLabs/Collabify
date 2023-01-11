@@ -57,7 +57,7 @@ export default function RecentGroups() {
               >
                 <ListItemAvatar>
                   <div className={style.iconContainer}>
-                    <MuiIcon icon={e.icon} />
+                    <MuiIcon icon={e.isPrivate ? 'Lock' : e.icon} />
                   </div>
                 </ListItemAvatar>
                 <Stack>
