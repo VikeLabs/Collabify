@@ -9,22 +9,22 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'GET':
-        try {
-            const { groupError, groups } = await getAllGroups();
-            if (groupError) {
-                sendNoDocumentError(res);
-            } else {
-            res.status(200).json({
-                ok: true,
-                groups,
-            });
-            }
-        } catch (error) {
-            sendRequestError(res, error);
+      try {
+        const { groupError, groups } = await getAllGroups();
+        if (groupError) {
+          sendNoDocumentError(res);
+        } else {
+          res.status(200).json({
+            ok: true,
+            groups,
+          });
         }
-        break;
+      } catch (error) {
+        sendRequestError(res, error);
+      }
+      break;
     default:
-        res.status(405).json({ message: 'Method Not Allowed' });
-        break;
+      res.status(405).json({ message: 'Method Not Allowed' });
+      break;
   }
 }

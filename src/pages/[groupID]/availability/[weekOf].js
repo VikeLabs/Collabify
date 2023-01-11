@@ -27,13 +27,13 @@ export default function Availability() {
 
   // API validator
   const [hasError, setHasError] = useState(apiError);
-  const [isSaving, setIsSaving] = useState(false)
+  const [isSaving, setIsSaving] = useState(false);
 
   const [times, updateTimes] = useState([]);
 
   // Save the selected availability
   const saveAvailability = () => {
-    setIsSaving(true)
+    setIsSaving(true);
     // Send request to API
     fetch(AVAILABILITY, {
       method: 'POST',
@@ -51,8 +51,8 @@ export default function Availability() {
       .then((result) => {
         if (result.ok) {
           router.replace(`/${groupID}?availabilityFilled=true`);
-        } else { 
-          setIsSaving(false)
+        } else {
+          setIsSaving(false);
           setHasError(result.message);
         }
       });
@@ -63,10 +63,10 @@ export default function Availability() {
   return (
     <>
       {hasError && <Alert severity='error'>{hasError}</Alert>}
-      <Container 
-      header={data?.group?.name} 
-      leftIcon={'ArrowBack'} 
-      leftIconClick={()=> router.replace(`/${groupID}`)}
+      <Container
+        header={data?.group?.name}
+        leftIcon={'ArrowBack'}
+        leftIconClick={() => router.replace(`/${groupID}`)}
       >
         <Spinner isLoading={isSaving} />
         <h2 className={utilities.heading}>

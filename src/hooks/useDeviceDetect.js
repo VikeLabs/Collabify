@@ -15,6 +15,6 @@ const useDeviceDetect = () => {
   }, []);
 
   return { isMobile };
-}
+};
 
 export default useDeviceDetect;

@@ -21,9 +21,7 @@ export default function GroupSettings() {
 
   const { groupID } = router.query;
 
-  const [data, isLoading, apiError] = useAsyncFetch(
-    `${GROUP}/${groupID}`
-  );
+  const [data, isLoading, apiError] = useAsyncFetch(`${GROUP}/${groupID}`);
 
   // Icons related
   const [activeIcon, setActiveIcon] = useState(null);
@@ -35,16 +33,16 @@ export default function GroupSettings() {
   const [calendarMinTime, setCalendarMinTime] = useState(null);
   const [calendarMaxTime, setCalendarMaxTime] = useState(null);
 
-  useEffect(()=> {
-    const { group } = data
+  useEffect(() => {
+    const { group } = data;
     if (group) {
-        setActiveIcon(group.icon)
-        setName(group.name)
-        setDescription(group.description)
-        setCalendarMinTime(group.calendarMinTime)
-        setCalendarMaxTime(group.calendarMaxTime)
+      setActiveIcon(group.icon);
+      setName(group.name);
+      setDescription(group.description);
+      setCalendarMinTime(group.calendarMinTime);
+      setCalendarMaxTime(group.calendarMaxTime);
     }
-  }, [data])
+  }, [data]);
 
   const editGroup = () => {
     if (name === '') {
@@ -79,7 +77,7 @@ export default function GroupSettings() {
     }
   };
 
-  if (isLoading) return <SettingsSkeleton/>
+  if (isLoading) return <SettingsSkeleton />;
 
   return (
     <>
