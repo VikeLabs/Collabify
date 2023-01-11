@@ -6,7 +6,7 @@
 }
 
 .container {
-  background-color: var(--background-light);
+  background-color: var(--background);
   outline: none;
   position: absolute;
   border-radius: 1em;

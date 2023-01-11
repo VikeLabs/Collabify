@@ -27,8 +27,9 @@ export const Container = ({
   const MenuIconComponent = Icons['ExpandMore'];
 
   return (
-    <section className={style.container}>
+    <div>
       <header className={style.headerContainer}>
+        {/*TODO: Talk about having the navbar overtop of child as scroll */}
         {menu && (
           <IntroTooltip
             text="extend for more options"
@@ -76,7 +77,7 @@ export const Container = ({
           />
         )}
         {leftIcon && (
-          <div aria-label='back button'>
+          <div>
             <LeftIconComponent
               onClick={leftIconClick}
               icon={leftIcon}
@@ -90,7 +91,7 @@ export const Container = ({
           </div>
         )}
         {rightIcon && (
-          <div aria-label='create availability'>
+          <div>
             <RightIconComponent
               onClick={rightIconClick}
               icon={rightIcon}
@@ -133,6 +134,6 @@ export const Container = ({
         {/* styling for children node is NOT handled by this component */}
         <div className={style.content}>{children}</div>
       </div>
-    </section>
+    </div>
   );
 };
