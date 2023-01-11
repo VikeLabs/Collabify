@@ -13,7 +13,6 @@ export const IntroTooltip = ({text, visible, close, closeAll, children}) => {
     </div>
     }
     interactive={true}
-    trigger="manual"
     placement="bottom"
     visible={visible}
     >
