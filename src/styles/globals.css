@@ -8,8 +8,12 @@
 }
 
 body {
-  background-color: var(--background);
+  background-color: var(--background) !important;
   overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 th .fc-day-today {

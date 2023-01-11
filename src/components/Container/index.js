@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Divider, Menu, MenuItem } from '@mui/material';
 import { IntroTooltip } from 'components/IntroTooltip';
 import { CLOSE_ALL_TOOLTIPS } from 'constants';
+import { AppBar } from '../../../node_modules/@material-ui/core/index';
 
 export const Container = ({
   header = '',
@@ -28,7 +29,7 @@ export const Container = ({
 
   return (
     <div>
-      <header className={style.headerContainer}>
+      <AppBar className={style.headerContainer} position="static">
         {/*TODO: Talk about having the navbar overtop of child as scroll */}
         {menu && (
           <IntroTooltip
@@ -106,7 +107,7 @@ export const Container = ({
           </div>
         )}
         <h1 className={style.header}>{header}</h1>
-      </header>
+      </AppBar>
       {/* Drop down menu */}
       <Menu
         anchorEl={anchorEl}
