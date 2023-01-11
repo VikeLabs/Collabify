@@ -1,19 +1,29 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-// Gets whats in the local storage key
+/**
+ * @param {string} key - localStorage item key
+ * @param {any} defaultValue - localStorage item default value
+ * @returns {[string, React.Dispatch<React.SetStateAction<any>>]}
+ *
+ * Whenever the `setState` function is called, the new value will be
+ * set to localStorage
+ */
 export const useLocalStorage = (key, defaultValue) => {
-  const [value, setValue] = useState(() => {
-    return getStorageValue(key, defaultValue);
-  });
+  const [value, setValue] = useState(null);
+
+  // NOTE:
+  // Since NextJS renders things on server side, if localStorage were to be used,
+  // it throws an error, thus it needs to be wrapped in a useEffect and will only
+  // call `localStorage` when the component is mounted.
+  useEffect(() => {
+    const initialValue = localStorage.getItem(key) || defaultValue;
+    setValue(() => initialValue);
+  }, []);
+
+  // set item to localStorage
+  useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value]);
 
   return [value, setValue];
 };
-
-function getStorageValue(key, defaultValue) {
-  // getting stored value
-  if (typeof window !== 'undefined') {
-    const saved = localStorage.getItem(key);
-    const initial = JSON.parse(saved);
-    return initial || defaultValue;
-  }
-}
