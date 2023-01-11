@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
  * @param {string} endpoint
  * @return {[any, boolean, null | string]}
  */
-const useAsyncFetch = (endpoint) => {
+export const useAsyncFetch = (endpoint) => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(null);
@@ -31,5 +31,3 @@ const useAsyncFetch = (endpoint) => {
 
   return [data, isLoading, hasError];
 };
-
-export default useAsyncFetch;

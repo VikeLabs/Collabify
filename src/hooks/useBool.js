@@ -7,7 +7,7 @@ import { useState } from 'react';
  *
  * - returns the state, the setState function, and the toggle state function
  */
-const useBool = (initialState) => {
+export const useBool = (initialState) => {
   if (typeof initialState !== 'boolean') {
     throw new TypeError(
       `initialState is of type boolean, got ${typeof initialState}`
@@ -19,5 +19,3 @@ const useBool = (initialState) => {
 
   return { bool, setBool, toggleBool };
 };
-
-export default useBool;

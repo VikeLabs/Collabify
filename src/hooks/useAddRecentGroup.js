@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { RECENT_GROUPS_STORED } from 'constants';
 
-const useAddRecentGroup = (group) => {
+export const useAddRecentGroup = (group) => {
   useEffect(() => {
     // Temp solution... We need to only save group.id, and we need to make
     // sure that the recently visited group is at the first array index
@@ -25,5 +25,3 @@ const useAddRecentGroup = (group) => {
     }
   }, [group]);
 };
-
-export default useAddRecentGroup;
