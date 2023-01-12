@@ -2,6 +2,7 @@ import { Container } from 'components/Container';
 import { LogInForm } from 'components/GroupHome/Auth/LogInForm';
 import { AUTH_GROUP } from 'constants';
 import { useRouter } from 'next/router';
+import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 export default function PrivateGroupAuth() {
   const router = useRouter();
@@ -25,13 +26,23 @@ export default function PrivateGroupAuth() {
             callback('Password incorrect.');
             break;
           case 200:
-            router.replace(`/${groupID}`);
-            break;
+            return res.json();
           default:
             console.log(res);
             callback('Something went wrong. Try again later.');
             break;
         }
+      })
+      .then((data) => {
+        if (!data) return;
+
+        const access_token = data['access_token'];
+        if (!access_token) {
+          throw new Error('Missing in response: access_token');
+        }
+
+        PrivateGroupTokens.saveGroupToken({ groupID, access_token });
+        router.replace(`/${groupID}`);
       })
       .catch((e) => {
         console.log(e);
@@ -40,11 +51,12 @@ export default function PrivateGroupAuth() {
   };
 
   return (
-    <Container 
-    header='Private Group' 
-    leftIcon={'ArrowBack'}
-    leftIconClick={() => router.replace(`/`)}>
+    <Container
+      header='Private Group'
+      leftIcon={'ArrowBack'}
+      leftIconClick={() => router.replace(`/`)}
+    >
       <LogInForm handleSubmit={handleSubmit} />;
     </Container>
   );
-};
+}

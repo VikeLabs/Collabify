@@ -13,6 +13,7 @@ import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
 import { UnauthorizedError } from 'api-lib/util/exceptions/apiExceptions';
+import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 export default function GroupHome() {
   const router = useRouter();
@@ -27,12 +28,14 @@ export default function GroupHome() {
     setIsLoading(() => true);
     setApiError(() => null);
 
+    const token = PrivateGroupTokens.getGroupToken(groupID);
+
     groupID &&
       fetch(`${GROUP_CALENDAR}/${groupID}`, {
         headers: {
           method: 'GET',
           'Content-Type': 'application/json',
-          credentials: 'include',
+          Authorization: `Bearer ${token}`,
         },
       })
         .then((res) => {
