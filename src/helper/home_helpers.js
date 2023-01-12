@@ -1,4 +1,4 @@
-import { GROUP } from 'constants';
+import { GROUP, PRIVATE_GROUP_ACCESS_TOKENS } from 'constants';
 /**
  * @typedef {Object} RequestBody
  * @property {string} name
@@ -11,15 +11,9 @@ import { GROUP } from 'constants';
  */
 
 /**
- * @typedef {Object} ResponseData
- * @property {string} groupID
- * @property {string} [token]
- */
-
-/**
  * @callback RequestCallback
  * @param {string} [errorMessage]
- * @param {ResponseData} [data]
+ * @param {string} [groupID]
  * @returns {void}
  */
 
@@ -43,9 +37,29 @@ export async function createGroupRequest(body, cb) {
       return cb(data.message, null);
     }
 
-    return cb(null, data);
+    data['access_token'] && saveGroupToken(data);
+
+    return cb(null, data['groupID']);
   } catch (e) {
     console.log(e);
     return cb('Something went wrong. Please try again later.', null);
   }
+}
+
+/**
+ * @param {RequestBody} data
+ */
+export function saveGroupToken(data) {
+  if (typeof window === 'undefined') return;
+
+  const savedGroups = localStorage.getItem(PRIVATE_GROUP_ACCESS_TOKENS);
+
+  const privateGroupTokens = savedGroups ? JSON.parse(savedGroups) : [];
+
+  privateGroupTokens.push(data);
+
+  localStorage.setItem(
+    PRIVATE_GROUP_ACCESS_TOKENS,
+    JSON.stringify(privateGroupTokens)
+  );
 }

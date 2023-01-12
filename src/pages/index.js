@@ -23,8 +23,6 @@ import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 import Head from 'next/head';
 
-import { GROUP } from '../constants';
-
 export default function Home() {
   const router = useRouter();
 
@@ -61,7 +59,7 @@ export default function Home() {
     }
   }, [groupPrivate.bool, name, password]);
 
-  const createGroup = async () => {
+  const createGroup = () => {
     setIsSaving(() => true);
 
     const newGroup = {
@@ -74,14 +72,8 @@ export default function Home() {
       calendarMaxTime,
     };
 
-    createGroupRequest(newGroup, (err, data) => {
+    createGroupRequest(newGroup, (err, groupID) => {
       if (err) return setHasError(() => err);
-
-      const { groupID, token } = data;
-
-      if (token) {
-        // save to localStorage here
-      }
 
       router.push(`/${groupID}`);
     }).then(() => setIsSaving(() => false));
