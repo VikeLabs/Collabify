@@ -29,25 +29,26 @@ export default async function handler(req, res) {
       /* SAVE TO DB */
       await dbConnect();
 
+      const responseBuffer = {};
       createGroup(group, (groupID, err) => {
-        //
         if (err) {
           sendDatabaseError(res);
           return resolve();
         }
+
+        responseBuffer['groupID'] = groupID;
         /* Signing a jwt token and send it back (cookie) */
         if (group.isPrivate) {
           const tokenOpt = {
             expiresIn: 60 * 60 * 24 * 7, // expires in 7 days
           };
           const token = jwt.sign({ groupID }, PRIVATE_GROUP_SECRET, tokenOpt);
+          responseBuffer['access_token'] = token;
 
           const cookie = Cookie.New(req, res);
           cookie.setPrivateGroupToken(token);
         }
-        res.status(200).json({
-          groupID,
-        });
+        res.status(201).json(responseBuffer);
         return resolve();
       });
     } catch (err) {

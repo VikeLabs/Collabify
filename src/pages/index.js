@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useBool } from 'hooks';
+import { createGroupRequest } from 'helper/home_helpers';
 
 // Components
 import { Container } from 'components/Container';
@@ -61,45 +62,29 @@ export default function Home() {
   }, [groupPrivate.bool, name, password]);
 
   const createGroup = async () => {
-    if (name === '') {
-      return setHasError('Missing required input (name)');
-    }
+    setIsSaving(() => true);
 
-    if (name.length > 20) {
-      return setHasError('Name must be under 20 characters');
-    }
+    const newGroup = {
+      name,
+      isPrivate: groupPrivate.bool,
+      password,
+      description,
+      icon: activeIcon,
+      calendarMinTime,
+      calendarMaxTime,
+    };
 
-    setIsSaving(true);
+    createGroupRequest(newGroup, (err, data) => {
+      if (err) return setHasError(() => err);
 
-    try {
-      const response = await fetch(GROUP, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          isPrivate: groupPrivate.bool,
-          password,
-          description,
-          icon: activeIcon,
-          calendarMinTime,
-          calendarMaxTime,
-        }),
-      });
-      const result = await response.json();
+      const { groupID, token } = data;
 
-      if (response.status !== 200) {
-        setIsSaving(false);
-        setHasError(result.message);
-      } else {
-        router.push(`/${result.groupID}`);
+      if (token) {
+        // save to localStorage here
       }
-    } catch (e) {
-      console.log(e);
-      setIsSaving(() => false);
-      setHasError(() => 'Something went wrong, try again later.');
-    }
+
+      router.push(`/${groupID}`);
+    }).then(() => setIsSaving(() => false));
   };
 
   return (
