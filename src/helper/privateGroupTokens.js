@@ -1,20 +1,22 @@
-/**
- * @typedef {Object} PrivateGroupToken
- * @property {string} groupID
- * @property {string} access_token
- */
+/** @module:PrivateGroupTokens */
 
+/** API to handle group token and local storage */
 export class PrivateGroupTokens {
   /**
+   * LocalStorage entry for private group tokens
+   *
    * @private
-   * @type {string}
-   * localStorage entry for private group tokens
+   * @static
    * */
   static _ENTRY_ = 'CollabifyPrivateGroupTokens';
 
   /**
+   * Maps/overrides a `groupID:token` in private group local storage entry
+   *
    * @public
-   * @param {PrivateGroupToken} data
+   * @static
+   * @param {string} groupID - private group ID
+   * @param {string} access_token - JWT token
    */
   static setGroupToken(groupID, access_token) {
     if (typeof window === 'undefined') return;
@@ -25,10 +27,12 @@ export class PrivateGroupTokens {
   }
 
   /**
+   * Gets the `access_token` of the provided `groupID`
+   *
    * @public
    * @static
    * @param {string} groupID
-   * @return {(string | null)} jwtToken
+   * @return {string | null} jwtToken
    */
   static getGroupToken(groupID) {
     const tokens = this._getGroupTokens();
@@ -36,12 +40,15 @@ export class PrivateGroupTokens {
   }
 
   /**
+   * Get/initialize the entry of private group token in local storage
+   *
    * @private
-   * @returns {PrivateGroupToken[]} privateGroupTokens
+   * @static
+   * @returns {Record<string, string>} privateGroupTokens
    */
   static _getGroupTokens() {
     const savedGroups = localStorage.getItem(this._ENTRY_);
-    const privateGroupTokens = savedGroups ? JSON.parse(savedGroups) : {};
-    return privateGroupTokens;
+    const tokens = savedGroups ? JSON.parse(savedGroups) : {};
+    return tokens;
   }
 }
