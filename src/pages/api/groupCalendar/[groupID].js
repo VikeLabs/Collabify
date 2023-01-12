@@ -12,8 +12,6 @@ import {
   parseEvents,
 } from 'api-lib/util/calendarStrength';
 
-import { Cookie } from 'api-lib/requests/cookie';
-
 export default function handler(req, res) {
   return new Promise(async (resolve) => {
     const { method } = req;
@@ -36,11 +34,10 @@ export default function handler(req, res) {
 
           /* Validate authorization for private group */
           if (group.isPrivate) {
-            const cookie = Cookie.New(req, res);
-            const token = cookie.getPrivateGroupToken();
-
-            if (!token || token === '') {
-              throw new UnauthorizedError();
+            const token = getAuthToken(req.rawHeaders);
+            if (!token) {
+              res.status(401).json({ message: 'Invalid auth token.' });
+              return resolve();
             }
 
             verifyJwt(token, (decodedToken) => {
@@ -65,11 +62,12 @@ export default function handler(req, res) {
         } catch (error) {
           if (error instanceof UnauthorizedError) {
             return res.status(401).json();
-          } else {
-            console.log(error);
           }
 
+          console.log(error);
+
           sendRequestError(res, error);
+
           return resolve();
         }
 
@@ -80,3 +78,19 @@ export default function handler(req, res) {
     }
   });
 }
+
+/**
+ * @param {string[]} rawHeaders - an array of header entries
+ * @return {string} [token]
+ */
+const getAuthToken = (rawHeaders) => {
+  const authEntry = rawHeaders.findIndex((entry) => entry === 'Authorization');
+  if (authEntry === -1) return null;
+
+  const authString = rawHeaders[authEntry + 1];
+  const [tokenType, token] = authString.split(' ');
+
+  if (tokenType !== 'Bearer') return null;
+
+  return token;
+};
