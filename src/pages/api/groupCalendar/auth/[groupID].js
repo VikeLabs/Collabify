@@ -1,7 +1,6 @@
 import { validateGroupPassword } from 'api-lib/db/private_password';
 import { ApiError } from 'api-lib/util/exceptions';
 import { signJWT } from 'api-lib/auth';
-import { Cookie } from 'api-lib/requests/cookie';
 import dbConnect from 'api-lib/dbConnect';
 
 export default function (req, res) {
@@ -25,11 +24,10 @@ export default function (req, res) {
             }
 
             // group validated, send back credentials
-            const cookie = Cookie.New(req, res);
             const token = signJWT({ groupID });
-            cookie.setPrivateGroupToken(token);
-
-            res.status(200).json();
+            const responseBuffer = {};
+            responseBuffer['access_token'] = token;
+            res.status(200).json(responseBuffer);
             return resolve();
           });
         }

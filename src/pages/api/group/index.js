@@ -37,7 +37,7 @@ export default async function handler(req, res) {
         const responseBuffer = {};
 
         responseBuffer['groupID'] = groupID;
-        /* Signing a jwt token and send it back (cookie) */
+        /* Signing a jwt token and send it back */
         if (group.isPrivate) {
           const tokenOpt = {
             expiresIn: 60 * 60 * 24 * 7, // expires in 7 days
