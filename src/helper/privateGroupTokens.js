@@ -16,19 +16,11 @@ export class PrivateGroupTokens {
    * @public
    * @param {PrivateGroupToken} data
    */
-  static saveGroupToken(data) {
+  static setGroupToken(groupID, access_token) {
     if (typeof window === 'undefined') return;
 
     const tokens = this._getGroupTokens();
-
-    // if token exists
-    const token = tokens.find((token) => token.groupID === data.groupID);
-    if (!token) {
-      tokens.push(data);
-    } else {
-      token.access_token = data.access_token;
-    }
-
+    tokens[groupID] = access_token;
     localStorage.setItem(this._ENTRY_, JSON.stringify(tokens));
   }
 
@@ -40,11 +32,7 @@ export class PrivateGroupTokens {
    */
   static getGroupToken(groupID) {
     const tokens = this._getGroupTokens();
-    const groupToken = tokens.find((token) => token.groupID === groupID);
-
-    if (!groupToken) return null;
-
-    return groupToken.access_token;
+    return tokens[groupID];
   }
 
   /**
@@ -53,7 +41,7 @@ export class PrivateGroupTokens {
    */
   static _getGroupTokens() {
     const savedGroups = localStorage.getItem(this._ENTRY_);
-    const privateGroupTokens = savedGroups ? JSON.parse(savedGroups) : [];
+    const privateGroupTokens = savedGroups ? JSON.parse(savedGroups) : {};
     return privateGroupTokens;
   }
 }

@@ -73,12 +73,13 @@ export default function Home() {
       calendarMaxTime,
     };
 
-    createGroupRequest(newGroup, (err, data) => {
+    createGroupRequest(newGroup, (err, response) => {
       if (err) return setHasError(() => err);
 
-      data.access_token && PrivateGroupTokens.saveGroupToken(data);
+      const { groupID, access_token } = response;
+      access_token && PrivateGroupTokens.setGroupToken(groupID, access_token);
 
-      router.push(`/${data.groupID}`);
+      router.push(`/${groupID}`);
     }).then(() => setIsSaving(() => false));
   };
 

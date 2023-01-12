@@ -41,7 +41,7 @@ export default function PrivateGroupAuth() {
           throw new Error('Missing in response: access_token');
         }
 
-        PrivateGroupTokens.saveGroupToken({ groupID, access_token });
+        PrivateGroupTokens.setGroupToken(groupID, access_token);
         router.replace(`/${groupID}`);
       })
       .catch((e) => {
