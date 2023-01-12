@@ -1,7 +1,7 @@
 /**
  * @typedef {Object} PrivateGroupToken
  * @property {string} groupID
- * @property {string} [access_token]
+ * @property {string} access_token
  */
 
 export class PrivateGroupTokens {
@@ -21,10 +21,13 @@ export class PrivateGroupTokens {
 
     const tokens = this._getGroupTokens();
 
-    // considering people are more likely going to revisit
-    // their previous recent group.. `unshift` makes it faster
-    // for querying later.
-    tokens.unshift(data);
+    // if token exists
+    const token = tokens.find((token) => token.groupID === data.groupID);
+    if (!token) {
+      tokens.push(data);
+    } else {
+      token.access_token = data.access_token;
+    }
 
     localStorage.setItem(this._ENTRY_, JSON.stringify(tokens));
   }
