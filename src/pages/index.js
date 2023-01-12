@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useBool } from 'hooks';
 import { createGroupRequest } from 'helper/home_helpers';
+import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 // Components
 import { Container } from 'components/Container';
@@ -72,10 +73,12 @@ export default function Home() {
       calendarMaxTime,
     };
 
-    createGroupRequest(newGroup, (err, groupID) => {
+    createGroupRequest(newGroup, (err, data) => {
       if (err) return setHasError(() => err);
 
-      router.push(`/${groupID}`);
+      data.access_token && PrivateGroupTokens.saveGroupToken(data);
+
+      router.push(`/${data.groupID}`);
     }).then(() => setIsSaving(() => false));
   };
 
