@@ -24,16 +24,17 @@ export default function (req, res) {
             }
 
             // group validated, send back credentials
-            const token = signJWT({ groupID });
-            const responseBuffer = {};
-            responseBuffer['access_token'] = token;
-            res.status(200).json(responseBuffer);
+            const buffer = {};
+            buffer['access_token'] = signJWT({ groupID });
+
+            res.status(200).json(buffer);
+
             return resolve();
           });
         }
         break;
       default: // method not allowed
-        res.status(405).json(null);
+        res.status(405);
         return resolve();
     }
   });
