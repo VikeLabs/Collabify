@@ -11,6 +11,7 @@
     "test": "jest --silent --watch --detect-openHandles"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.20.2",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@fullcalendar/common": "^5.11.3",
