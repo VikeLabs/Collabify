@@ -3,7 +3,6 @@ import { createGroup } from 'api-lib/db';
 import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 
 import jwt from 'jsonwebtoken';
-import { Cookie } from 'api-lib/requests/cookie';
 
 const PRIVATE_GROUP_SECRET = process.env.PRIVATE_GROUP_SECRET;
 
@@ -30,24 +29,23 @@ export default async function handler(req, res) {
       await dbConnect();
 
       createGroup(group, (groupID, err) => {
-        //
         if (err) {
           sendDatabaseError(res);
           return resolve();
         }
-        /* Signing a jwt token and send it back (cookie) */
+
+        const responseBuffer = {};
+
+        responseBuffer['groupID'] = groupID;
+        /* Signing a jwt token and send it back */
         if (group.isPrivate) {
           const tokenOpt = {
             expiresIn: 60 * 60 * 24 * 7, // expires in 7 days
           };
           const token = jwt.sign({ groupID }, PRIVATE_GROUP_SECRET, tokenOpt);
-
-          const cookie = Cookie.New(req, res);
-          cookie.setPrivateGroupToken(token);
+          responseBuffer['access_token'] = token;
         }
-        res.status(200).json({
-          groupID,
-        });
+        res.status(201).json(responseBuffer);
         return resolve();
       });
     } catch (err) {

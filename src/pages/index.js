@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useBool } from 'hooks';
+import { createGroupRequest } from 'helper/home_helpers';
+import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 // Components
 import { Container } from 'components/Container';
@@ -21,8 +23,6 @@ import { Alert } from '@mui/material'; // `Skeleton` not used
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 import Head from 'next/head';
-
-import { GROUP } from '../constants';
 
 export default function Home() {
   const router = useRouter();
@@ -60,46 +60,27 @@ export default function Home() {
     }
   }, [groupPrivate.bool, name, password]);
 
-  const createGroup = async () => {
-    if (name === '') {
-      return setHasError('Missing required input (name)');
-    }
+  const createGroup = () => {
+    setIsSaving(() => true);
 
-    if (name.length > 20) {
-      return setHasError('Name must be under 20 characters');
-    }
+    const newGroup = {
+      name,
+      isPrivate: groupPrivate.bool,
+      password,
+      description,
+      icon: activeIcon,
+      calendarMinTime,
+      calendarMaxTime,
+    };
 
-    setIsSaving(true);
+    createGroupRequest(newGroup, (err, response) => {
+      if (err) return setHasError(() => err);
 
-    try {
-      const response = await fetch(GROUP, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          isPrivate: groupPrivate.bool,
-          password,
-          description,
-          icon: activeIcon,
-          calendarMinTime,
-          calendarMaxTime,
-        }),
-      });
-      const result = await response.json();
+      const { groupID, access_token } = response;
+      access_token && PrivateGroupTokens.setGroupToken(groupID, access_token);
 
-      if (response.status !== 200) {
-        setIsSaving(false);
-        setHasError(result.message);
-      } else {
-        router.push(`/${result.groupID}`);
-      }
-    } catch (e) {
-      console.log(e);
-      setIsSaving(() => false);
-      setHasError(() => 'Something went wrong, try again later.');
-    }
+      router.push(`/${groupID}`);
+    }).then(() => setIsSaving(() => false));
   };
 
   return (
