@@ -30,14 +30,13 @@ export default function GroupHome() {
 
     const token = PrivateGroupTokens.getGroupToken(groupID);
 
-    groupID &&
-      fetch(`${GROUP_CALENDAR}/${groupID}`, {
-        headers: {
-          method: 'GET',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    if (groupID) {
+      const headers = new Headers();
+      headers.append('method', 'GET');
+      headers.append('Content-Type', 'application/json');
+      if (token !== '') headers.append('Authorization', `Bearer ${token}`);
+
+      fetch(`${GROUP_CALENDAR}/${groupID}`, { headers })
         .then((res) => {
           if (res.status === 401) {
             throw new UnauthorizedError();
@@ -46,7 +45,6 @@ export default function GroupHome() {
           return res.json();
         })
         .then((result) => {
-          console.log(result);
           setData(() => result);
           setIsLoading(() => false);
           setApiError(() => null);
@@ -59,6 +57,7 @@ export default function GroupHome() {
           setApiError(() => err.message);
           setIsLoading(() => false);
         });
+    }
   }, [groupID]);
 
   const [hasError, setHasError] = useState(apiError);

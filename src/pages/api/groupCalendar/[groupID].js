@@ -84,13 +84,15 @@ export default function handler(req, res) {
  * @return {string} [token]
  */
 const getAuthToken = (rawHeaders) => {
-  const authEntry = rawHeaders.findIndex((entry) => entry === 'Authorization');
+  const authEntry = rawHeaders.findIndex(
+    (entry) => entry.toLowerCase() === 'authorization'
+  );
   if (authEntry === -1) return null;
 
   const authString = rawHeaders[authEntry + 1];
-  const [tokenType, token] = authString.split(' ');
 
-  if (tokenType !== 'Bearer') return null;
+  const [tokenType, token] = authString.split(' ');
+  if (tokenType.toLowerCase() !== 'bearer') return null;
 
   return token;
 };
