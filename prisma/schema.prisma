@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Group {
+  id              Int     @id @default(autoincrement())
+  isPrivate       Boolean @default(false)
+  password        String? 
+  name            String  
+  description     String  
+  icon            String  
+  calendarMinTime String  
+  calendarMaxTime String  
+  events          Event[]
+}
+
+model Event {
+  id          Int    @id @default(autoincrement())
+  title       String 
+  description String
+  startTime   String
+  endTime     String
+  // Relations
+  group       Group  @relation(fields: [groupId], references: [id])
+  groupID     Int
+  // Users
+  users       User[]
+}
+
+
+model Availability {
+  id     Int      @id @default(autoincrement())
+  group  Group    @relation(fields: [groupId], references: [id])
+  weekOf String
+  times  String[]
+  user   User[]
+}
+
+model User {
+  id             Int          @id @default(autoincrement())
+  name           String
+  number         String
+  // points to event
+  event          Event        @relation(fields: [eventId], references: [id])
+  eventID        Int
+  // points to availability
+  availability   Availability @relation(fields: [availabilityId], references: [id])
+  availabilityId Int
+}
