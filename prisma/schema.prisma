@@ -11,37 +11,39 @@ datasource db {
 }
 
 model Group {
-  id              Int     @id @default(autoincrement())
-  isPrivate       Boolean @default(false)
-  password        String? 
-  name            String  
-  description     String  
-  icon            String  
-  calendarMinTime String  
-  calendarMaxTime String  
+  id              Int            @id @default(autoincrement())
+  isPrivate       Boolean        @default(false)
+  password        String?
+  name            String
+  description     String
+  icon            String
+  calendarMinTime String
+  calendarMaxTime String
   events          Event[]
+  Availability    Availability[]
 }
 
 model Event {
   id          Int    @id @default(autoincrement())
-  title       String 
+  title       String
   description String
   startTime   String
   endTime     String
   // Relations
-  group       Group  @relation(fields: [groupId], references: [id])
+  group       Group  @relation(fields: [groupID], references: [id])
   groupID     Int
   // Users
   users       User[]
 }
 
-
 model Availability {
-  id     Int      @id @default(autoincrement())
-  group  Group    @relation(fields: [groupId], references: [id])
-  weekOf String
-  times  String[]
-  user   User[]
+  id      Int      @id @default(autoincrement())
+  // Relations
+  group   Group    @relation(fields: [groupID], references: [id])
+  groupID Int
+  weekOf  String
+  times   String[]
+  user    User[]
 }
 
 model User {
@@ -49,7 +51,7 @@ model User {
   name           String
   number         String
   // points to event
-  event          Event        @relation(fields: [eventId], references: [id])
+  event          Event        @relation(fields: [eventID], references: [id])
   eventID        Int
   // points to availability
   availability   Availability @relation(fields: [availabilityId], references: [id])
