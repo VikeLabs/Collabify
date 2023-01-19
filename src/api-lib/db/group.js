@@ -18,7 +18,7 @@ export const createGroup = async (group, callback) => {
     }
 
     /* Save group */
-    const groupID = await prisma.group.create({data: group}).then((doc) => doc['_id']);
+    const groupID = await prisma.group.create({data: group}).then((doc) => doc['id']);
 
     if (!group.isPrivate) {
       return callback(groupID, null);
