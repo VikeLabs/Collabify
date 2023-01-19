@@ -15,7 +15,7 @@ model Group {
   isPrivate       Boolean        @default(false)
   password        String?
   name            String
-  description     String
+  description     String?
   icon            String
   calendarMinTime String
   calendarMaxTime String
@@ -27,13 +27,11 @@ model Event {
   id          Int    @id @default(autoincrement())
   title       String
   description String
-  startTime   String
-  endTime     String
+  startTime   Int
+  endTime     Int
   // Relations
   group       Group  @relation(fields: [groupID], references: [id])
   groupID     Int
-  // Users
-  users       User[]
 }
 
 model Availability {
@@ -50,10 +48,7 @@ model User {
   id             Int          @id @default(autoincrement())
   name           String
   number         String
-  // points to event
-  event          Event        @relation(fields: [eventID], references: [id])
-  eventID        Int
-  // points to availability
+  // Relations
   availability   Availability @relation(fields: [availabilityId], references: [id])
   availabilityId Int
 }

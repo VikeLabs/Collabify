@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"{,!(node_modules)/**/}*.{js,jsx}\"",
-    "test": "jest --silent --watch --detect-openHandles"
+    "test": "jest --silent --watch --detect-openHandles",
+    "dbmigrate": "prisma db push",
+    "dbview": "prisma studio"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
