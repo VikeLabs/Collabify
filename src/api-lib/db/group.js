@@ -1,12 +1,11 @@
-import mongoose from 'mongoose';
-import { Group, GroupPasswords } from 'api-lib/model';
+import prisma from 'api-lib/prisma';
 import { NotFoundError, InternalServerError } from 'api-lib/util/exceptions';
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 
 /**
  * createGroup
- * @param {{ group: mongoose.model.Group }} group - an instance of `Group` schema
+ * @param {{ group: prisma.model.Group }} group - an instance of `Group` schema
  * @param {(groupID: string, err: InternalServerError | null) => void} callback
  */
 export const createGroup = async (group, callback) => {
@@ -19,7 +18,7 @@ export const createGroup = async (group, callback) => {
     }
 
     /* Save group */
-    const groupID = await new Group(group).save().then((doc) => doc['_id']);
+    const groupID = await prisma.group.create({data: group}).then((doc) => doc['_id']);
 
     if (!group.isPrivate) {
       return callback(groupID, null);
@@ -45,7 +44,11 @@ export const getGroup = async ({ groupID }) => {
   // Gets the group by the group name
   // Doesn't return error because it gets handled on api side (result.length > 0)
   try {
-    const group = await Group.findById(mongoose.Types.ObjectId(groupID));
+    const group = await prisma.group.findUnique({
+      where: {
+        id: groupID,
+      },
+    });
     return group
       ? { group, groupError: null }
       : {
@@ -64,7 +67,11 @@ export const getManyGroups = async ({ groupIDs }) => {
   // groupIDs should be an array of ids
   let error = false;
   const groupIDsArray = groupIDs?.map((e) => mongoose.Types.ObjectId(e));
-  const groups = await Group.find({ _id: { $in: groupIDsArray } });
+  const groups = await prisma.group.findMany({
+    where: {
+      id: { in: groupIDsArray }
+    }
+  });
 
   if (!groups) {
     error = true;
@@ -78,7 +85,7 @@ export const getManyGroups = async ({ groupIDs }) => {
 
 export const getAllGroups = async () => {
   let error = false;
-  const groups = await Group.find();
+  const groups = await prisma.group.find()
 
   if (!groups) {
     error = true;
@@ -93,12 +100,12 @@ export const getAllGroups = async () => {
 export const updateGroup = async ({ groupID, group }) => {
   // Updates group
   // If theres an error function will return true
-  const { error } = await Group.updateOne(
-    { _id: groupID },
-    {
-      $set: group,
-    }
-  )
+  const { error } = await prisma.group.update({
+    where: {
+      id: groupID,
+    },
+    data: group
+  })
     .then((e) => {
       console.log(e);
       return {

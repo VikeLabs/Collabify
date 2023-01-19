@@ -1,4 +1,3 @@
-import dbConnect from 'api-lib/dbConnect';
 import { createGroup } from 'api-lib/db';
 import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
 
@@ -24,9 +23,6 @@ export default async function handler(req, res) {
         });
         return resolve();
       }
-
-      /* SAVE TO DB */
-      await dbConnect();
 
       createGroup(group, (groupID, err) => {
         if (err) {
