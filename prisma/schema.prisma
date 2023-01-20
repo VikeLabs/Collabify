@@ -49,13 +49,3 @@ model Availability {
   group      Group    @relation(fields: [groupID], references: [id])
   groupID    Int
 }
-
-model User {
-  @@map("users")
-  id             Int          @id @default(autoincrement())
-  name           String
-  number         String
-  // Relations
-  availability   Availability @relation(fields: [availabilityId], references: [id])
-  availabilityId Int
-}
