@@ -11,6 +11,7 @@ datasource db {
 }
 
 model Group {
+  @@map("groups")
   id              Int            @id @default(autoincrement())
   isPrivate       Boolean        @default(false)
   password        String?
@@ -19,11 +20,13 @@ model Group {
   icon            String
   calendarMinTime String
   calendarMaxTime String
+  // Relations
   events          Event[]
   Availability    Availability[]
 }
 
 model Event {
+  @@map("events")
   id          Int    @id @default(autoincrement())
   title       String
   description String
@@ -35,16 +38,18 @@ model Event {
 }
 
 model Availability {
+  @@map("availabilities")
   id      Int      @id @default(autoincrement())
-  // Relations
-  group   Group    @relation(fields: [groupID], references: [id])
-  groupID Int
   weekOf  String
   times   String[]
+  // Relations
   user    User[]
+  group   Group    @relation(fields: [groupID], references: [id])
+  groupID Int
 }
 
 model User {
+  @@map("users")
   id             Int          @id @default(autoincrement())
   name           String
   number         String
