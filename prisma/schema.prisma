@@ -40,13 +40,14 @@ model Event {
 
 model Availability {
   @@map("availabilities")
-  id      Int      @id @default(autoincrement())
-  weekOf  String
-  times   String[]
+  id         Int      @id @default(autoincrement())
+  weekOf     String
+  times      String[]
   // Relations
-  user    User[]
-  group   Group    @relation(fields: [groupID], references: [id])
-  groupID Int
+  userName   String
+  userNumber String
+  group      Group    @relation(fields: [groupID], references: [id])
+  groupID    Int
 }
 
 model User {
