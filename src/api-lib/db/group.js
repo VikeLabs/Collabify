@@ -1,44 +1,41 @@
 import prisma from 'api-lib/prisma';
-import { NotFoundError, InternalServerError } from 'api-lib/util/exceptions';
-import _ from 'lodash';
-import bcrypt from 'bcrypt';
 
 /**
  * createGroup
  * @param {{ group: prisma.model.Group }} group - an instance of `Group` schema
  * @param {(groupID: string, err: InternalServerError | null) => void} callback
  */
-export const createGroup = async (group, callback) => {
-  try {
-    /* Extracting password */
-    let pw;
-    if (group.isPrivate) {
-      pw = _.cloneDeep(group.password);
-      delete group.password;
-    }
+// export const createGroup = async (group, callback) => {
+//   try {
+//     /* Extracting password */
+//     let pw;
+//     if (group.isPrivate) {
+//       pw = _.cloneDeep(group.password);
+//       delete group.password;
+//     }
 
-    /* Save group */
-    const groupID = await prisma.group.create({data: group}).then((doc) => doc['id']);
+//     /* Save group */
+//     const groupID = await prisma.group.create({data: group}).then((doc) => doc['id']);
 
-    if (!group.isPrivate) {
-      return callback(groupID, null);
-    }
+//     if (!group.isPrivate) {
+//       return callback(groupID, null);
+//     }
 
-    /* Encrypt and save password */
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(pw, saltRounds);
+//     /* Encrypt and save password */
+//     const saltRounds = 10;
+//     const hashedPassword = await bcrypt.hash(pw, saltRounds);
 
-    await new GroupPasswords({
-      password: hashedPassword,
-      group: groupID,
-    }).save();
+//     await new GroupPasswords({
+//       password: hashedPassword,
+//       group: groupID,
+//     }).save();
 
-    callback(groupID, null);
-    return;
-  } catch (e) {
-    callback('', new InternalServerError(e));
-  }
-};
+//     callback(groupID, null);
+//     return;
+//   } catch (e) {
+//     callback('', new InternalServerError(e));
+//   }
+// };
 
 export const getGroup = async ({ groupID }) => {
   // Gets the group by the group name
@@ -69,8 +66,8 @@ export const getManyGroups = async ({ groupIDs }) => {
   const groupIDsArray = groupIDs?.map((e) => mongoose.Types.ObjectId(e));
   const groups = await prisma.group.findMany({
     where: {
-      id: { in: groupIDsArray }
-    }
+      id: { in: groupIDsArray },
+    },
   });
 
   if (!groups) {
@@ -85,7 +82,7 @@ export const getManyGroups = async ({ groupIDs }) => {
 
 export const getAllGroups = async () => {
   let error = false;
-  const groups = await prisma.group.find()
+  const groups = await prisma.group.find();
 
   if (!groups) {
     error = true;
@@ -100,12 +97,13 @@ export const getAllGroups = async () => {
 export const updateGroup = async ({ groupID, group }) => {
   // Updates group
   // If theres an error function will return true
-  const { error } = await prisma.group.update({
-    where: {
-      id: groupID,
-    },
-    data: group
-  })
+  const { error } = await prisma.group
+    .update({
+      where: {
+        id: groupID,
+      },
+      data: group,
+    })
     .then((e) => {
       console.log(e);
       return {
