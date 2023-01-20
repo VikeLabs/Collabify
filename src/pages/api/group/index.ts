@@ -1,55 +1,54 @@
+import { Group } from '@prisma/client';
 import { createGroup } from 'api-lib/db/group';
-import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
+import { ApiError } from 'api-lib/util/apiError';
 
 import jwt from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const PRIVATE_GROUP_SECRET = process.env.PRIVATE_GROUP_SECRET;
 
-export default async function handler(
+interface ResponseBuffer {
+  access_token?: string;
+  groupID: number;
+}
+
+export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
   return new Promise(async (resolve) => {
     if (req.method !== 'POST') {
-      res.status(405).json({ message: 'Method Not Allowed' });
-      return resolve();
+      res.status(405).end();
+      return;
     }
 
     try {
-      /* EXTRACTING GROUP INFO */
-      const group = req.body;
-
-      // if group is private and no password is provided
-      if (group.isPrivate && (!group.password || group.password === '')) {
-        res.status(400).json({
-          message: 'Group is private but no password is provided',
-        });
+      const reqGroup: Group = req.body;
+      const { group, error } = await createGroup(reqGroup);
+      if (error) {
+        res.status(error.statusCode).end();
         return resolve();
       }
 
-      createGroup(group, (groupID, err) => {
-        if (err) {
-          sendDatabaseError(res);
-          return resolve();
-        }
+      const buf: ResponseBuffer = { groupID: group.id };
 
-        const responseBuffer = {};
+      if (group.isPrivate) {
+        const jwtOpts = {
+          expiresIn: 7 * 24 * 60 * 60, // expires in 7 days
+        };
+        const token = jwt.sign(
+          { groupToken: group.privateToken },
+          PRIVATE_GROUP_SECRET,
+          jwtOpts
+        );
+        buf.access_token = token;
+      }
 
-        responseBuffer['groupID'] = groupID;
-        /* Signing a jwt token and send it back */
-        if (group.isPrivate) {
-          const tokenOpt = {
-            expiresIn: 60 * 60 * 24 * 7, // expires in 7 days
-          };
-          const token = jwt.sign({ groupID }, PRIVATE_GROUP_SECRET, tokenOpt);
-          responseBuffer['access_token'] = token;
-        }
-        res.status(201).json(responseBuffer);
-        return resolve();
-      });
+      res.status(201).json(buf);
+      return resolve();
     } catch (err) {
-      sendRequestError(res, err);
+      console.log(err);
+      res.status(500).end();
       return resolve();
     }
   });
