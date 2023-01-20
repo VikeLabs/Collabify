@@ -1,1 +1,1 @@
-export * from './createGroup';
+export { createGroup } from './createGroup';

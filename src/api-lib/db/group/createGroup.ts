@@ -1,17 +1,24 @@
+import { Group } from '@prisma/client';
 import prisma from 'api-lib/prisma';
-import { Group } from 'api-lib/model';
 import { ApiError } from 'api-lib/util/apiError';
 import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
-export const createGroup = async (group: Group): Promise<number> => {
+interface CreateGroupResult {
+  group?: Group;
+  error?: ApiError;
+}
+
+export const createGroup = async (group: Group): Promise<CreateGroupResult> => {
   try {
     if (group.isPrivate) {
       if (!group.password || group.password === '') {
-        throw new ApiError(
+        const error = new ApiError(
           `no password provided for private group: ${group}`,
           400
         );
+
+        return { error };
       }
 
       const saltRounds = 10;
@@ -20,14 +27,12 @@ export const createGroup = async (group: Group): Promise<number> => {
       group.privateToken = uuidv4();
     }
 
-    const groupID = prisma.group
+    const newGroup = await prisma.group
       .create({ data: group })
-      .then((record) => record.id);
-    return groupID;
+      .then((group) => group);
+
+    return { group: newGroup };
   } catch (e) {
-    console.log(e);
-    if (!(e instanceof ApiError)) {
-      throw new ApiError(e, 500);
-    }
+    return { error: new ApiError(e, 500) };
   }
 };
