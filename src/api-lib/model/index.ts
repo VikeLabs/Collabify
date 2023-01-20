@@ -2,6 +2,7 @@ export interface Group {
   id?: number;
   isPrivate: boolean;
   password?: string;
+  privateToken?: string;
   name: string;
   description?: string;
   icon: string;

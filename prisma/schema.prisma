@@ -15,6 +15,7 @@ model Group {
   id              Int            @id @default(autoincrement())
   isPrivate       Boolean        @default(false)
   password        String?
+  privateToken    String?        @unique
   name            String
   description     String?
   icon            String
