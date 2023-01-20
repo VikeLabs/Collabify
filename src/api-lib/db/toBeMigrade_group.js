@@ -1,42 +1,5 @@
 import prisma from 'api-lib/prisma';
 
-/**
- * createGroup
- * @param {{ group: prisma.model.Group }} group - an instance of `Group` schema
- * @param {(groupID: string, err: InternalServerError | null) => void} callback
- */
-// export const createGroup = async (group, callback) => {
-//   try {
-//     /* Extracting password */
-//     let pw;
-//     if (group.isPrivate) {
-//       pw = _.cloneDeep(group.password);
-//       delete group.password;
-//     }
-
-//     /* Save group */
-//     const groupID = await prisma.group.create({data: group}).then((doc) => doc['id']);
-
-//     if (!group.isPrivate) {
-//       return callback(groupID, null);
-//     }
-
-//     /* Encrypt and save password */
-//     const saltRounds = 10;
-//     const hashedPassword = await bcrypt.hash(pw, saltRounds);
-
-//     await new GroupPasswords({
-//       password: hashedPassword,
-//       group: groupID,
-//     }).save();
-
-//     callback(groupID, null);
-//     return;
-//   } catch (e) {
-//     callback('', new InternalServerError(e));
-//   }
-// };
-
 export const getGroup = async ({ groupID }) => {
   // Gets the group by the group name
   // Doesn't return error because it gets handled on api side (result.length > 0)
