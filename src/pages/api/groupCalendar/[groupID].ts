@@ -3,7 +3,7 @@ import { getGroupByID } from 'api-lib/db/group';
 
 import { getEventsFromGroup, getAvailabilitiesFromGroup } from 'api-lib/db';
 import { JsonWebToken } from 'api-lib/auth';
-import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
+import { sendRequestError } from 'api-lib/helper';
 import {
   parseAvailabilities,
   parseEvents,
