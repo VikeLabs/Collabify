@@ -1,24 +1,17 @@
-import dbConnect from 'api-lib/dbConnect';
-import { addEventToGroup } from 'api-lib/db';
-import { sendDatabaseError, sendRequestError } from 'api-lib/helper';
+import { createEvent } from 'api-lib/db';
+import { sendRequestError } from 'api-lib/helper';
 import { sendText } from 'api-lib/twilio';
 import { startToEndStandardTime } from 'api-lib/helper/militaryToStandard';
 
 export default async function handler(req, res) {
   const { method, body } = req;
 
-  await dbConnect();
-
   switch (method) {
     case 'POST':
       try {
         const { groupID, event, names, numbers } = JSON.parse(body);
-
-        const err = await addEventToGroup({
-          groupID,
-          event,
-        });
-        if (err === true) sendDatabaseError(res);
+        const { err } = await createEvent({ groupID, event });
+        if (err) res.status(err.statusCode).end();
         else {
           numbers.forEach((_, index) => {
             sendText(

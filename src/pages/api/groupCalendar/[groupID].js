@@ -1,8 +1,7 @@
-import dbConnect from 'api-lib/dbConnect';
 import {
-  getEventsFromGroup,
+  getEvents,
   getGroup,
-  getAvailabilitiesFromGroup,
+  getAvailabilities,
 } from 'api-lib/db';
 import { verifyJwt } from 'api-lib/auth';
 import { NotFoundError, UnauthorizedError } from 'api-lib/util/exceptions';
@@ -15,8 +14,6 @@ import {
 export default function handler(req, res) {
   return new Promise(async (resolve) => {
     const { method } = req;
-
-    await dbConnect();
 
     switch (method) {
       case 'GET':
@@ -48,8 +45,22 @@ export default function handler(req, res) {
           }
 
           const { availabilities, events } = group;
-          const groupAvails = getAvailabilitiesFromGroup(availabilities);
-          const groupEvents = getEventsFromGroup(events);
+          const { groupAvails = availabilities, availabilitiesError } = await getAvailabilities(availabilities);
+          if (availabilitiesError !== null) {
+            if (availabilitiesError instanceof NotFoundError) {
+              sendNoDocumentError(res);
+              return resolve();
+            }
+            sendRequestError(res, availabilitiesError);
+          }
+          const { groupEvents = events, eventsError } = await getEvents(events);
+          if (eventsError !== null) {
+            if (eventsError instanceof NotFoundError) {
+              sendNoDocumentError(res);
+              return resolve();
+            }
+            sendRequestError(res, eventsError);
+          }
 
           const value = await Promise.all([groupAvails, groupEvents]);
           const allAvailabilities = parseAvailabilities(value[0]);
