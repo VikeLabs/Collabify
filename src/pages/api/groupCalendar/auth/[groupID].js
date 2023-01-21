@@ -1,5 +1,7 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { validateGroupPassword } from 'api-lib/db/private_password';
 import { ApiError } from 'api-lib/util/exceptions';
+// TODO: exceptions error utils have been nuked please update
 import { signJWT } from 'api-lib/auth';
 import dbConnect from 'api-lib/dbConnect';
 

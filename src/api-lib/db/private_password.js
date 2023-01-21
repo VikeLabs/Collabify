@@ -5,6 +5,7 @@ import {
   UnauthorizedError,
   InternalServerError,
 } from 'api-lib/util/exceptions';
+// TODO: exceptions error utils have been nuked please update
 
 /**
  * validateGroupPassword

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { UnauthorizedError } from 'api-lib/util/exceptions';
+// TODO: exceptions error utils have been nuked please update
 
 const SECRET = process.env.PRIVATE_GROUP_SECRET;
 

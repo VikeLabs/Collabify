@@ -5,6 +5,7 @@ import {
 } from 'api-lib/db';
 import { verifyJwt } from 'api-lib/auth';
 import { NotFoundError, UnauthorizedError } from 'api-lib/util/exceptions';
+// TODO: exceptions error utils have been nuked please update
 import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
 import {
   parseAvailabilities,
