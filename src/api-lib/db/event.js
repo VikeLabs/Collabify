@@ -1,88 +1,43 @@
-import { sendText } from 'api-lib/twilio';
-import Availability from 'pages/[groupID]/availability/[weekOf]';
-import { Group, Event } from '../model';
+import { ApiError } from 'api-lib/util/apiError';
+import prisma from '../prisma'
 
-export const addEventToGroup = async ({ groupID, event }) => {
-  // Creates event then adds events ID to the group 'events' array
-  // If theres an error function will return true
-  const model = new Event(event);
-  const error = await model
-    .save()
-    .then((savedDoc) => {
-      Group.findOneAndUpdate(
-        { _id: groupID },
-        { $push: { events: savedDoc._id } },
-        { new: true },
-        (err) => {
-          if (err) {
-            console.error(err);
-            return true;
-          }
-        }
-      );
-      return false;
-    })
-    .catch((err) => {
-      console.error(err);
-      return true;
+export const createEvent = async ({ groupID, event }) => {
+  try {
+    const eventModal = await prisma.event.create({
+      data: {
+        event,
+        groupID,
+      },
     });
-  return error;
+    return eventModal ? { err: new ApiError('Error creating EVENT', 500) } : { err: null };
+  } catch (e) {
+    return {
+      err: new ApiError(e, 500)
+    };
+  }
 };
 
-export const deleteEventFromGroup = async ({ groupID, eventID }) => {
-  const group = await Group.findOne({ _id: groupID });
-
-  let error = true;
-
-  if (!group) {
-    console.warn(`The following group was not found: ${groupID}`);
-    return error;
-  }
-
-  const event = await Event.findOne({ _id: eventID });
-
-  if (!event) {
-    console.warn(`The following event id was not found: ${eventID}`);
-    return error;
-  }
-
-  if (!group.events.includes(eventID)) {
-    console.warn(
-      `The group ${groupID} does not contain the following event id: ${eventID}`
-    );
-    return error;
-  }
-
-  const filter = { _id: groupID };
-  const update = { $pull: { events: { _id: eventID } } };
-
-  const updatedGroup = await Group.findOneAndUpdate(filter, update, {
-    new: true,
-  });
-
-  if (updatedGroup.includes(eventID)) {
-    console.warn(
-      `The event id ${eventID} was not removed from group ${groupID}`
-    );
-    return error;
-  }
-
-  await Event.findOneAndDelete({ _id: eventID }, function (err, docs) {
-    if (err) {
-      console.warn(`The event id ${eventID} was not deleted`);
-    } else {
-      error = false;
-    }
-  });
-
-  return error;
+export const deleteEvent = async ({ groupID, eventID }) => {
+  // TODO: Create delete event
 };
 
-export const getEventsFromGroup = async (groupEvents) => {
-  return new Promise((resolve, reject) => {
-    Group.find({ _id: { $in: groupEvents } }, (err, events) => {
-      if (err) return reject(err);
-      return resolve(events);
+export const getEvents = async (groupEvents) => {
+  try {
+    const events = await prisma.event.findMany({
+      where: {
+        id: { in: groupEvents },
+      },
     });
-  });
+    return events
+      ? { events, eventsError: null }
+      : {
+        events: null,
+        eventsError: new NotFoundError(`Event not found`),
+        };
+  } catch (e) {
+    return {
+      events: null,
+      eventsError: new ApiError(e, 500),
+    };
+  }
 };

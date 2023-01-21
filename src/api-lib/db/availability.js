@@ -1,44 +1,40 @@
-import { Group, Availability } from '../model';
-import mongoose from 'mongoose';
+import { ApiError } from 'api-lib/util/apiError';
+import prisma from '../prisma'
 
-export const addAvailabilityToGroup = async ({ groupID, availability }) => {
-  // Creates availability then adds availabilities ID to the group 'availabilities' array
-  // If theres an error function will return true
-  const model = new Availability(availability);
-  const error = await model
-    .save()
-    .then((savedDoc) => {
-      Group.findOneAndUpdate(
-        { _id: groupID },
-        { $push: { availabilities: savedDoc._id } },
-        { new: true },
-        (err) => {
-          if (err) {
-            console.error(err);
-            return true;
-          }
-        }
-      );
-      return false;
-    })
-    .catch((err) => {
-      console.error(err);
-      return true;
-    });
-
-  return error;
-};
-
-export const getAvailabilitiesFromGroup = (groupAvailabilities) => {
-  return new Promise((resolve, reject) => {
-    Availability.find(
-      {
-        _id: { $in: groupAvailabilities },
+export const createAvailability = async ({ groupID, availability }) => {
+  try {
+    const availabilityModal = await prisma.availability.create({
+      data: {
+        availability,
+        groupID,
       },
-      (err, availabilities) => {
-        if (err) return reject(err);
-        return resolve(availabilities);
-      }
-    );
-  });
+    });
+    return availabilityModal ? { err: new ApiError('Error creating AVAILABILITY', 500) } : { err: null };
+  } catch (e) {
+    return {
+      err: new ApiError(e, 500)
+    };
+  }
 };
+
+export const getAvailabilities = async (groupAvailabilities) => {
+  try {
+    const availabilities = await prisma.availability.findMany({
+      where: {
+        id: { in: groupAvailabilities },
+      },
+    });
+    return availabilities
+      ? { availabilities, availabilitiesError: null }
+      : {
+        availabilities: null,
+        availabilitiesError: new NotFoundError(`Availability not found`),
+        };
+  } catch (e) {
+    return {
+      availabilities: null,
+      availabilitiesError: new ApiError(e, 500),
+    };
+  }
+};
+

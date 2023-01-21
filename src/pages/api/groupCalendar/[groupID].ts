@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getGroupByID } from 'api-lib/db/group';
 
-import { getEventsFromGroup, getAvailabilitiesFromGroup } from 'api-lib/db';
 import { JsonWebToken } from 'api-lib/auth';
-import { sendRequestError } from 'api-lib/helper';
+import { getEvents, getGroup, getAvailabilities } from 'api-lib/db';
 import {
   parseAvailabilities,
   parseEvents,
@@ -54,8 +53,23 @@ export default function handler(
           }
 
           const { availabilities, events } = group;
-          const groupAvails = getAvailabilitiesFromGroup(availabilities);
-          const groupEvents = getEventsFromGroup(events);
+          const { groupAvails = availabilities, availabilitiesError } =
+            await getAvailabilities(availabilities);
+          if (availabilitiesError !== null) {
+            if (availabilitiesError instanceof NotFoundError) {
+              sendNoDocumentError(res);
+              return resolve();
+            }
+            sendRequestError(res, availabilitiesError);
+          }
+          const { groupEvents = events, eventsError } = await getEvents(events);
+          if (eventsError !== null) {
+            if (eventsError instanceof NotFoundError) {
+              sendNoDocumentError(res);
+              return resolve();
+            }
+            sendRequestError(res, eventsError);
+          }
 
           const value = await Promise.all([groupAvails, groupEvents]);
           const allAvailabilities = parseAvailabilities(value[0]);
