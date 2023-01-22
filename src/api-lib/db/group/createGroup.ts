@@ -11,30 +11,31 @@ interface CreateGroupResult {
 
 type CreateGroup = (group: Group) => Promise<CreateGroupResult>;
 
+/** createGroup(group)
+ * - Creates group, if a group is private:
+ *   - hashes then saves it as `group.password`
+ *   - generate a uuid for `group.privateToken`
+ * */
 export const createGroup: CreateGroup = async (group: Group) => {
-  try {
-    if (group.isPrivate) {
-      if (!group.password || group.password === '') {
-        const error = new ApiError(
-          `no password provided for private group: ${group}`,
-          400
-        );
+  if (group.isPrivate) {
+    if (!group.password || group.password === '') {
+      const error = new ApiError(
+        `no password provided for private group: ${group}`,
+        400
+      );
 
-        return { error };
-      }
-
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(group.password, saltRounds);
-      group.password = hashedPassword;
-      group.privateToken = uuidv4();
+      return { error };
     }
 
-    const newGroup = await prisma.group
-      .create({ data: group })
-      .then((group) => group);
-
-    return { group: newGroup };
-  } catch (e) {
-    return { error: new ApiError(e, 500) };
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(group.password, saltRounds);
+    group.password = hashedPassword;
+    group.privateToken = uuidv4();
   }
+
+  const newGroup = await prisma.group
+    .create({ data: group })
+    .then((group) => group);
+
+  return { group: newGroup };
 };
