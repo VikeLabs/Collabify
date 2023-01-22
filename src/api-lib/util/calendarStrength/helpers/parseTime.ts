@@ -2,7 +2,7 @@
  * @params {string} timeStr: eg, '2022-11-01T08:00:00-12:00'
  * @return {[]int}: [20221101, 800]
  * */
-export const parseTime = (timeStr) => {
+export const parseTime = (timeStr: string): number[] => {
   if (typeof timeStr !== 'string') {
     throw new TypeError(
       `invalid argument type, expected type string, got type: ${typeof timeStr}`

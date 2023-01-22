@@ -1,6 +1,7 @@
+import { Availability } from '@prisma/client';
 import { parseTime } from './parseTime.js';
 
-const dataSanitize = (availabilities) => {
+const dataSanitize = (availabilities: Availability[]) => {
   const allDateData = getAllDates(availabilities);
   const timeByDate = [];
 
@@ -41,7 +42,7 @@ const dataSanitize = (availabilities) => {
   for (const date of timeByDate) {
     const newFormatDateEntry = {
       date: date.date,
-      times: sanitizeTime(date.times),
+      times: getTimeIntervals(date.times),
     };
     formatDateData.push(newFormatDateEntry);
   }
@@ -103,7 +104,7 @@ function getAllDates(dates) {
   return [...allDates];
 }
 
-function sanitizeTime(times) {
+function getTimeIntervals(times) {
   const timeOutput = [];
   for (let i = 0; i < times.length - 1; i++) {
     const timeEntry = {
@@ -116,4 +117,4 @@ function sanitizeTime(times) {
   return timeOutput;
 }
 
-export { dataSanitize, sanitizeTime };
+export { dataSanitize, getTimeIntervals as sanitizeTime };

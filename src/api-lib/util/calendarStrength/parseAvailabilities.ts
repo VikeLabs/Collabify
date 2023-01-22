@@ -1,17 +1,21 @@
+import { Availability } from '@prisma/client';
 import { dataSanitize } from './helpers/dataSanitize';
 import { determineBackground } from './helpers/determineBackground';
 import { isAvailable } from './helpers/isAvailable';
 import { stringifyTime } from './helpers/stringifyTime';
+import type { ParsedAvailabilities } from './types';
 
-export const parseAvailabilities = (availabilities) => {
+export const parseAvailabilities = (
+  availabilities: Availability[]
+): ParsedAvailabilities[] => {
   const [events, people] = dataSanitize(availabilities);
-  let parseAvails = []; // to be returned
+  const parseAvails: ParsedAvailabilities[] = []; // to be returned
   let highestNamesLength = 0;
 
   for (const event of events) {
     try {
       for (const time of event.times) {
-        const newEventEntry = {
+        const newEventEntry: ParsedAvailabilities = {
           start: stringifyTime(event.date, time.start),
           end: stringifyTime(event.date, time.end),
           display: 'background',
