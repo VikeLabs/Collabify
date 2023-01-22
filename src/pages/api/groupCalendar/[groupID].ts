@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getGroupByID } from 'api-lib/db/group';
-
 import { JsonWebToken } from 'api-lib/auth';
-import { getEvents, getGroup, getAvailabilities } from 'api-lib/db';
+import { getEvents, getAvailabilities } from 'api-lib/db/availability';
+import { getGroupByID } from 'api-lib/db/group';
 import {
   parseAvailabilities,
   parseEvents,
