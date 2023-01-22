@@ -7,7 +7,9 @@ interface GetGroupResult {
   error?: ApiError;
 }
 
-export const getGroupByID = async (id: number): Promise<GetGroupResult> => {
+type GetGroupByID = (id: number) => Promise<GetGroupResult>;
+
+export const getGroupByID: GetGroupByID = async (id: number) => {
   const group = await prisma.group.findUnique({
     where: { id },
   });

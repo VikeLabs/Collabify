@@ -9,7 +9,9 @@ interface CreateGroupResult {
   error?: ApiError;
 }
 
-export const createGroup = async (group: Group): Promise<CreateGroupResult> => {
+type CreateGroup = (group: Group) => Promise<CreateGroupResult>;
+
+export const createGroup: CreateGroup = async (group: Group) => {
   try {
     if (group.isPrivate) {
       if (!group.password || group.password === '') {
