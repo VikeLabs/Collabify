@@ -7,23 +7,12 @@ interface GetAvailabilitiesResult {
   availabilitiesError?: ApiError;
 }
 export const getAvailabilities = async (
-  groupAvailabilities: number[]
+  groupID: number
 ): Promise<GetAvailabilitiesResult> => {
   try {
     const availabilities = await prisma.availability.findMany({
-      where: {
-        id: { in: groupAvailabilities },
-      },
+      where: { groupID },
     });
-
-    if (availabilities.length === 0) {
-      return {
-        availabilitiesError: new ApiError(
-          `no content found for ${groupAvailabilities}`,
-          204
-        ),
-      };
-    }
 
     return { availabilities };
   } catch (e) {
