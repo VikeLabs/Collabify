@@ -4,11 +4,11 @@ export const parseEvents = (events) => {
   try {
     return events.map((event) => {
       return {
-        start: event.time.start,
-        end: event.time.end,
-        display: 'block',
         title: event.title,
+        start: event.time.start, // string
+        end: event.time.end, // string
         description: event.description,
+        display: 'block',
         backgroundColor: '#fb8500',
       };
     });
