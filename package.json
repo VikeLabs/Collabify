@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"{,!(node_modules)/**/}*.{js,jsx}\"",
-    "test": "jest --silent --watch --detect-openHandles",
+    "test": "jest --watch --detect-openHandles",
     "dbmigrate": "prisma db push",
     "dbview": "prisma studio"
   },

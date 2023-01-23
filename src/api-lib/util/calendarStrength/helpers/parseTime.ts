@@ -1,35 +1,18 @@
 /* parseTime(timeStr)
  * @params {string} timeStr: eg, '2022-11-01T08:00:00-12:00'
- * @return {[]int}: [20221101, 800]
+ * @return {number[]}: [20221101, 800]
  * */
-export const parseTime = (timeStr: string): number[] => {
-  if (typeof timeStr !== 'string') {
-    throw new TypeError(
-      `invalid argument type, expected type string, got type: ${typeof timeStr}`
-    );
-  }
+export const parseTime = (timeStr: Date): number[] => {
+  const time = new Date(timeStr);
+  const year = time.getFullYear();
+  const month = time.getMonth() + 1;
+  const day = time.getDate();
 
-  const timeMatched = timeStr.split(/[a-zA-Z]/g);
-  if (timeMatched === null) {
-    throw new Error(`${timeStr} has no valid delimiter`);
-  }
-  if (timeMatched.length !== 2) {
-    throw new Error(`expected: [date, time], got: ${timeMatched}`);
-  }
+  const hour = time.getHours(); // i honestly dont know why but we gotta minus one to get the actual time :///
+  const minute = time.getMinutes();
 
-  const [date, time] = timeMatched;
+  const yearNum = year * 10000 + month * 100 + day;
+  const timeNum = hour * 100 + minute;
 
-  /* PARSING DATE */
-  let dateInt;
-  dateInt = date.match(/\d/g);
-  dateInt = dateInt.join('');
-
-  /* PARSING TIME */
-  let timeInt;
-  timeInt = time.split('-')[0]; // removing that weird time flag "-12:00" at the end
-  timeInt = time.match(/\d/g);
-  timeInt = timeInt.join('');
-  timeInt = timeInt.slice(0, 4);
-
-  return [Number(dateInt), Number(timeInt)];
+  return [yearNum, timeNum];
 };
