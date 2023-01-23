@@ -28,7 +28,7 @@ export const Container = ({
   // Icon init
   const LeftIconComponent = Icons[leftIcon];
   const RightIconComponent = Icons[rightIcon];
-  const MenuIconComponent = Icons['ExpandMore'];
+  const MenuIconComponent = Icons['Menu'];
 
   return (
     <div>
