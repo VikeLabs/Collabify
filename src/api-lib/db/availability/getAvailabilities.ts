@@ -1,23 +1,13 @@
-import { Availability } from '@prisma/client';
-import { ApiError } from 'api-lib/util/apiError';
 import prisma from 'api-lib/prisma';
+import { parseAvailabilities } from 'api-lib/util/calendarStrength/parseAvailabilities';
+import { ParsedAvailabilities } from 'api-lib/util/calendarStrength/types';
 
-interface GetAvailabilitiesResult {
-  availabilities?: Availability[];
-  availabilitiesError?: ApiError;
-}
-export const getAvailabilities = async (
-  groupID: number
-): Promise<GetAvailabilitiesResult> => {
-  try {
-    const availabilities = await prisma.availability.findMany({
-      where: { groupID },
-    });
+export const getAvailabilities = async (groupID: number) => {
+  const availabilities = await prisma.availability.findMany({
+    where: { groupID },
+  });
 
-    return { availabilities };
-  } catch (e) {
-    return {
-      availabilitiesError: new ApiError(e, 500),
-    };
-  }
+  if (availabilities.length === 0) return [] as ParsedAvailabilities[];
+
+  return parseAvailabilities(availabilities);
 };
