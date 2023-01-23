@@ -8,6 +8,7 @@ const _icons = [
   'CameraAlt',
   'LocalFireDepartment',
   'MiscellaneousServices',
+  'Lock'
 ];
 
 export const getAllIcons = () => {
