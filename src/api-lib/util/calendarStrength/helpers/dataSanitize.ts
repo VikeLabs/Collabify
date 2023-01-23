@@ -63,20 +63,11 @@ const dataSanitize = (availabilities: Availability[]) => {
       timesAvailable: [],
     };
     for (const time of entry.times as unknown as TimeSlot[]) {
-      try {
-        const [date, start] = parseTime(time.startStr);
-        const [_, end] = parseTime(time.endStr);
-        const newTimeEntry = { date, times: { start, end } };
+      const [date, start] = parseTime(time.startStr);
+      const [_, end] = parseTime(time.endStr);
+      const newTimeEntry = { date, times: { start, end } };
 
-        newPerson.timesAvailable.push(newTimeEntry);
-      } catch (e) {
-        console.error('Error in `dataSanitize`');
-        console.error(`Attempted to parse: ${time}`);
-        console.error(`Error caught: ${e}`);
-        console.error(`Skipping to the next iteration`);
-
-        continue;
-      }
+      newPerson.timesAvailable.push(newTimeEntry);
     }
     people.push(newPerson);
   }
