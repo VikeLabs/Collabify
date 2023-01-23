@@ -1,22 +1,25 @@
 import prisma from 'api-lib/prisma';
-import { Event } from '@prisma/client';
-import { ApiError } from 'api-lib/util/apiError';
 
-interface GetEventResult {
-  events?: Event[];
-  eventsError?: ApiError;
+export interface ParsedEvent {
+  title: string;
+  start: number;
+  end: number;
+  description: string;
+  display: string;
+  backgroundColor: string;
 }
 
-type GetEvents = (groupID: number) => Promise<GetEventResult>;
+export const getEvents = async (groupID: number): Promise<ParsedEvent[]> => {
+  const events = await prisma.event.findMany({
+    where: { groupID },
+  });
 
-export const getEvents: GetEvents = async (groupID: number) => {
-  try {
-    const events = await prisma.event.findMany({
-      where: { groupID },
-    });
-
-    return { events };
-  } catch (e) {
-    return { eventsError: new ApiError(e, 500) };
-  }
+  return events.map((event) => ({
+    title: event.title,
+    start: event.startTime,
+    end: event.endTime,
+    description: event.description,
+    display: 'block',
+    backgroundColor: '#fb8500',
+  }));
 };
