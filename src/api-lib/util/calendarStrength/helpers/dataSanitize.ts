@@ -81,7 +81,7 @@ const dataSanitize = (availabilities: Availability[]) => {
     people.push(newPerson);
   }
 
-  return [formatDateData, people];
+  return { events: formatDateData, people };
 };
 
 function getAllDates(dates: Availability[]): number[] {
