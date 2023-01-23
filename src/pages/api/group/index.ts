@@ -32,7 +32,7 @@ export default function handler(
 
       const buf: ResponseBuffer = { groupID: group.id };
 
-      if (group.isPrivate) {
+      if (reqGroup.isPrivate) {
         const jwtOpts = {
           expiresIn: 7 * 24 * 60 * 60, // expires in 7 days
         };

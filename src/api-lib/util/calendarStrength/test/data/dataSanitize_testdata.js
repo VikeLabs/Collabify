@@ -15,8 +15,8 @@ const input = [
         endStr: '2022-11-01T16:30:00',
       },
     ],
-    name: 'Ben',
-    number: '125',
+    userName: 'Ben',
+    userNumber: '125',
   },
   {
     weekOf: '2022-10-30',
@@ -34,8 +34,8 @@ const input = [
         endStr: '2022-11-01T16:30:00',
       },
     ],
-    name: 'Aman',
-    number: '143',
+    userName: 'Aman',
+    userNumber: '143',
   },
   {
     weekOf: '2022-10-30',
@@ -53,8 +53,8 @@ const input = [
         endStr: '2022-11-01T17:30:00',
       },
     ],
-    name: 'Hal',
-    number: '123',
+    userName: 'Hal',
+    userNumber: '123',
   },
 ];
 
