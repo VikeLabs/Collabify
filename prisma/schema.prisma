@@ -23,7 +23,7 @@ model Group {
   calendarMaxTime String
   // Relations
   events          Event[]
-  Availability    Availability[]
+  availability    Availability[]
 }
 
 model Event {
@@ -42,7 +42,7 @@ model Availability {
   @@map("availabilities")
   id         Int      @id @default(autoincrement())
   weekOf     String
-  times      String[]
+  times      Json
   // Relations
   userName   String
   userNumber String

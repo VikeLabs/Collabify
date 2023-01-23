@@ -1,0 +1,33 @@
+- Example of date time returned by full cal api
+
+{
+  groupID: '63cdec9d5b27e99df358f4fa',
+  availability: {
+    weekOf: '2023-01-22',
+    times: [ [Object] ],
+    name: 'asdf',
+    number: '1231231231'
+  }
+}
+
+where as `times` is:
+[
+  {
+    start: '2023-01-24T20:30:00.000Z',
+    end: '2023-01-24T21:00:00.000Z',
+    startStr: '2023-01-24T12:30:00-08:00',
+    endStr: '2023-01-24T13:00:00-08:00',
+    allDay: false,
+    jsEvent: { isTrusted: true },
+    view: { type: 'timeGridWeek', dateEnv: [Object] }
+  },
+  {
+    start: '2023-01-25T19:30:00.000Z',
+    end: '2023-01-25T20:00:00.000Z',
+    startStr: '2023-01-25T11:30:00-08:00',
+    endStr: '2023-01-25T12:00:00-08:00',
+    allDay: false,
+    jsEvent: { isTrusted: true },
+    view: { type: 'timeGridWeek', dateEnv: [Object] }
+  }
+]
