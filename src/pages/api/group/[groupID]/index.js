@@ -2,6 +2,7 @@ import dbConnect from 'api-lib/dbConnect';
 import { getGroup, updateGroup } from 'api-lib/db';
 import { sendNoDocumentError, sendRequestError } from 'api-lib/helper';
 import { NotFoundError } from 'api-lib/util/exceptions';
+// TODO: exceptions error utils have been nuked please update
 
 export default async function handler(req, res) {
   const { method, body } = req;
