@@ -1,12 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { JsonWebToken } from 'api-lib/auth';
-import { getAvailabilities } from 'api-lib/db/availability';
 import { getEvents } from 'api-lib/db/event';
 import { getGroupByID } from 'api-lib/db/group';
-import {
-  parseAvailabilities,
-  parseEvents,
-} from 'api-lib/util/calendarStrength';
+import { getAvailabilities } from 'api-lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -53,22 +49,8 @@ export default async function handler(
     }
 
     /* PARSE GROUP INFORMATION */
-    const { availabilities, availabilitiesError } = await getAvailabilities(
-      groupID
-    );
-    if (availabilitiesError) {
-      res.status(availabilitiesError.statusCode).end();
-      return;
-    }
-
-    const { events, eventsError } = await getEvents(groupID);
-    if (eventsError) {
-      res.status(eventsError.statusCode).end();
-      return;
-    }
-
-    const allAvailabilities = parseAvailabilities(availabilities);
-    const allEvents = parseEvents(events);
+    const allAvailabilities = await getAvailabilities(groupID);
+    const allEvents = await getEvents(groupID);
 
     res.status(200).json({
       group,

@@ -1,4 +1,5 @@
-import { createAvailability } from 'api-lib/db';
+import prisma from 'api-lib/prisma';
+import { Availability } from '@prisma/client';
 import { NextApiResponse, NextApiRequest } from 'next';
 
 export default async function handler(
@@ -10,10 +11,13 @@ export default async function handler(
   }
 
   const { body } = req;
+  const groupID = parseInt(req.query.groupID as string);
   try {
-    const { groupID, availability } = JSON.parse(body);
+    const availability: Availability = body;
+    availability.groupID = groupID;
 
-    await createAvailability(groupID, availability);
+    await prisma.availability.create({ data: availability });
+
     res.status(201).end();
   } catch (error) {
     res.status(500).end();
