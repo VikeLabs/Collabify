@@ -1,8 +1,8 @@
 export const LeftIcon = (props) => {
   return (
     <props.LeftIconComponent
-      // onClick={leftIconClick}
-      // icon={leftIcon}
+      onClick={props.leftIconClick}
+      icon={props.leftIcon}
       style={{
         color: 'white',
         position: 'absolute',
@@ -15,13 +15,13 @@ export const LeftIcon = (props) => {
 export const RightIcon = (props) => {
   return (
     <props.RightIconComponent
-      // onClick={rightIconClick}
-      // icon={rightIcon}
+      onClick={props.rightIconClick}
+      icon={props.rightIcon}
       style={{
         color: 'white',
         position: 'absolute',
         marginTop: '0.2em',
-        right: isMobile ? '3vw' : '2.5vw',
+        right: props.isMobile ? '3vw' : '2.5vw',
         cursor: 'pointer',
       }}
     />

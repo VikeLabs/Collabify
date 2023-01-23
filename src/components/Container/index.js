@@ -6,9 +6,9 @@ import { Divider, Menu, MenuItem } from '@mui/material';
 import { IntroTooltip } from 'components/IntroTooltip';
 import { CLOSE_ALL_TOOLTIPS } from 'constants';
 import { AppBar } from '../../../node_modules/@material-ui/core/index';
-import { MenuIcon } from 'components/Menu/menuIcon';
-import { LeftIcon } from 'components/Menu/leftRightIcon';
-import { RightIcon } from 'components/Menu/leftRightIcon';
+import { MenuIcon } from 'components/ContainerIcons/menuIcon';
+import { LeftIcon } from 'components/ContainerIcons/leftRightIcon';
+import { RightIcon } from 'components/ContainerIcons/leftRightIcon';
 
 export const Container = ({
   header = '',
@@ -59,8 +59,8 @@ export const Container = ({
           <div>
             <LeftIcon
               LeftIconComponent={LeftIconComponent}
-              onClick={leftIconClick}
-              icon={leftIcon}
+              leftIconClick={leftIconClick}
+              leftIcon={leftIcon}
             />
           </div>
         )}
@@ -68,8 +68,9 @@ export const Container = ({
           <div>
             <RightIcon
               RightIconComponent={RightIconComponent}
-              onClick={rightIconClick}
-              icon={rightIcon}
+              rightIconClick={rightIconClick}
+              rightIcon={rightIcon}
+              isMobile={isMobile}
             />
           </div>
         )}
