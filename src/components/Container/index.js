@@ -7,6 +7,8 @@ import { IntroTooltip } from 'components/IntroTooltip';
 import { CLOSE_ALL_TOOLTIPS } from 'constants';
 import { AppBar } from '../../../node_modules/@material-ui/core/index';
 import { MenuIcon } from 'components/Menu/menuIcon';
+import { LeftIcon } from 'components/Menu/leftRightIcon';
+import { RightIcon } from 'components/Menu/leftRightIcon';
 
 export const Container = ({
   header = '',
@@ -54,55 +56,24 @@ export const Container = ({
           </IntroTooltip>
         )}
         {leftIcon && (
-          <LeftIconComponent
-            onClick={leftIconClick}
-            style={{
-              color: 'white',
-              position: 'absolute',
-              marginTop: '0.2em',
-            }}
-          />
-        )}
-        {rightIcon && (
-          <RightIconComponent
-            onClick={rightIconClick}
-            style={{
-              color: 'white',
-              position: 'absolute',
-              marginTop: '0.2em',
-              right: isMobile ? '3vw' : '2.5vw',
-            }}
-          />
-        )}
-        {leftIcon && (
           <div>
-            <LeftIconComponent
+            <LeftIcon
+              LeftIconComponent={LeftIconComponent}
               onClick={leftIconClick}
               icon={leftIcon}
-              style={{
-                color: 'white',
-                position: 'absolute',
-                marginTop: '0.2em',
-                cursor: 'pointer',
-              }}
             />
           </div>
         )}
         {rightIcon && (
           <div>
-            <RightIconComponent
+            <RightIcon
+              RightIconComponent={RightIconComponent}
               onClick={rightIconClick}
               icon={rightIcon}
-              style={{
-                color: 'white',
-                position: 'absolute',
-                marginTop: '0.2em',
-                right: isMobile ? '3vw' : '2.5vw',
-                cursor: 'pointer',
-              }}
             />
           </div>
         )}
+
         <h1 className={style.header}>{header}</h1>
       </AppBar>
       {/* Drop down menu */}
