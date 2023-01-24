@@ -18,7 +18,12 @@ export default async function handler(
     const { groupID: _groupID } = req.query;
     const groupID = parseInt(_groupID as string);
 
-    const { group, error: groupError } = await getGroupByID(groupID);
+    const {
+      group,
+      error: groupError,
+      token: privateGrToken,
+    } = await getGroupByID(groupID);
+
     if (groupError) {
       res.status(groupError.statusCode).end();
       return;
@@ -35,13 +40,13 @@ export default async function handler(
         return;
       }
 
-      const { decodedToken, error: jwtError } = JsonWebToken.verify(token);
-      if (jwtError) {
-        res.status(jwtError.statusCode).end();
+      const { groupToken, err } = JsonWebToken.getPrivateGroupToken(token);
+      if (err) {
+        res.status(err.statusCode).end();
         return;
       }
 
-      if (decodedToken !== groupID) {
+      if (groupToken !== privateGrToken) {
         // wrong token
         res.status(401).end();
         return;
