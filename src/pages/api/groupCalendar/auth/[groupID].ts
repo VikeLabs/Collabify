@@ -2,6 +2,7 @@ import prisma from 'api-lib/prisma';
 import bcrypt from 'bcrypt';
 import { NextApiResponse, NextApiRequest } from 'next';
 import { JsonWebToken } from 'api-lib/auth';
+import { Prisma } from '@prisma/client';
 
 export default async function (
   req: NextApiRequest,
@@ -22,8 +23,16 @@ export default async function (
 
   try {
     const id = parseInt(req.query.groupID as string);
-    const group = await prisma.group.findUnique({ where: { id } });
-    const { password: hashed, privateToken } = group;
+
+    // Get credentials
+    const filterCredential = {} as Prisma.GroupFindUniqueArgs;
+    filterCredential.where = { id };
+    filterCredential.select = { password: true, privateToken: true };
+
+    const credentials = await prisma.group.findUnique(filterCredential);
+    const { password: hashed, privateToken } = credentials;
+
+    // Authentication
     const matched = await bcrypt.compare(password, hashed);
 
     if (!matched) {
@@ -32,7 +41,7 @@ export default async function (
     }
 
     const access_token = JsonWebToken.signPrivateGroupToken(privateToken);
-    res.status(200).json({ access_token });
+    res.status(200).send(access_token);
     return;
   } catch (e) {
     res.status(500).end();

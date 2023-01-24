@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { JsonWebToken } from 'api-lib/auth';
 import { getEvents } from 'api-lib/db/event';
-import { getGroupByID, updateGroup } from 'api-lib/db/group';
-import { getAvailabilities } from 'api-lib/db';
+import { getGroupByID } from 'api-lib/db/group';
+import { getAvailabilities } from 'api-lib/db/availability';
 import { Group } from '@prisma/client';
 import prisma from 'api-lib/prisma';
 
@@ -15,7 +15,7 @@ export default async function handler(
     const { groupID: _groupID } = req.query;
     const groupID = parseInt(_groupID as string);
 
-    // Get group
+    /* GET GROUP */
     const {
       group,
       error: groupError,
@@ -27,7 +27,7 @@ export default async function handler(
       return;
     }
 
-    // Handle private group
+    /* PRIVATE GROUP AUTH */
     if (group.isPrivate) {
       const authToken = getAuthToken(req.rawHeaders);
       if (!authToken) {
@@ -50,6 +50,7 @@ export default async function handler(
       }
     }
 
+    /* METHODS HANDLER */
     switch (method) {
       case 'GET': {
         // Get group information
