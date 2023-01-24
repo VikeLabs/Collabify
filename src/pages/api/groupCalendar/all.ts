@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getAllGroups } from 'api-lib/db';
+import { getGroups } from 'api-lib/db';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +11,7 @@ export default async function handler(
   }
 
   try {
-    const allGroups = await getAllGroups();
+    const allGroups = await getGroups();
     res.status(200).json(allGroups);
     return;
   } catch (error) {
