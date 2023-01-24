@@ -5,6 +5,7 @@ import { ApiError } from 'api-lib/util/apiError';
 interface GetGroupResult {
   group?: Group;
   error?: ApiError;
+  token?: string;
 }
 
 type GetGroupByID = (id: number) => Promise<GetGroupResult>;
@@ -22,6 +23,9 @@ export const getGroupByID: GetGroupByID = async (id: number) => {
     return { error: new ApiError(`group not found: ${id}`, 404) };
   }
 
+  // get group `privateToken`
+  let token: string;
+  if (group.isPrivate) token = group.privateToken;
   /* NOTE: !!!The following delete statements are important!!!
    * If some refactoring is needed,
    * don't forget to delete `group.password` and `group.privateToken`
@@ -32,5 +36,5 @@ export const getGroupByID: GetGroupByID = async (id: number) => {
   delete group.privateToken;
   delete group.password;
 
-  return { group };
+  return { group, token };
 };
