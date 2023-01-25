@@ -1,3 +1,4 @@
+/** @deprecated */
 export const sendRequestError = (res, error) => {
   // Use this for the request result
   console.error(error);

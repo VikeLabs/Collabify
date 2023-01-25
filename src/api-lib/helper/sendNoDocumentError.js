@@ -1,3 +1,4 @@
+/** @deprecated */
 export const sendNoDocumentError = (res, error) => {
   if (error) {
     console.log(error);
