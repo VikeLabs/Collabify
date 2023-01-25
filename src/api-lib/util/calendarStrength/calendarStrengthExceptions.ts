@@ -1,5 +1,6 @@
+/** @deprecated */
 class InvalidArguments extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.name = 'InvalidArguments';
     this.message = message;

@@ -1,5 +1,3 @@
-import { InvalidArguments } from '../calendarStrengthExceptions';
-
 const _c = {
   transparent: 'transparent',
   gt75: '#228b22',
@@ -8,7 +6,10 @@ const _c = {
   gt0: '#aef5ae',
 };
 
-const determineBackground = (namesLength, highestNamesLength) => {
+const determineBackground = (
+  namesLength: number,
+  highestNamesLength: number
+): string => {
   // Names length divided by the highest names length will give a color strength
   if (
     typeof namesLength !== 'number' ||
@@ -22,7 +23,7 @@ const determineBackground = (namesLength, highestNamesLength) => {
   if (namesLength > highestNamesLength) {
     let err = `_namesLength_ is greater than _highestNamesLength_.\n`;
     err += `got [${namesLength}:${highestNamesLength}] ([namesLength:highestNamesLength])`;
-    throw new InvalidArguments(err);
+    throw new Error(err);
   }
 
   const percent = (namesLength / highestNamesLength) * 100;
