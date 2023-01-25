@@ -13,6 +13,7 @@ import {
   LandingBanner,
   TimeSlots,
   PrivateGroupInfo,
+  DropdownMenu,
 } from 'components/Home';
 import { getAllIcons } from 'components/MuiIcon';
 
@@ -88,18 +89,7 @@ export default function Home() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header='create a group'
-        menu={[
-          {
-            icon: 'Groups',
-            text: 'Recent Groups',
-            onClick: () => router.push('/tools/recentGroups'),
-          },
-          {
-            icon: 'Search',
-            text: 'Find Group',
-            onClick: () => router.push('/tools/findGroup'),
-          },
-        ]}
+        menu={<DropdownMenu />}
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
