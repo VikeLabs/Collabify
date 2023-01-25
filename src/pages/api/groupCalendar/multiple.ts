@@ -2,7 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getGroups } from 'api-lib/db/group';
 
 // URL: `/api/groupCalendar/multiple?groupID=1&groupID=2&groupID=3&`
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method !== 'GET') {
     res.status(405).end();
     return;
@@ -32,4 +35,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).end();
     console.log(error);
   }
-};
+}

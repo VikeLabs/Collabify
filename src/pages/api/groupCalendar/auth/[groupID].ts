@@ -4,7 +4,7 @@ import { NextApiResponse, NextApiRequest } from 'next';
 import { JsonWebToken } from 'api-lib/auth';
 import { Prisma } from '@prisma/client';
 
-export default async function (
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
