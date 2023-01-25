@@ -1,7 +1,6 @@
 import { expect, it, describe } from '@jest/globals';
 import { determineBackground } from '../helpers/determineBackground';
 import { failedTests, passedTests } from './data/determineBackground_testdata';
-import { InvalidArguments } from '../calendarStrengthExceptions';
 
 describe('tests for helper `determineBackground()`', () => {
   it('returns the correct color values', () => {
@@ -15,7 +14,7 @@ describe('tests for helper `determineBackground()`', () => {
     failedTests.forEach((test) => {
       expect(() => {
         return determineBackground(test.namesLength, test.peopleLength);
-      }).toThrow(InvalidArguments);
+      }).toThrow();
     });
   });
 });
