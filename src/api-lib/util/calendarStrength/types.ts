@@ -20,7 +20,7 @@ export interface TimeSlot {
   view: any; // don't care
 }
 
-interface TimeObject {
+export interface TimeObject {
   start: number;
   end: number;
 }
@@ -30,10 +30,15 @@ export interface FormatDateData {
   times: TimeObject[];
 }
 
+export interface TimeAvailable {
+  date: number;
+  times: TimeObject;
+}
+
 export interface PersonInfo {
   name: string;
   number: string;
-  timesAvailable: any[]; // TODO: update this type
+  timesAvailable: TimeAvailable[]; // TODO: update this type
 }
 
 export interface DateEntry {

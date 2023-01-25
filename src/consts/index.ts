@@ -1,11 +1,8 @@
 // API CONSTANTS
 export const BASE_URL =
   process.env.NODE_ENV === 'production' ? 'collabify.space' : 'localhost:3000';
-export const GROUP = '/api/group';
-export const GROUP_CALENDAR = '/api/groupCalendar';
-export const AUTH_GROUP = '/api/groupCalendar/auth';
-export const AVAILABILITY = '/api/availability';
-export const EVENT = '/api/event';
+export const GROUP = '/api/groupCalendar';
+export const BLOG = '/api/blog';
 // LOCAL STORAGE CONSTANTS
 export const RECENT_GROUPS_STORED = 'CollabifyRecentGroups';
 export const THEME_STORED = 'CollabifyTheme';

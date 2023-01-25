@@ -1,3 +1,4 @@
+/** @deprecated */
 export const startToEndStandardTime = (startMilitaryTime, endMilitaryTime) => {
   function convert(time) {
     time = time.split(':'); // convert to array

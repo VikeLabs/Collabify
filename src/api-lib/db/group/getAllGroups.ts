@@ -4,5 +4,13 @@ import { Group } from '@prisma/client';
 type GetAllGroups = () => Promise<Group[]>;
 
 export const getAllGroups: GetAllGroups = async () => {
-  return await prisma.group.findMany();
+  const allGroups = await prisma.group.findMany();
+
+  return allGroups.map((group) => {
+    delete group.privateToken; // !IMPORTANT
+    delete group.password; // !IMPORTANT
+    delete group.calendarMaxTime;
+    delete group.calendarMinTime;
+    return group;
+  });
 };
