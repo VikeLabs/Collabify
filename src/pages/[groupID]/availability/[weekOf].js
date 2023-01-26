@@ -11,6 +11,8 @@ import { useAsyncFetch, useDeviceDetect } from 'hooks';
 import utilities from 'styles/utilities.module.css';
 import { Spinner } from 'components/Loading';
 
+import { LeftContainerIcon } from 'components/page_availability';
+
 export default function Availability() {
   const router = useRouter();
   const { isMobile } = useDeviceDetect();
@@ -65,8 +67,11 @@ export default function Availability() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
-        leftIcon={'ArrowBack'}
-        leftIconClick={() => router.replace(`/${groupID}`)}
+        leftIcon={
+          <LeftContainerIcon
+            handleClick={() => router.replace(`/${groupID}`)}
+          />
+        }
       >
         <Spinner isLoading={isSaving} />
         <h2 className={utilities.heading}>
