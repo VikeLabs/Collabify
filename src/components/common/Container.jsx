@@ -12,9 +12,6 @@ interfeca PropType {
 
 // export const Container ({ rightIcon, leftIcon, header, children }: PropType) {
 
-/** @deprecated
- * import from 'components/common' instead
- * */
 export const Container = ({ rightIcon, children, header, leftIcon }) => {
   return (
     <div>

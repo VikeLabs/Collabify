@@ -2,15 +2,11 @@
  * By default this will take up the entire dom
  * unless the parent component needs to have a css rule `position: relative;`
  * */
-
 import PropTypes from 'prop-types';
 import { CircularProgress } from '@mui/material';
 
 import style from 'styles/components/spinner.module.css';
 
-/** @deprecated
- * import from 'components/common' instead
- * */
 export const Spinner = ({ isLoading }) => {
   if (isLoading === true)
     return (
