@@ -5,8 +5,7 @@ import { createGroupRequest } from 'helper/home_helpers';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 // Components
-import { Container } from 'components/Container';
-import { Spinner } from 'components/Loading';
+import { Container, Spinner } from 'components/common';
 import {
   GroupInfo,
   Icons,
@@ -14,7 +13,7 @@ import {
   TimeSlots,
   PrivateGroupInfo,
   DropdownMenu,
-} from 'components/Home';
+} from 'components/page_index';
 import { getAllIcons } from 'components/MuiIcon';
 
 // MUI
@@ -89,7 +88,7 @@ export default function Home() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header='create a group'
-        menu={<DropdownMenu />}
+        leftIcon={<DropdownMenu />}
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
