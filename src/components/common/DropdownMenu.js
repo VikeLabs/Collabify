@@ -19,6 +19,9 @@ import { CLOSE_ALL_TOOLTIPS } from 'constants';
 //   menuItems: Menu[];
 // }
 
+/** @deprecated
+ * import from 'components/page_index' instead
+ * */
 export const DropdownMenu = ({ menuItems }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);

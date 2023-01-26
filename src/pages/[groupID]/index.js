@@ -124,7 +124,7 @@ export default function GroupHome() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
-        menu={<Menu />}
+        leftIcon={<Menu />}
         rightIcon={
           <RightContainerIcon
             handleClick={() => {

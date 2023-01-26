@@ -3,7 +3,6 @@ import { useLocalStorage } from 'hooks';
 
 import * as Icons from '@mui/icons-material';
 import { IntroTooltip } from 'components/IntroTooltip';
-import { MenuIcon } from 'components/ContainerIcons/menuIcon';
 
 import style from 'styles/components/container.module.css';
 
@@ -40,11 +39,17 @@ export const DropdownMenu = () => {
           localStorage.setItem(CLOSE_ALL_TOOLTIPS, true);
         }}
       >
-        <MenuIcon
-          MenuIconComponent={MenuIconComponent}
-          setAnchorEl={setAnchorEl}
-          setShowToolTip={setShowToolTip}
-          setIsOpen={setIsOpen}
+        <MenuIconComponent
+          onClick={(e) => {
+            setAnchorEl(e.currentTarget);
+            setShowToolTip(false);
+            setIsOpen(true);
+          }}
+          style={{
+            color: 'white',
+            position: 'absolute',
+            marginTop: '0.2em',
+          }}
         />
       </IntroTooltip>
 
