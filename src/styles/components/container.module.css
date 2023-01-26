@@ -10,6 +10,10 @@
   color: white;
 }
 
+.menu {
+  cursor: pointer;
+}
+
 .menu ul {
   background-color: var(--primary-main);
 }

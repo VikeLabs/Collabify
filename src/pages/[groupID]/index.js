@@ -15,6 +15,8 @@ import style from 'styles/pages/groupHome.module.css';
 import { UnauthorizedError } from 'api-lib/util/exceptions/apiExceptions';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
+import { Menu, RightContainerIcon } from 'components/page_groupID';
+
 export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
@@ -122,21 +124,13 @@ export default function GroupHome() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
-        menu={[
-          {
-            icon: 'Settings',
-            text: 'Group Settings',
-            onClick: () => router.replace(`/${groupID}/settings`),
-          },
-          {
-            icon: 'ArrowBack',
-            text: 'Back',
-            onClick: () => router.replace('/'),
-          },
-        ]}
-        rightIcon={'EventAvailable'}
-        rightIconClick={() =>
-          router.replace(`/${groupID}/availability/${date}`)
+        menu={<Menu />}
+        rightIcon={
+          <RightContainerIcon
+            handleClick={() => {
+              router.replace(`/${groupID}/availability/${date}`);
+            }}
+          />
         }
       >
         <GroupBanner icon={data?.group?.icon} />
