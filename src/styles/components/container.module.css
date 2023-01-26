@@ -37,11 +37,11 @@
 }
 
 @media only screen and (max-width: 900px) {
-  .container {
-    width: 90vw;
-    margin-top: 3vh;
-    margin-left: 5vw;
-  }
+  /* .container { */
+  /*   width: 90vw; */
+  /*   margin-top: 3vh; */
+  /*   margin-left: 5vw; */
+  /* } */
 
   .headerContainer {
     width: calc(90vw + 1.2em);
