@@ -20,7 +20,17 @@ export const Container = ({
         className={style.headerContainer}
         position='static'
       >
-        {leftIcon ? leftIcon : null}
+        {leftIcon ? (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              transform: 'translateY(50%)',
+            }}
+          >
+            {leftIcon}
+          </div>
+        ) : null}
         {header ? <h1 className={style.header}>{header}</h1> : null}
         {rightIcon ? rightIcon : null}
       </AppBar>

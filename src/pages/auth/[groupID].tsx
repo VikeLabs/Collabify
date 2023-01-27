@@ -1,19 +1,20 @@
-import { Container } from 'components/Container';
-import { LogInForm } from 'components/GroupHome/Auth/LogInForm';
-import { AUTH_GROUP } from 'constants';
+import { BackButton, Container } from 'components/common';
+import { LogInForm } from 'components/page_auth_groupID';
+// import { AUTH_GROUP } from 'constants';
 import { useRouter } from 'next/router';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
+
+const API = '/api/groupCalendar'; // TODO: change this to one of the global constants
 
 export default function PrivateGroupAuth() {
   const router = useRouter();
   const { groupID } = router.query;
 
-  /**
-   * @param {string} inputPassword
-   * @param {(errorMessage: string) => void} callback
-   */
-  const handleSubmit = (inputPassword, callback) => {
-    fetch(`${AUTH_GROUP}/${groupID}`, {
+  const handleSubmit = (
+    inputPassword: string,
+    callback: (err: string) => void
+  ) => {
+    fetch(`${API}/auth/${groupID}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,20 +42,19 @@ export default function PrivateGroupAuth() {
           throw new Error('Missing in response: access_token');
         }
 
-        PrivateGroupTokens.setGroupToken(groupID, access_token);
+        PrivateGroupTokens.setGroupToken(groupID as string, access_token);
         router.replace(`/${groupID}`);
       })
       .catch((e) => {
-        console.log(e);
         callback('Something went wrong. Try again later.');
+        console.log(e);
       });
   };
 
   return (
     <Container
       header='Private Group'
-      leftIcon={'ArrowBack'}
-      leftIconClick={() => router.replace(`/`)}
+      leftIcon={<BackButton toPage='/' />}
     >
       <LogInForm handleSubmit={handleSubmit} />;
     </Container>
