@@ -5,15 +5,15 @@ import { createGroupRequest } from 'helper/home_helpers';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 // Components
-import { Container } from 'components/Container';
-import { Spinner } from 'components/Loading';
+import { Container, Spinner } from 'components/common';
 import {
   GroupInfo,
   Icons,
   LandingBanner,
   TimeSlots,
   PrivateGroupInfo,
-} from 'components/Home';
+  DropdownMenu,
+} from 'components/page_index';
 import { getAllIcons } from 'components/MuiIcon';
 
 // MUI
@@ -88,18 +88,7 @@ export default function Home() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header='create a group'
-        menu={[
-          {
-            icon: 'Groups',
-            text: 'Recent Groups',
-            onClick: () => router.push('/tools/recentGroups'),
-          },
-          {
-            icon: 'Search',
-            text: 'Find Group',
-            onClick: () => router.push('/tools/findGroup'),
-          },
-        ]}
+        leftIcon={<DropdownMenu />}
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
