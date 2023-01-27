@@ -20,9 +20,8 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Collabify</title>
         <meta
-          property='og:title'
-          content='Collabify'
-          key='title'
+          name='description'
+          content='Collabify makes coordinating times easier'
         />
       </Head>
       <Component {...pageProps} />

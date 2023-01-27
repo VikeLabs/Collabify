@@ -133,13 +133,6 @@ export default function Home() {
           </Button>
         </div>
       </Container>
-      <Head>
-        <title>Collabify</title>
-        <meta
-          name='description'
-          content='Collabify makes coordinating times easier'
-        />
-      </Head>
     </>
   );
 }
