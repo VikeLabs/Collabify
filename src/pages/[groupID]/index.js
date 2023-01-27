@@ -13,6 +13,7 @@ import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
 import { UnauthorizedError } from 'api-lib/util/exceptions/apiExceptions';
+// TODO: exceptions error utils have been nuked please update
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 import { Menu, RightContainerIcon } from 'components/page_groupID';

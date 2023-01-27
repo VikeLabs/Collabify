@@ -7,27 +7,13 @@
 - Quick Start
   - [Installation](#installation)
   - [Mongo URI](#Mongo-URI)
-  - [Dev server](#Dev-server)
+  - [Dev server](#dev-server)
 - [Tech stacks](#tech-stacks)
 - Contributing
-  - [Workflow](#Workflow)
-  - [Directories Structure](#Directories-Structure)
-  - [Code Style](#Code-Style)
-- [Developers](#Developers)
-
-## Quick start
-
-Quick note before starting:
-
-- Devs are encouraged to use [JS Doc](https://jsdoc.app/) to document their codes,
-  Js Doc also helps with [IntelliSense](https://code.visualstudio.com/docs/editor/intellisense)
-  (code completetion, code hinting, etc..). Once the code is documented, use
-  [js-doc-to-markdown](https://github.com/jsdoc2md/jsdoc-to-markdown) to generate a markdown
-  for the code.
-
-  ```sh
-  jsdoc2md <yourJsFile>.js ./docs/<YourJsFile>.md
-  ```
+  - [Workflow](#workflow)
+  - [Directories Structure](#directories-structure)
+  - [Code Style](#code-style)
+- [Developers](#developers)
 
 ### Installation
 
@@ -44,22 +30,36 @@ npm ci --legacy-peer-deps
 An example:
 
 ```sh
-MONGODB_URI=<Your Mongo URI here - see below>
+DATABASE_URL=postgres://<postgres-username>:<postgres-password>@localhost:5432/collabify
 FROM_NUMBER=<Get from Ben>
 TWILIO_ACCOUNT_SID=<Get from Ben>
 TWILIO_AUTH_TOKEN=<Get from Ben>
 PRIVATE_GROUP_SECRET=<Any random string 8 - 32 chars>
 ```
 
-#### Mongo URI
+#### PostGres
 
-To get this `URI`, follow this
-[guide](https://www.mongodb.com/docs/atlas/driver-connection/?tck=docs_driver_nodejs).
+For Postgres to work as expected (assuming it's been installed and configured on your machine),
+you will have to create a database `collabify` in the `psql` shell
 
-If MongoDB is installed locally, `mongodb://localhost:27017` is fine.
+```sql
+CREATE DATABASE collabify;
+```
 
-**NOTE** that MongoDB Atlas requires no installation and has a free forever
-plan. No need to pay.
+DB migration is needed, you only need to do this whenever there's a change in the db schema.
+
+```sh
+npm run db:migrate
+```
+
+To see the database, you can continue to use the `psql` shell with regular SQL queries,
+or you could use the GUI client provided by Prisma, to start this GUI, open a new terminal:
+
+```sh
+npm run db:view
+```
+
+Then head over to <localhost:5555> in your browser (if it doesn't open automatically).
 
 ### Dev server
 
@@ -84,9 +84,9 @@ For the tech we are using:
 
 - Backend
 
-  - [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
-  - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
-  - [Mongoose](https://mongoosejs.com/docs/api.html)
+  - [Bcrypt](https://github.com/kelektiv/node.bcrypt.js)
+  - [JsonWebToken](https://github.com/auth0/node-jsonwebtoken)
+  - [Prisma](https://www.prisma.io/docs/reference)
   - [Twilio](https://www.twilio.com/docs) handles messaging.
   - [Jest](https://jestjs.io/docs/api), the testing library.
 
@@ -107,8 +107,8 @@ during stages of the development.
 
 _(Last update: Jan 12, 2023)_
 
-- [Workflow](#Workflow)
-- [Code Style](#Code-Style)
+- [Workflow](#workflow)
+- [Code Style](#code-style)
 - [Resources](#Resources)
 - [Documentations](#Documentations)
 
