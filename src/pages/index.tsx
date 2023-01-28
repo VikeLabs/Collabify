@@ -1,7 +1,7 @@
+import { Group } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useBool } from 'hooks';
-import { createGroupRequest } from 'helper/home_helpers';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 // Components
@@ -15,14 +15,11 @@ import {
   DropdownMenu,
 } from 'components/page_index';
 import { getAllIcons } from 'components/MuiIcon';
-
-// MUI
 import Button from '@mui/material/Button';
 import { Alert } from '@mui/material'; // `Skeleton` not used
-
+import { GROUP } from 'constants';
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
-import Head from 'next/head';
 
 export default function Home() {
   const router = useRouter();
@@ -41,9 +38,9 @@ export default function Home() {
   const [password, setPassword] = useState('');
 
   /* FORM VALIDATION */
-  const [hasError, setHasError] = useState(false);
+  const [hasError, setHasError] = useState<string | null>(null);
   const isDisabled = useBool(true);
-  const [isSaving, setIsSaving] = useState(false);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   // check for calendar time
   // check for private group and sufficient information
@@ -73,14 +70,25 @@ export default function Home() {
       calendarMaxTime,
     };
 
-    createGroupRequest(newGroup, (err, response) => {
-      if (err) return setHasError(() => err);
-
-      const { groupID, access_token } = response;
-      access_token && PrivateGroupTokens.setGroupToken(groupID, access_token);
-
-      router.push(`/${groupID}`);
-    }).then(() => setIsSaving(() => false));
+    setIsSaving(() => true);
+    handleSubmit(newGroup as Group)
+      .then((res) => {
+        if (res.status === 201) return res.json();
+      })
+      .then((data) => {
+        if (data) {
+          const { access_token, groupID } = data;
+          if (access_token) {
+            PrivateGroupTokens.setGroupToken(String(groupID), access_token);
+          }
+          router.replace(`/${groupID}`);
+        }
+      })
+      .then(() => setIsSaving(() => false))
+      .catch((e) => {
+        setHasError(() => 'Something went wrong, try again later.');
+        console.log(e);
+      });
   };
 
   return (
@@ -135,4 +143,14 @@ export default function Home() {
       </Container>
     </>
   );
+}
+
+function handleSubmit(body: Group) {
+  return fetch(`${GROUP}/new`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
 }
