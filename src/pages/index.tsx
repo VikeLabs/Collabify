@@ -96,7 +96,7 @@ export default function Home() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header='create a group'
-        leftIcon={<DropdownMenu />}
+        leftButton={<DropdownMenu />}
       >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>

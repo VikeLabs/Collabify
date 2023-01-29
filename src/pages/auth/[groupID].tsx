@@ -1,4 +1,4 @@
-import { BackButton, Container } from 'components/common';
+import { Container } from 'components/common';
 import { LogInForm } from 'components/page_auth_groupID';
 // import { AUTH_GROUP } from 'constants';
 import { useRouter } from 'next/router';
@@ -54,7 +54,8 @@ export default function PrivateGroupAuth() {
   return (
     <Container
       header='Private Group'
-      leftIcon={<BackButton toPage='/' />}
+      leftIcon='ArrowBack'
+      leftIconClick={() => router.back()}
     >
       <LogInForm handleSubmit={handleSubmit} />;
     </Container>
