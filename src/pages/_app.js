@@ -8,7 +8,7 @@ import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import 'tippy.js/dist/tippy.css';
 import 'styles/globals.css';
-import { BugReport } from 'components/BugReport/BugReport';
+import { BugReport } from 'components/common';
 import { theme } from 'styles/muiglobals';
 
 function MyApp({ Component, pageProps }) {
