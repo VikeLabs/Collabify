@@ -4,7 +4,7 @@ import { Alert, Box, IconButton } from '@mui/material';
 import { useAddRecentGroup } from 'hooks';
 import { BASE_URL, EVENT, GROUP_CALENDAR } from 'constants';
 import { useRouter } from 'next/router';
-import { Container } from 'components/Container';
+import { Container } from 'components/common/Container';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
 import { Check, CopyAllOutlined } from '@mui/icons-material';
@@ -12,11 +12,10 @@ import { getTodaysDate } from 'helper/getTodaysDate';
 import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
-import { UnauthorizedError } from 'api-lib/util/exceptions/apiExceptions';
-// TODO: exceptions error utils have been nuked please update
+import { Menu } from 'components/page_groupID';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
-
-import { Menu, RightContainerIcon } from 'components/page_groupID';
+import { GROUP } from 'constants';
+// TODO: clean up imports for constants
 
 export default function GroupHome() {
   const router = useRouter();
@@ -31,7 +30,7 @@ export default function GroupHome() {
     setIsLoading(() => true);
     setApiError(() => null);
 
-    const token = PrivateGroupTokens.getGroupToken(groupID);
+    const token = PrivateGroupTokens.getGroupToken(groupID as string);
 
     if (groupID) {
       const headers = new Headers();
@@ -39,26 +38,23 @@ export default function GroupHome() {
       headers.append('Content-Type', 'application/json');
       if (token !== '') headers.append('Authorization', `Bearer ${token}`);
 
-      fetch(`${GROUP_CALENDAR}/${groupID}`, { headers })
+      fetch(`${GROUP}/${groupID}`, { headers })
         .then((res) => {
           if (res.status === 401) {
-            throw new UnauthorizedError();
+            router.push(`/auth/${groupID}`);
           }
 
           return res.json();
         })
-        .then((result) => {
-          setData(() => result);
+        .then((data) => {
+          setData(() => data);
           setIsLoading(() => false);
           setApiError(() => null);
         })
         .catch((err) => {
-          if (err instanceof UnauthorizedError) {
-            router.push(`/auth/${groupID}`);
-            return;
-          }
-          setApiError(() => err.message);
+          setApiError(() => 'Something went wrong, try again later.');
           setIsLoading(() => false);
+          console.log(err);
         });
     }
   }, [groupID]);
@@ -125,14 +121,11 @@ export default function GroupHome() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
-        leftIcon={<Menu />}
-        rightIcon={
-          <RightContainerIcon
-            handleClick={() => {
-              router.replace(`/${groupID}/availability/${date}`);
-            }}
-          />
+        leftButton={<Menu />}
+        rightIconClick={() =>
+          router.replace(`/${groupID}/availability/${date}`)
         }
+        rightIcon='EventAvailable'
       >
         <GroupBanner icon={data?.group?.icon} />
         <br />

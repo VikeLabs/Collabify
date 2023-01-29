@@ -11,39 +11,21 @@ import {
 import utilities from 'styles/utilities.module.css';
 import styles from 'styles/components/LogInForm.module.css';
 
-/**
- * @return {[boolean, string | null, React.Dispatch<React.SetStateAction<boolean>>, React.Dispatch<React.SetStateAction<string | null>>]}
- */
-const useError = () => {
-  const [open, setOpen] = useState(false);
-  const [error, setError] = useState(null);
+interface PropType {
+  handleSubmit: (password: string, callback: (err: string) => void) => void;
+}
 
-  // display error for 3 seconds
-  useEffect(() => {
-    if (error) {
-      setOpen(() => true);
-      const timeoutID = setTimeout(() => setOpen(() => false), 3000);
-      return () => timeoutID;
-    }
-  }, [error]);
-
-  return [open, error, setError, setError];
-};
-
-export const LogInForm = ({ handleSubmit }) => {
+export const LogInForm = ({ handleSubmit }: PropType) => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [open, passwordError, setOpen, setPasswordError] = useError();
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: any) => {
     setPasswordError(() => '');
     setPassword(() => e.target.value);
   };
 
-  const handleClose = (_, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
+  const handleClose = () => {
     setOpen(() => false);
   };
 
@@ -70,7 +52,7 @@ export const LogInForm = ({ handleSubmit }) => {
           label='Password (8 to 16 characters)'
           variant='filled'
           type='password'
-          size='large'
+          size='medium'
           onChange={handlePasswordChange}
         />
       </div>
@@ -106,3 +88,18 @@ export const LogInForm = ({ handleSubmit }) => {
     </section>
   );
 };
+
+function useError() {
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState(null);
+  // display error for 3 seconds
+  useEffect(() => {
+    if (error) {
+      setOpen(() => true);
+      const timeoutID = setTimeout(() => setOpen(() => false), 3000);
+      return () => clearTimeout(timeoutID);
+    }
+  }, [error]);
+
+  return [open, error, setError, setError];
+}
