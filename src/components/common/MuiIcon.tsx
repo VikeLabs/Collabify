@@ -14,17 +14,16 @@ enum AllowedIcons {
   'Lock',
 }
 
-const StringIsNumber = value => isNaN(Number(value)) === false;
+const StringIsNumber = (value) => isNaN(Number(value)) === false;
 
 const getAllIcons = () => {
   return Object.keys(AllowedIcons)
-  .filter(StringIsNumber)
-  .map(key => AllowedIcons[key]);
+    .filter(StringIsNumber)
+    .map((key) => AllowedIcons[key]);
 };
 
 interface PropType {
-  icon: AllowedIcons;
-  setActiveIcon: React.Dispatch<React.SetStateAction<AllowedIcons>>;
+  icon: string;
 }
 
 function MuiIcon({ icon }: PropType) {

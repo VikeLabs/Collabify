@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { AvailabilityCalendar } from 'components/AvailabilityCalendar';
-import { AVAILABILITY, GROUP_CALENDAR } from 'constants';
+import { GROUP } from 'constants/index';
 import { Container, Spinner } from 'components/common';
 import { AvailabilitySkeleton } from 'components/skeletons';
 import { useAsyncFetch, useDeviceDetect } from 'hooks';
@@ -16,45 +16,45 @@ export default function Availability() {
   // Get group name and week form the URL
   const { groupID, weekOf } = router.query;
   // Fetching group data
-  const [data, isLoading, apiError] = useAsyncFetch(
-    `${GROUP_CALENDAR}/${groupID}`
-  );
+  // TODO: typings for this function
+  const [data, isLoading, apiError] = useAsyncFetch<any>();
 
   // User information
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   // API validator
-  const [hasError, setHasError] = useState(apiError);
+  const [hasError, setHasError] = useState<string | null>(apiError);
   const [isSaving, setIsSaving] = useState(false);
 
   const [times, updateTimes] = useState([]);
 
   // Save the selected availability
   const saveAvailability = () => {
-    setIsSaving(true);
+    setIsSaving(() => true);
     // Send request to API
-    fetch(AVAILABILITY, {
+    fetch(`${GROUP}/${groupID}/availability`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        groupID,
-        availability: {
-          weekOf,
-          times,
-          name,
-          number,
-        },
+        weekOf,
+        times,
+        userName: name,
+        userNumber: number,
       }),
     })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.ok) {
+      .then((res) => {
+        if (res.status === 201) {
           router.replace(`/${groupID}?availabilityFilled=true`);
         } else {
-          setIsSaving(false);
-          setHasError(result.message);
+          setHasError(() => 'Something went wrong, try again later.');
         }
-      });
+
+        return;
+      })
+      .catch((e) => console.log(e));
   };
 
   if (isLoading) return <AvailabilitySkeleton />;
@@ -79,7 +79,7 @@ export default function Availability() {
 
         {weekOf && (
           <AvailabilityCalendar
-            weekOf={weekOf}
+            weekOf={weekOf as string}
             times={times}
             updateTimes={updateTimes}
             slotMinTime={data?.group?.calendarMinTime}
@@ -96,7 +96,7 @@ export default function Availability() {
                 required
                 label='Name'
                 placeholder='Your name'
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(() => e.target.value)}
                 className={utilities.input}
               />
               <TextField
@@ -104,7 +104,7 @@ export default function Availability() {
                 variant='filled'
                 label='Phone number (10 digits)'
                 placeholder='Your phone number'
-                onChange={(e) => setNumber(e.target.value)}
+                onChange={(e) => setNumber(() => e.target.value)}
                 className={utilities.input}
               />
             </div>

@@ -27,22 +27,21 @@ export default function PrivateGroupAuth() {
             callback('Password incorrect.');
             break;
           case 200:
-            return res.json();
+            return res.text();
           default:
             console.log(res);
             callback('Something went wrong. Try again later.');
             break;
         }
       })
-      .then((data) => {
-        if (!data) return;
+      .then((token) => {
+        if (!token) return;
 
-        const access_token = data['access_token'];
-        if (!access_token) {
+        if (!token) {
           throw new Error('Missing in response: access_token');
         }
 
-        PrivateGroupTokens.setGroupToken(groupID as string, access_token);
+        PrivateGroupTokens.setGroupToken(groupID as string, token);
         router.replace(`/${groupID}`);
       })
       .catch((e) => {

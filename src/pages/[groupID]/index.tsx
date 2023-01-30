@@ -1,66 +1,30 @@
 import { useEffect, useState } from 'react';
-import { Alert, Box, IconButton } from '@mui/material';
-
-import { useAddRecentGroup } from 'hooks';
-import { BASE_URL, EVENT, GROUP } from 'constants';
+import { useAddRecentGroup, useAsyncFetch } from 'hooks';
+import { BASE_URL, GROUP } from 'constants/index';
 import { useRouter } from 'next/router';
 import { Container } from 'components/common/Container';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
+import { Alert, Box, IconButton } from '@mui/material';
 import { Check, CopyAllOutlined } from '@mui/icons-material';
 import { getTodaysDate } from 'helper/getTodaysDate';
 import { GroupSkeleton } from 'components/skeletons';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
-import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
 
-  /* FETCH GROUP INFORMATION ON MOUNT */
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [apiError, setApiError] = useState(null);
+  // TODO: add typed for this `useAsyncFetch`
+  const [data, isLoading, err] = useAsyncFetch();
+  const [apiErr, setApiErr] = useState<string | null>(err);
 
-  useEffect(() => {
-    setIsLoading(() => true);
-    setApiError(() => null);
-
-    const token = PrivateGroupTokens.getGroupToken(groupID as string);
-
-    if (groupID) {
-      const headers = new Headers();
-      headers.append('method', 'GET');
-      headers.append('Content-Type', 'application/json');
-      if (token !== '') headers.append('Authorization', `Bearer ${token}`);
-
-      fetch(`${GROUP}/${groupID}`, { headers })
-        .then((res) => {
-          if (res.status === 401) {
-            router.push(`/auth/${groupID}`);
-          }
-
-          return res.json();
-        })
-        .then((data) => {
-          setData(() => data);
-          setIsLoading(() => false);
-          setApiError(() => null);
-        })
-        .catch((err) => {
-          setApiError(() => 'Something went wrong, try again later.');
-          setIsLoading(() => false);
-          console.log(err);
-        });
-    }
-  }, [groupID]);
-
-  const [hasError, setHasError] = useState(apiError);
   const [date, setDate] = useState(getTodaysDate());
   const [linkCopied, setLinkCopied] = useState(false);
 
   // If availability has been filled out show alert for 5 seconds
+  // TODO: custom hook for this, applies for api error msg
   const [successAlert, setSuccessAlert] = useState(false);
   useEffect(() => {
     setSuccessAlert(() => availabilityFilled === 'true');
@@ -73,27 +37,29 @@ export default function GroupHome() {
   // Adds group to recent groups storage
   useAddRecentGroup(data?.group);
 
+  // TODO: types for this function
+  // unused props: names, numbers <- the server will query the db for this information
   const createEvent = ({ title, description, time, names, numbers }) => {
     // Send request to API
-    fetch(EVENT, {
+    fetch(`${GROUP}/${groupID}/event`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        groupID,
-        event: {
-          title,
-          description,
-          time,
-        },
-        names,
-        numbers,
+        groupID: groupID as string,
+        title,
+        description,
+        time,
       }),
     })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.ok) {
-          // Temp solution, should have refetch of group data instead
-          window.location.reload();
-        } else setHasError(result.message);
+      .then((res) => {
+        if (res.status === 201) return window.location.reload();
+        throw new Error(`Server responded with ${res.status}`);
+      })
+      .catch((e) => {
+        setApiErr(() => 'Something went wrong, try again later.');
+        console.log(e);
       });
   };
 
@@ -110,12 +76,15 @@ export default function GroupHome() {
   return (
     <>
       {successAlert && (
-        <Alert severity='success'>
+        <Alert
+          severity='success'
+          style={{ position: 'fixed', top: 0, left: 0, right: 0 }}
+        >
           Availability has been saved! Check out everyone elses availability
           down below
         </Alert>
       )}
-      {hasError && <Alert severity='error'>{hasError}</Alert>}
+      {apiErr && <Alert severity='error'>{apiErr}</Alert>}
       <Container
         header={data?.group?.name}
         menu={[
