@@ -6,7 +6,7 @@ import YahooIcon from '@mui/icons-material/Email'; // the closet thing MUI got f
 import WindowIcon from '@mui/icons-material/Window';
 import { Button, Box, Container, Typography } from '@mui/material';
 
-import { CalendarURI } from './calendarURI';
+import { CalendarURI } from '../helpers/calendarURI';
 
 import style from 'styles/components/AddToCalendar.module.css';
 

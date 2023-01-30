@@ -9,12 +9,19 @@ import utilities from 'styles/utilities.module.css';
 
 import { motion, AnimatePresence } from 'framer-motion';
 
+interface PropType {
+  isPrivate: boolean;
+  password: string;
+  setPassword(param: any): void;
+  handleToggleSwitch(param: any): void;
+}
+
 export const PrivateGroupInfo = ({
   isPrivate,
   password,
   setPassword,
   handleToggleSwitch,
-}) => {
+}: PropType) => {
   const handlePasswordChange = (event) => {
     setPassword(() => event.target.value);
   };

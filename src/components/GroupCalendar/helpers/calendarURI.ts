@@ -22,7 +22,7 @@ class CalendarURI {
   iCalTitle = '';
   iCalDetails = '';
 
-  constructor(event) {
+  constructor(event: any) {
     this.startUTC = this._localToUTC(event.start);
     this.endUTC = this._localToUTC(event.end);
     this.duration = this._getDuration(event.start, event.end);
@@ -100,10 +100,10 @@ class CalendarURI {
     const utcMonth = localTime.getUTCMonth() + 1; // needs to be added one since month starts with 0 in JS :/
     const utcDate = localTime.getUTCDate();
 
-    let utcHour = localTime.getUTCHours();
+    let utcHour: any = localTime.getUTCHours();
     utcHour = String(utcHour).padStart(2, '0');
 
-    let utcMinute = localTime.getUTCMinutes();
+    let utcMinute: any = localTime.getUTCMinutes();
     utcMinute = String(utcMinute).padStart(2, '0');
 
     return `${utcYear}${utcMonth}${utcDate}T${utcHour}${utcMinute}00Z`;

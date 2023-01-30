@@ -3,15 +3,12 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { AvailabilityCalendar } from 'components/AvailabilityCalendar';
-import { AVAILABILITY, GROUP_CALENDAR } from '../../../constants';
-import { Container } from 'components/Container';
-import { AvailabilitySkeleton } from 'components/Availability';
+import { AVAILABILITY, GROUP_CALENDAR } from 'constants';
+import { Container, Spinner } from 'components/common';
+import { AvailabilitySkeleton } from 'components/skeletons';
 import { useAsyncFetch, useDeviceDetect } from 'hooks';
 
 import utilities from 'styles/utilities.module.css';
-import { Spinner } from 'components/Loading';
-
-import { LeftContainerIcon } from 'components/page_availability';
 
 export default function Availability() {
   const router = useRouter();
@@ -67,11 +64,8 @@ export default function Availability() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
-        leftIcon={
-          <LeftContainerIcon
-            handleClick={() => router.replace(`/${groupID}`)}
-          />
-        }
+        leftIcon={'ArrowBack'}
+        leftIconClick={() => router.replace(`/${groupID}`)}
       >
         <Spinner isLoading={isSaving} />
         <h2 className={utilities.heading}>

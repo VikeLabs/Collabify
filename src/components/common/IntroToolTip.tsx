@@ -2,7 +2,15 @@ import React from 'react';
 import Tippy from '@tippyjs/react';
 import { Button } from '@mui/material';
 
-export const IntroTooltip = ({ text, visible, close, closeAll, children }) => {
+interface PropType {
+  text: string;
+  visible: boolean;
+  close(param: any): void;
+  closeAll(param: any): void;
+  children: React.ReactNode;
+}
+
+export const IntroTooltip = ({ text, visible, close, closeAll, children }: PropType) => {
   return (
     <Tippy
       content={

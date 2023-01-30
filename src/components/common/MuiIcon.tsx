@@ -2,17 +2,25 @@ import * as Icons from '@mui/icons-material';
 import { useTheme } from '@mui/material';
 
 enum AllowedIcons {
-  Rugby = 'SportsRugby',
-  Basketball = 'SportsBasketball',
-  Computer = 'Computer',
-  Menu = 'MenuBook',
-  Palette = 'Palette',
-  Music = 'MusicNote',
-  Camera = 'CameraAlt',
-  Fire = 'LocalFireDepartment',
-  Misc = 'MiscellaneousServices',
-  Lock = 'Lock',
+  'SportsRugby',
+  'SportsBasketball',
+  'Computer',
+  'MenuBook',
+  'Palette',
+  'MusicNote',
+  'CameraAlt',
+  'LocalFireDepartment',
+  'MiscellaneousServices',
+  'Lock',
 }
+
+const StringIsNumber = value => isNaN(Number(value)) === false;
+
+const getAllIcons = () => {
+  return Object.keys(AllowedIcons)
+  .filter(StringIsNumber)
+  .map(key => AllowedIcons[key]);
+};
 
 interface PropType {
   icon: AllowedIcons;
@@ -22,8 +30,10 @@ interface PropType {
 function MuiIcon({ icon }: PropType) {
   const { palette } = useTheme();
 
+  if (!icon) return;
+
   const IconComponent = Icons[icon];
   return <IconComponent style={{ color: palette.primary.main }} />;
 }
 
-export { AllowedIcons, MuiIcon };
+export { AllowedIcons, MuiIcon, getAllIcons };

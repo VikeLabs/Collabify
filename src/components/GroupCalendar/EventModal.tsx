@@ -1,12 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Box, Modal, Divider } from '@mui/material';
 import { AddToCalendar } from './AddToCalendar';
 import { Close } from '@mui/icons-material';
 import style from 'styles/components/groupCalendar.module.css';
 
-export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
+interface PropType {
+  modalIsOpen: boolean;
+  setIsOpen(param: boolean): void;
+  modalInfo: any;
+}
+
+export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }: PropType) {
   const event = {
     start: modalInfo.start,
     end: modalInfo.end,
@@ -18,7 +23,7 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
     <Modal
       className={style.modalContainer}
       open={modalIsOpen}
-      onClose={() => setIsOpen(() => false)}
+      onClose={() => setIsOpen(false)}
     >
       <Box
         component='section'
@@ -44,7 +49,7 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
         <AddToCalendar event={event} />
 
         <button
-          onClick={() => setIsOpen(() => false)}
+          onClick={() => setIsOpen(false)}
           className={style.closeModal}
           aria-label='close button'
         >
@@ -54,9 +59,3 @@ export default function EventModal({ modalIsOpen, setIsOpen, modalInfo }) {
     </Modal>
   );
 }
-
-EventModal.propTypes = {
-  modalIsOpen: PropTypes.bool.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
-  modalInfo: PropTypes.object.isRequired,
-};

@@ -2,20 +2,17 @@ import { useEffect, useState } from 'react';
 import { Alert, Box, IconButton } from '@mui/material';
 
 import { useAddRecentGroup } from 'hooks';
-import { BASE_URL, EVENT, GROUP_CALENDAR } from 'constants';
+import { BASE_URL, EVENT, GROUP } from 'constants';
 import { useRouter } from 'next/router';
 import { Container } from 'components/common/Container';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
 import { Check, CopyAllOutlined } from '@mui/icons-material';
 import { getTodaysDate } from 'helper/getTodaysDate';
-import { GroupSkeleton } from 'components/GroupHome';
+import { GroupSkeleton } from 'components/skeletons';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
-import { Menu } from 'components/page_groupID';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
-import { GROUP } from 'constants';
-// TODO: clean up imports for constants
 
 export default function GroupHome() {
   const router = useRouter();
@@ -121,11 +118,22 @@ export default function GroupHome() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
-        leftButton={<Menu />}
+        menu={[
+          {
+            icon: 'Settings',
+            text: 'Group Settings',
+            onClick: () => router.replace(`/${groupID}/settings`),
+          },
+          {
+            icon: 'ArrowBack',
+            text: 'Back',
+            onClick: () => router.replace('/'),
+          },
+        ]}
+        rightIcon={'EventAvailable'}
         rightIconClick={() =>
           router.replace(`/${groupID}/availability/${date}`)
         }
-        rightIcon='EventAvailable'
       >
         <GroupBanner icon={data?.group?.icon} />
         <br />

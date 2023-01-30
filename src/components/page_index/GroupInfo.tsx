@@ -1,9 +1,15 @@
-import PropTypes from 'prop-types';
 import { TextField } from '@mui/material';
 
 import utilities from 'styles/utilities.module.css';
 
-export const GroupInfo = ({ name, setName, description, setDescription }) => {
+interface PropType {
+  name: string;
+  setName(param: any): void;
+  description: string;
+  setDescription(param: any): void;
+}
+
+export const GroupInfo = ({ name, setName, description, setDescription }: PropType) => {
   return (
     <section id='group-information'>
       {/* Name input */}
@@ -28,11 +34,4 @@ export const GroupInfo = ({ name, setName, description, setDescription }) => {
       </div>
     </section>
   );
-};
-
-GroupInfo.propTypes = {
-  name: PropTypes.string.isRequired,
-  setName: PropTypes.func.isRequired,
-  description: PropTypes.string.isRequired,
-  setDescription: PropTypes.func.isRequired,
 };
