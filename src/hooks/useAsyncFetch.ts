@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { GROUP } from 'constants/index';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
-import path from 'path';
 
 export const useAsyncFetch = <T>(
   pathSuffix?: string
@@ -45,7 +44,7 @@ export const useAsyncFetch = <T>(
               break;
 
             case 401:
-              router.push(`${GROUP}/auth/${groupID}`);
+              router.push(`/auth/${groupID}`);
               break;
 
             default:
