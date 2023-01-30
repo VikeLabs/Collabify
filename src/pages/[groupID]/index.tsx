@@ -18,7 +18,6 @@ export default function GroupHome() {
 
   // TODO: add typed for this `useAsyncFetch`
   const [data, isLoading, err] = useAsyncFetch();
-  useEffect(() => console.log(data), [data]);
   const [apiErr, setApiErr] = useState<string | null>(err);
 
   const [date, setDate] = useState(getTodaysDate());
