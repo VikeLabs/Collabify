@@ -11,6 +11,7 @@ import { getTodaysDate } from 'helper/getTodaysDate';
 import { GroupSkeleton } from 'components/skeletons';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function GroupHome() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function GroupHome() {
   useEffect(() => {
     setSuccessAlert(() => availabilityFilled === 'true');
 
-    const alertTimeoutID = setTimeout(() => setSuccessAlert(() => false), 5000);
+    const alertTimeoutID = setTimeout(() => setSuccessAlert(() => false), 4000);
 
     return () => clearTimeout(alertTimeoutID);
   }, [availabilityFilled]);
@@ -75,16 +76,32 @@ export default function GroupHome() {
 
   return (
     <>
-      {successAlert && (
-        <Alert
-          severity='success'
-          style={{ position: 'fixed', top: 0, left: 0, right: 0 }}
-        >
-          Availability has been saved! Check out everyone elses availability
-          down below
-        </Alert>
-      )}
+      <AnimatePresence>
+        {successAlert && (
+          <motion.div
+            initial={{ y: '-100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '-10rem' }}
+            transition={{ type: 'spring' }}
+            style={{
+              overflow: 'hidden',
+              position: 'fixed',
+              top: '4rem',
+              left: '2rem',
+              right: '2rem',
+              zIndex: 999,
+            }}
+          >
+            <Alert severity='success'>
+              Availability has been saved! Check out everyone elses availability
+              down below
+            </Alert>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {apiErr && <Alert severity='error'>{apiErr}</Alert>}
+
       <Container
         header={data?.group?.name}
         menu={[
