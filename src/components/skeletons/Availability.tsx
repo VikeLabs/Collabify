@@ -1,5 +1,5 @@
 import { Skeleton } from '@mui/material';
-import { Container } from 'components/Container';
+import { Container } from 'components/common/Container';
 import style from 'styles/pages/availability.module.css';
 
 export function AvailabilitySkeleton() {

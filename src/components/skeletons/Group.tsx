@@ -1,5 +1,5 @@
 import { Skeleton } from '@mui/material';
-import { Container } from 'components/Container';
+import { Container } from 'components/common/Container';
 import style from 'styles/pages/groupHome.module.css';
 
 export function GroupSkeleton() {

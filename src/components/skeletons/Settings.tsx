@@ -1,5 +1,5 @@
 import { Box, Skeleton } from '@mui/material';
-import { Container } from 'components/Container';
+import { Container } from 'components/common/Container';
 
 export function SettingsSkeleton() {
   return (

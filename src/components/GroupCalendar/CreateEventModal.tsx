@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Box, Modal, Button, TextField } from '@mui/material';
 import style from 'styles/components/groupCalendar.module.css';
 import utilities from 'styles/utilities.module.css';
-import { Spinner } from 'components/Loading';
+import { Spinner } from 'components/common/Spinner';
+
+interface PropType {
+  createEvent(param: object): void;
+  modalIsOpen: boolean;
+  setIsOpen(param: boolean): void;
+  modalInfo: any;
+}
 
 export default function CreateEventModal({
   createEvent,
   modalIsOpen,
   setIsOpen,
   modalInfo,
-}) {
+}: PropType) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -87,10 +93,3 @@ export default function CreateEventModal({
     </>
   );
 }
-
-CreateEventModal.propTypes = {
-  modalIsOpen: PropTypes.node.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
-  modalInfo: PropTypes.object.isRequired,
-  createEvent: PropTypes.func.isRequired,
-};

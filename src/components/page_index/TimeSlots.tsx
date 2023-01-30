@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
@@ -28,12 +27,19 @@ const allTimeOptions = [
   23,
 ];
 
+interface PropType {
+  calendarMinTime: string;
+  setCalendarMinTime(param: any): void;
+  calendarMaxTime: string;
+  setCalendarMaxTime(param: any): void;
+}
+
 export const TimeSlots = ({
   calendarMinTime,
   setCalendarMinTime,
   calendarMaxTime,
   setCalendarMaxTime,
-}) => {
+}: PropType) => {
   // Programmatically enforcing max time to be greater than min time.
   const minTime = parseInt(calendarMinTime);
   const maxTimeOptions = allTimeOptions.slice(minTime);
@@ -94,11 +100,4 @@ export const TimeSlots = ({
       </div>
     </>
   );
-};
-
-TimeSlots.propTypes = {
-  calendarMinTime: PropTypes.string.isRequired,
-  setCalendarMinTime: PropTypes.func.isRequired,
-  calendarMaxTime: PropTypes.string.isRequired,
-  setCalendarMaxTime: PropTypes.func.isRequired,
 };

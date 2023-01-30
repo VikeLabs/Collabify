@@ -6,12 +6,11 @@ import {
   ListItemAvatar,
   TextField,
 } from '@mui/material';
-import { MuiIcon } from 'components/MuiIcon';
+import { MuiIcon, Container } from 'components/common';
 import { useRouter } from 'next/router';
 import { GROUP } from '../../constants';
-import { ListSkeleton } from 'components/Tools';
+import { ListSkeleton } from 'components/skeletons';
 import React, { useEffect, useState } from 'react';
-import { Container } from 'components/Container';
 
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/tools.module.css';

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAddRecentGroup, useAsyncFetch } from 'hooks';
-import { BASE_URL, EVENT, GROUP_CALENDAR, GROUP } from 'constants/index';
+import { BASE_URL, GROUP } from 'constants/index';
 import { useRouter } from 'next/router';
 import { Container } from 'components/common/Container';
 import { GroupBanner } from 'components/GroupBanner';
@@ -8,17 +8,17 @@ import { GroupCalendar } from 'components/GroupCalendar';
 import { Alert, Box, IconButton } from '@mui/material';
 import { Check, CopyAllOutlined } from '@mui/icons-material';
 import { getTodaysDate } from 'helper/getTodaysDate';
-import { GroupSkeleton } from 'components/GroupHome';
+import { GroupSkeleton } from 'components/skeletons';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
-import { Menu } from 'components/page_groupID';
 
 export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
 
   // TODO: add typed for this `useAsyncFetch`
-  const [data, isLoading, hasError] = useAsyncFetch();
+  const [data, isLoading, err] = useAsyncFetch();
+  const [apiErr, setApiErr] = useState<string | null>(err);
 
   const [date, setDate] = useState(getTodaysDate());
   const [linkCopied, setLinkCopied] = useState(false);
@@ -38,7 +38,7 @@ export default function GroupHome() {
 
   const createEvent = ({ title, description, time, names, numbers }) => {
     // Send request to API
-    fetch(EVENT, {
+    fetch(`${GROUP}/${groupID}/event`, {
       method: 'POST',
       body: JSON.stringify({
         groupID,
@@ -56,7 +56,7 @@ export default function GroupHome() {
         if (result.ok) {
           // Temp solution, should have refetch of group data instead
           window.location.reload();
-        } else setHasError(result.message);
+        } else setApiErr(() => 'Something went wrong, try again later.');
       });
   };
 
@@ -78,14 +78,25 @@ export default function GroupHome() {
           down below
         </Alert>
       )}
-      {hasError && <Alert severity='error'>{hasError}</Alert>}
+      {apiErr && <Alert severity='error'>{apiErr}</Alert>}
       <Container
         header={data?.group?.name}
-        leftButton={<Menu />}
+        menu={[
+          {
+            icon: 'Settings',
+            text: 'Group Settings',
+            onClick: () => router.replace(`/${groupID}/settings`),
+          },
+          {
+            icon: 'ArrowBack',
+            text: 'Back',
+            onClick: () => router.replace('/'),
+          },
+        ]}
+        rightIcon={'EventAvailable'}
         rightIconClick={() =>
           router.replace(`/${groupID}/availability/${date}`)
         }
-        rightIcon='EventAvailable'
       >
         <GroupBanner icon={data?.group?.icon} />
         <br />

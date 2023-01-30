@@ -12,9 +12,8 @@ import {
   LandingBanner,
   TimeSlots,
   PrivateGroupInfo,
-  DropdownMenu,
 } from 'components/page_index';
-import { getAllIcons } from 'components/MuiIcon';
+import { AllowedIcons, getAllIcons } from 'components/common/MuiIcon';
 import Button from '@mui/material/Button';
 import { Alert } from '@mui/material'; // `Skeleton` not used
 import { GROUP } from 'constants';
@@ -25,7 +24,7 @@ export default function Home() {
   const router = useRouter();
 
   /* GROUP ICON */
-  const [activeIcon, setActiveIcon] = useState(getAllIcons()[0]); // default first icon
+  const [activeIcon, setActiveIcon] = useState<AllowedIcons>(getAllIcons()[0]); // default first icon
 
   /* GROUP INFORMAION */
   const [name, setName] = useState('');
@@ -96,8 +95,19 @@ export default function Home() {
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header='create a group'
-        leftButton={<DropdownMenu />}
-      >
+        menu={[
+          {
+            icon: 'Groups',
+            text: 'Recent Groups',
+            onClick: () => router.push('/tools/recentGroups'),
+          },
+          {
+            icon: 'Search',
+            text: 'Find Group',
+            onClick: () => router.push('/tools/findGroup'),
+          },
+        ]}
+        >
         <Spinner isLoading={isSaving} />
         <div className={style.groupInfo}>
           {/* LANDING BANNER */}

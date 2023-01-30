@@ -2,19 +2,18 @@ import { Alert } from '@mui/material'; // `Skeleton` not used
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 // Components
-import { Container } from 'components/Container';
-import { Spinner } from 'components/Loading';
-import { GroupInfo, Icons, TimeSlots } from 'components/Home';
+import { Container, Spinner } from 'components/common';
+import { GroupInfo, Icons, TimeSlots, PrivateGroupInfo } from 'components/page_index';
 
 // MUI
 import Button from '@mui/material/Button';
 
-import { GROUP } from '../../constants';
+import { GROUP } from 'constants';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
-import { useAsyncFetch } from 'hooks';
-import { SettingsSkeleton } from 'components/Settings/SettingsSkeleton';
+import { useAsyncFetch, useBool } from 'hooks';
+import { SettingsSkeleton } from 'components/skeletons';
 
 export default function GroupSettings() {
   const router = useRouter();
@@ -32,6 +31,9 @@ export default function GroupSettings() {
   const [description, setDescription] = useState(null);
   const [calendarMinTime, setCalendarMinTime] = useState(null);
   const [calendarMaxTime, setCalendarMaxTime] = useState(null);
+  /* PRIVATE GROUP */
+  const groupPrivate = useBool(false);
+  const [password, setPassword] = useState(null);
 
   useEffect(() => {
     const { group } = data;
@@ -41,6 +43,8 @@ export default function GroupSettings() {
       setDescription(group.description);
       setCalendarMinTime(group.calendarMinTime);
       setCalendarMaxTime(group.calendarMaxTime);
+      groupPrivate.setBool(() => group.isPrivate);
+      if (group.isPrivate) setPassword('........')
     }
   }, [data]);
 
@@ -61,6 +65,8 @@ export default function GroupSettings() {
         body: JSON.stringify({
           name,
           description,
+          isPrivate: groupPrivate.bool,
+          password,
           icon: activeIcon,
           calendarMinTime,
           calendarMaxTime,
@@ -107,6 +113,13 @@ export default function GroupSettings() {
             setName={setName}
             description={description}
             setDescription={setDescription}
+          />
+          {/* PRIVATE GROUP*/}
+          <PrivateGroupInfo
+            isPrivate={groupPrivate.bool}
+            password={password}
+            setPassword={setPassword}
+            handleToggleSwitch={groupPrivate.toggleBool}
           />
         </div>
         {/* Submit button */}
