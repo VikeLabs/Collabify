@@ -35,7 +35,7 @@ export default function GroupHome() {
   }, [availabilityFilled]);
 
   // Adds group to recent groups storage
-  useAddRecentGroup(data?.group);
+  useAddRecentGroup(data?.group.id);
 
   // TODO: types for this function
   // unused props: names, numbers <- the server will query the db for this information
