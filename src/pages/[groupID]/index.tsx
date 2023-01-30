@@ -18,12 +18,14 @@ export default function GroupHome() {
 
   // TODO: add typed for this `useAsyncFetch`
   const [data, isLoading, err] = useAsyncFetch();
+  useEffect(() => console.log(data), [data]);
   const [apiErr, setApiErr] = useState<string | null>(err);
 
   const [date, setDate] = useState(getTodaysDate());
   const [linkCopied, setLinkCopied] = useState(false);
 
   // If availability has been filled out show alert for 5 seconds
+  // TODO: custom hook for this, applies for api error msg
   const [successAlert, setSuccessAlert] = useState(false);
   useEffect(() => {
     setSuccessAlert(() => availabilityFilled === 'true');
@@ -36,27 +38,29 @@ export default function GroupHome() {
   // Adds group to recent groups storage
   useAddRecentGroup(data?.group);
 
+  // TODO: types for this function
+  // unused props: names, numbers <- the server will query the db for this information
   const createEvent = ({ title, description, time, names, numbers }) => {
     // Send request to API
     fetch(`${GROUP}/${groupID}/event`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        groupID,
-        event: {
-          title,
-          description,
-          time,
-        },
-        names,
-        numbers,
+        groupID: groupID as string,
+        title,
+        description,
+        time,
       }),
     })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.ok) {
-          // Temp solution, should have refetch of group data instead
-          window.location.reload();
-        } else setApiErr(() => 'Something went wrong, try again later.');
+      .then((res) => {
+        if (res.status === 201) return window.location.reload();
+        throw new Error(`Server responded with ${res.status}`);
+      })
+      .catch((e) => {
+        setApiErr(() => 'Something went wrong, try again later.');
+        console.log(e);
       });
   };
 
@@ -73,7 +77,10 @@ export default function GroupHome() {
   return (
     <>
       {successAlert && (
-        <Alert severity='success'>
+        <Alert
+          severity='success'
+          style={{ position: 'fixed', top: 0, left: 0, right: 0 }}
+        >
           Availability has been saved! Check out everyone elses availability
           down below
         </Alert>
