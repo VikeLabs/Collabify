@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { AvailabilityCalendar } from 'components/AvailabilityCalendar';
-import { AVAILABILITY, GROUP_CALENDAR } from '../../../constants';
+import { AVAILABILITY, GROUP, GROUP_CALENDAR } from '../../../constants';
 import { Container } from 'components/Container';
 import { AvailabilitySkeleton } from 'components/Availability';
 import { useAsyncFetch, useDeviceDetect } from 'hooks';
@@ -12,6 +12,7 @@ import utilities from 'styles/utilities.module.css';
 import { Spinner } from 'components/Loading';
 
 import { LeftContainerIcon } from 'components/page_availability';
+import { Group } from '@prisma/client';
 
 export default function Availability() {
   const router = useRouter();
@@ -19,16 +20,15 @@ export default function Availability() {
   // Get group name and week form the URL
   const { groupID, weekOf } = router.query;
   // Fetching group data
-  const [data, isLoading, apiError] = useAsyncFetch(
-    `${GROUP_CALENDAR}/${groupID}`
-  );
+  // TODO: typings for this function
+  const [data, isLoading, apiError] = useAsyncFetch<any>();
 
   // User information
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   // API validator
-  const [hasError, setHasError] = useState(apiError);
+  const [hasError, setHasError] = useState<string | null>(apiError);
   const [isSaving, setIsSaving] = useState(false);
 
   const [times, updateTimes] = useState([]);
@@ -37,7 +37,7 @@ export default function Availability() {
   const saveAvailability = () => {
     setIsSaving(true);
     // Send request to API
-    fetch(AVAILABILITY, {
+    fetch(`${GROUP}/${groupID}/availability`, {
       method: 'POST',
       body: JSON.stringify({
         groupID,
@@ -49,15 +49,20 @@ export default function Availability() {
         },
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
       .then((result) => {
+        console.log(result);
         if (result.ok) {
           router.replace(`/${groupID}?availabilityFilled=true`);
         } else {
           setIsSaving(false);
           setHasError(result.message);
         }
-      });
+      })
+      .catch((e) => console.log(e));
   };
 
   if (isLoading) return <AvailabilitySkeleton />;
