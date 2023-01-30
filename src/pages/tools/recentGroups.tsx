@@ -2,7 +2,7 @@
 import { List, ListItem, ListItemAvatar } from '@mui/material';
 import { MuiIcon, Container } from 'components/common';
 import { useRouter } from 'next/router';
-import { GROUP, RECENT_GROUPS_STORED } from 'constants';
+import { GROUP, RECENT_GROUPS_STORED } from 'constants/index';
 import { ListSkeleton } from 'components/skeletons';
 import React, { useEffect, useState } from 'react';
 
@@ -16,20 +16,45 @@ export default function RecentGroups() {
   const router = useRouter();
 
   const [recentGroups, setRecentGroups] = useState([]);
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setIsLoading(true);
     const groupsStored = JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED));
+    console.log(groupsStored);
     if (groupsStored) {
-      fetch(`${GROUP}/${groupsStored.map((e) => e._id).join(',')}/multiple`)
-        .then((res) => res.json())
-        .then((result) => {
-          if (result.ok) {
-            setRecentGroups(result.groups);
+      // Build query string
+      let url = `${GROUP}/multiple?`;
+      for (const group of groupsStored) {
+        url += `groupID=${group.id}&`;
+      }
+
+      console.log(url);
+
+      // fetch
+      fetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((res) => {
+          switch (res.status) {
+            case 200:
+              return res.json();
+
+            default:
+              throw new Error(`Unhandled status code: ${res.status}`);
           }
         })
-        .finally(() => setIsLoading(false));
+        .then((result) => {
+          if (result) {
+            console.log(result);
+            setRecentGroups(() => result);
+          }
+        })
+        .then(() => setIsLoading(() => false))
+        .catch((e) => {
+          console.log(e);
+        });
     } else {
       setIsLoading(false);
     }
@@ -47,8 +72,8 @@ export default function RecentGroups() {
         {recentGroups?.length > 0 ? (
           recentGroups?.map((e) => (
             <List
-              key={e._id}
-              onClick={() => router.replace(`/${e._id}`)}
+              key={e.id}
+              onClick={() => router.replace(`/${e.id}`)}
             >
               <ListItem
                 className={style.listBox}
