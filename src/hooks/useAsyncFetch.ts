@@ -47,6 +47,13 @@ export const useAsyncFetch = <T>(
               router.push(`/auth/${groupID}`);
               break;
 
+            case 404:
+              setHasError(
+                () =>
+                  "We can't locate the resource you are requesting right now, please try again later."
+              );
+              break;
+
             default:
               throw new Error(`Unhandled status code: ${status}`);
           }

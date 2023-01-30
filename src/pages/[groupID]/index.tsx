@@ -55,7 +55,7 @@ export default function GroupHome() {
     })
       .then((res) => {
         if (res.status === 201) return window.location.reload();
-        throw new Error(`Server responded with ${res.status}`);
+        throw new Error(`Unhandled status code: ${res.status}`);
       })
       .catch((e) => {
         setApiErr(() => 'Something went wrong, try again later.');
