@@ -12,7 +12,7 @@ export default async function handler(
 
   try {
     const allGroups = await getGroups();
-    res.status(200).json(allGroups);
+    res.status(200).json(allGroups.groups);
     return;
   } catch (error) {
     res.status(500).end();
