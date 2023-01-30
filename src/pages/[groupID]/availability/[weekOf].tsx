@@ -31,32 +31,28 @@ export default function Availability() {
 
   // Save the selected availability
   const saveAvailability = () => {
-    setIsSaving(true);
+    setIsSaving(() => true);
     // Send request to API
     fetch(`${GROUP}/${groupID}/availability`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        groupID,
-        availability: {
-          weekOf,
-          times,
-          name,
-          number,
-        },
+        weekOf,
+        times,
+        userName: name,
+        userNumber: number,
       }),
     })
       .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((result) => {
-        console.log(result);
-        if (result.ok) {
+        if (res.status === 201) {
           router.replace(`/${groupID}?availabilityFilled=true`);
         } else {
-          setIsSaving(false);
-          setHasError(result.message);
+          setHasError(() => 'Something went wrong, try again later.');
         }
+
+        return;
       })
       .catch((e) => console.log(e));
   };
@@ -100,7 +96,7 @@ export default function Availability() {
                 required
                 label='Name'
                 placeholder='Your name'
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(() => e.target.value)}
                 className={utilities.input}
               />
               <TextField
@@ -108,7 +104,7 @@ export default function Availability() {
                 variant='filled'
                 label='Phone number (10 digits)'
                 placeholder='Your phone number'
-                onChange={(e) => setNumber(e.target.value)}
+                onChange={(e) => setNumber(() => e.target.value)}
                 className={utilities.input}
               />
             </div>
