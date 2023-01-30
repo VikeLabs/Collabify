@@ -1,65 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Alert, Box, IconButton } from '@mui/material';
-
-import { useAddRecentGroup } from 'hooks';
-import { BASE_URL, EVENT, GROUP_CALENDAR } from 'constants';
+import { useAddRecentGroup, useAsyncFetch } from 'hooks';
+import { BASE_URL, EVENT, GROUP_CALENDAR, GROUP } from 'constants/index';
 import { useRouter } from 'next/router';
 import { Container } from 'components/common/Container';
 import { GroupBanner } from 'components/GroupBanner';
 import { GroupCalendar } from 'components/GroupCalendar';
+import { Alert, Box, IconButton } from '@mui/material';
 import { Check, CopyAllOutlined } from '@mui/icons-material';
 import { getTodaysDate } from 'helper/getTodaysDate';
 import { GroupSkeleton } from 'components/GroupHome';
 import utilities from 'styles/utilities.module.css';
 import style from 'styles/pages/groupHome.module.css';
 import { Menu } from 'components/page_groupID';
-import { PrivateGroupTokens } from 'helper/privateGroupTokens';
-import { GROUP } from 'constants';
-// TODO: clean up imports for constants
 
 export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
 
-  /* FETCH GROUP INFORMATION ON MOUNT */
-  const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [apiError, setApiError] = useState(null);
+  // TODO: add typed for this `useAsyncFetch`
+  const [data, isLoading, hasError] = useAsyncFetch(groupID as string);
 
-  useEffect(() => {
-    setIsLoading(() => true);
-    setApiError(() => null);
-
-    const token = PrivateGroupTokens.getGroupToken(groupID as string);
-
-    if (groupID) {
-      const headers = new Headers();
-      headers.append('method', 'GET');
-      headers.append('Content-Type', 'application/json');
-      if (token !== '') headers.append('Authorization', `Bearer ${token}`);
-
-      fetch(`${GROUP}/${groupID}`, { headers })
-        .then((res) => {
-          if (res.status === 401) {
-            router.push(`/auth/${groupID}`);
-          }
-
-          return res.json();
-        })
-        .then((data) => {
-          setData(() => data);
-          setIsLoading(() => false);
-          setApiError(() => null);
-        })
-        .catch((err) => {
-          setApiError(() => 'Something went wrong, try again later.');
-          setIsLoading(() => false);
-          console.log(err);
-        });
-    }
-  }, [groupID]);
-
-  const [hasError, setHasError] = useState(apiError);
   const [date, setDate] = useState(getTodaysDate());
   const [linkCopied, setLinkCopied] = useState(false);
 
