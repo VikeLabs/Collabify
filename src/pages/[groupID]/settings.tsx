@@ -3,7 +3,12 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 // Components
 import { Container, Spinner } from 'components/common';
-import { GroupInfo, Icons, TimeSlots, PrivateGroupInfo } from 'components/page_index';
+import {
+  GroupInfo,
+  Icons,
+  TimeSlots,
+  PrivateGroupInfo,
+} from 'components/page_index';
 
 // MUI
 import Button from '@mui/material/Button';
@@ -14,13 +19,14 @@ import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 import { useAsyncFetch, useBool } from 'hooks';
 import { SettingsSkeleton } from 'components/skeletons';
+import { PrivateGroupTokens } from 'helper/privateGroupTokens';
 
 export default function GroupSettings() {
   const router = useRouter();
 
   const { groupID } = router.query;
 
-  const [data, isLoading, apiError] = useAsyncFetch(`${GROUP}/${groupID}`);
+  const [data, isLoading, apiError] = useAsyncFetch();
 
   // Icons related
   const [activeIcon, setActiveIcon] = useState(null);
@@ -36,7 +42,7 @@ export default function GroupSettings() {
   const [password, setPassword] = useState(null);
 
   useEffect(() => {
-    const { group } = data;
+    const group = data;
     if (group) {
       setActiveIcon(group.icon);
       setName(group.name);
@@ -44,7 +50,7 @@ export default function GroupSettings() {
       setCalendarMinTime(group.calendarMinTime);
       setCalendarMaxTime(group.calendarMaxTime);
       groupPrivate.setBool(() => group.isPrivate);
-      if (group.isPrivate) setPassword('........')
+      if (group.isPrivate) setPassword('........');
     }
   }, [data]);
 
@@ -60,8 +66,12 @@ export default function GroupSettings() {
       setHasError('Name must be under 20 characters');
     } else {
       setIsSaving(true);
+      const token = PrivateGroupTokens.getGroupToken(groupID as string);
+      const headers = new Headers({ 'content-type': 'application/json' });
+      token && headers.append('Authorization', `Bearer ${token}`);
       fetch(`${GROUP}/${groupID}`, {
         method: 'PATCH',
+        headers,
         body: JSON.stringify({
           name,
           description,
@@ -72,14 +82,21 @@ export default function GroupSettings() {
           calendarMaxTime,
         }),
       })
-        .then((res) => res.json())
-        .then((result) => {
-          if (result.ok) router.push(`/${result.groupID}`);
-          else {
-            setIsSaving(false);
-            setHasError(result.message);
+        .then((res) => {
+          switch (res.status) {
+            case 200:
+              router.replace(`/${groupID}`);
+              break;
+
+            case 401:
+              router.push(`/auth/${groupID}`);
+              break;
+
+            default:
+              throw new Error(`Unhandled status code: ${res.status}`);
           }
-        });
+        })
+        .catch((e) => console.log(e));
     }
   };
 

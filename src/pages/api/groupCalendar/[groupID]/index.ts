@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { JsonWebToken } from 'api-lib/auth';
 import { getEvents } from 'api-lib/db/event';
-import { getGroupByID } from 'api-lib/db/group';
+import { getGroupByID, updateGroup } from 'api-lib/db/group';
 import { getAvailabilities } from 'api-lib/db/availability';
 import { Group } from '@prisma/client';
 import prisma from 'api-lib/prisma';
@@ -67,7 +67,11 @@ export default async function handler(
       case 'PATCH': {
         const updatedGroup: Group = req.body;
         const data = { ...group, ...updatedGroup }; // overriding existing group
-        await prisma.group.update({ where: { id: groupID }, data });
+
+        const err = await updateGroup(data, groupID);
+        if (err) {
+          res.status(err.statusCode);
+        }
 
         res.status(200).end();
       }
