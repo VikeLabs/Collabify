@@ -54,7 +54,7 @@ export default function PrivateGroupAuth() {
     <Container
       header='Private Group'
       leftIcon='ArrowBack'
-      leftIconClick={() => router.back()}
+      leftIconClick={() => router.replace('/')}
     >
       <LogInForm handleSubmit={handleSubmit} />;
     </Container>
