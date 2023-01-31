@@ -21,12 +21,11 @@ export default function RecentGroups() {
   useEffect(() => {
     setIsLoading(true);
     const groupsStored = JSON.parse(localStorage.getItem(RECENT_GROUPS_STORED));
-    console.log(groupsStored);
     if (groupsStored) {
       // Build query string
       let url = `${GROUP}/multiple?`;
-      for (const group of groupsStored) {
-        url += `groupID=${group.id}&`;
+      for (const id of groupsStored) {
+        url += `groupID=${id}&`;
       }
 
       console.log(url);

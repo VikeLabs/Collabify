@@ -17,8 +17,7 @@ export default function GroupHome() {
   const router = useRouter();
   const { groupID, availabilityFilled } = router.query;
 
-  // TODO: add typed for this `useAsyncFetch`
-  const [data, isLoading, err] = useAsyncFetch();
+  const [data, isLoading, err] = useAsyncFetch<any>();
   const [apiErr, setApiErr] = useState<string | null>(err);
 
   const [date, setDate] = useState(getTodaysDate());

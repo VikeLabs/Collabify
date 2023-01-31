@@ -26,7 +26,7 @@ export default function GroupSettings() {
 
   const { groupID } = router.query;
 
-  const [data, isLoading, apiError] = useAsyncFetch();
+  const [data, isLoading, apiError] = useAsyncFetch<any>();
 
   // Icons related
   const [activeIcon, setActiveIcon] = useState(null);
@@ -42,21 +42,22 @@ export default function GroupSettings() {
   const [password, setPassword] = useState(null);
 
   useEffect(() => {
-    const group = data;
-    if (group) {
-      setActiveIcon(group.icon);
-      setName(group.name);
-      setDescription(group.description);
-      setCalendarMinTime(group.calendarMinTime);
-      setCalendarMaxTime(group.calendarMaxTime);
-      groupPrivate.setBool(() => group.isPrivate);
-      if (group.isPrivate) setPassword('........');
+    if (data) {
+      setActiveIcon(data.group.icon);
+      setName(data.group.name);
+      setDescription(data.group.description);
+      setCalendarMinTime(data.group.calendarMinTime);
+      setCalendarMaxTime(data.group.calendarMaxTime);
+      groupPrivate.setBool(() => data.group.isPrivate);
+      if (data.group.isPrivate) setPassword('........');
     }
   }, [data]);
 
   const editGroup = () => {
     if (name === '') {
       setHasError('Missing required input (name)');
+    } else if (groupPrivate && password === '') {
+      setHasError('Missing required input (password')
     } else if (
       parseInt(calendarMinTime.replace(':', '')) >
       parseInt(calendarMaxTime.replace(':', ''))
@@ -143,7 +144,10 @@ export default function GroupSettings() {
         <div className={utilities.buttonContainer}>
           <Button
             variant='contained'
-            disabled={!name || isSaving ? true : false}
+            disabled={
+              !name || 
+              isSaving || 
+              groupPrivate.bool && (password.length < 8 || password.length > 16) ? true : false}
             onClick={editGroup}
             className={utilities.button}
           >

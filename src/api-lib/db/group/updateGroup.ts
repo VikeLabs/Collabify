@@ -10,7 +10,9 @@ export const updateGroup = async (
   try {
     const saltRounds = 10;
 
-    data.password = await bcrypt.hash(data.password, saltRounds);
+    if (data.isPrivate) {
+      data.password = await bcrypt.hash(data.password, saltRounds);
+    }
 
     await prisma.group.update({ where: { id: groupID }, data });
 
