@@ -23,7 +23,7 @@ const getAllIcons = () => {
 };
 
 interface PropType {
-  icon: string;
+  icon: AllowedIcons;
 }
 
 function MuiIcon({ icon }: PropType) {

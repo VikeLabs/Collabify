@@ -2,7 +2,7 @@
 import { List, ListItem, ListItemAvatar } from '@mui/material';
 import { MuiIcon, Container } from 'components/common';
 import { useRouter } from 'next/router';
-import { GROUP, RECENT_GROUPS_STORED } from 'constants/index';
+import { RECENT_GROUPS_STORED, GROUP } from 'constants/index';
 import { ListSkeleton } from 'components/skeletons';
 import React, { useEffect, useState } from 'react';
 

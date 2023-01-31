@@ -3,7 +3,7 @@ import { AppBar } from '../../../node_modules/@material-ui/core/index';
 import * as Icons from '@mui/icons-material';
 import { useDeviceDetect, useLocalStorage } from 'hooks';
 import { useState } from 'react';
-import { CLOSE_ALL_TOOLTIPS } from 'constants';
+import { CLOSE_ALL_TOOLTIPS } from 'constants/index';
 import { IntroTooltip } from './IntroToolTip';
 import { Divider, Menu, MenuItem } from '@mui/material';
 
@@ -42,11 +42,10 @@ export const Container = ({
   return (
     <div>
       <AppBar className={style.headerContainer} position="static">
-        {/*TODO: Talk about having the navbar overtop of child as scroll */}
         {menu && (
           <IntroTooltip
             text='extend for more options'
-            visible={showTooltip === undefined ?? true}
+            visible={showTooltip === null ?? true}
             close={() => setShowToolTip(false)}
             closeAll={() => {
               setShowToolTip(false);
@@ -123,7 +122,6 @@ export const Container = ({
       {/* Drop down menu */}
       <Menu
         anchorEl={anchorEl}
-        getContentAnchorEl={null}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         transformOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={isOpen}

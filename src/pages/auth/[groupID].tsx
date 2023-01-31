@@ -3,8 +3,7 @@ import { LogInForm } from 'components/page_auth_groupID';
 // import { AUTH_GROUP } from 'constants';
 import { useRouter } from 'next/router';
 import { PrivateGroupTokens } from 'helper/privateGroupTokens';
-
-const API = '/api/groupCalendar'; // TODO: change this to one of the global constants
+import { GROUP } from 'constants/index';
 
 export default function PrivateGroupAuth() {
   const router = useRouter();
@@ -14,7 +13,7 @@ export default function PrivateGroupAuth() {
     inputPassword: string,
     callback: (err: string) => void
   ) => {
-    fetch(`${API}/auth/${groupID}`, {
+    fetch(`${GROUP}/auth/${groupID}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

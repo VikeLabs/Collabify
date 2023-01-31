@@ -13,21 +13,13 @@ import CreateEventModal from './CreateEventModal';
 import style from 'styles/components/groupCalendar.module.css';
 import moment from 'moment';
 
-interface PropType {
-  calendarEvents: Array<any>;
-  createEvent(param: object): void;
-  slotMinTime: string;
-  slotMaxTime: string;
-  setDate(param: any): void;
-}
-
 export const GroupCalendar = ({
   calendarEvents,
   createEvent,
   slotMinTime,
   slotMaxTime,
   setDate,
-}: PropType) => {
+}) => {
   const { isMobile } = useDeviceDetect();
   //Event Modal State
   const [eventModal, setEventModal] = useState(false);

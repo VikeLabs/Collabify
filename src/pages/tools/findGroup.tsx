@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { MuiIcon, Container } from 'components/common';
 import { useRouter } from 'next/router';
-import { GROUP } from '../../constants';
+import { GROUP } from 'constants/index';
 import { ListSkeleton } from 'components/skeletons';
 import React, { useEffect, useState } from 'react';
 import utilities from 'styles/utilities.module.css';

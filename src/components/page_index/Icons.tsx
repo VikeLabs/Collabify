@@ -1,5 +1,4 @@
 import { AllowedIcons, getAllIcons, MuiIcon } from 'components/common/MuiIcon';
-import { SetStateAction } from 'react';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
@@ -19,9 +18,7 @@ export const Icons = ({ setActiveIcon, activeIcon }: PropType) => {
           className={activeIcon === icon ? style.iconSelected : style.icon}
           onClick={() => setActiveIcon(icon)}
         >
-          <MuiIcon icon={icon} setActiveIcon={function (value: SetStateAction<AllowedIcons>): void {
-            throw new Error('Function not implemented.');
-          } } />
+          <MuiIcon icon={icon} />
         </li>
       );
     });

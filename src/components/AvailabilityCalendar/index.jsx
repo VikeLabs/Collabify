@@ -9,21 +9,13 @@ import { useDeviceDetect } from 'hooks';
 
 import { useState } from 'react';
 
-interface PropType {
-  weekOf: string;
-  times: Array<object>;
-  updateTimes(param: any): void;
-  slotMinTime: string;
-  slotMaxTime: string;
-}
-
 export const AvailabilityCalendar = ({
   weekOf,
   times,
   updateTimes,
   slotMinTime,
   slotMaxTime,
-}: PropType) => {
+}) => {
   const { isMobile } = useDeviceDetect();
   const theme = useTheme();
 
@@ -50,7 +42,7 @@ export const AvailabilityCalendar = ({
         undo: {
           text: <UndoIcon />,
           click: function () {
-            updateTimes((arr: string | any[]) => arr.slice(0, -1));
+            updateTimes((arr) => arr.slice(0, -1));
           },
         },
         weekend: {

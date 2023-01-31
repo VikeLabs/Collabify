@@ -13,7 +13,7 @@ import {
 // MUI
 import Button from '@mui/material/Button';
 
-import { GROUP } from 'constants';
+import { GROUP } from 'constants/index';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';

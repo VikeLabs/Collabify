@@ -16,7 +16,7 @@ import {
 import { AllowedIcons, getAllIcons } from 'components/common/MuiIcon';
 import Button from '@mui/material/Button';
 import { Alert } from '@mui/material'; // `Skeleton` not used
-import { GROUP } from 'constants';
+import { GROUP } from 'constants/index';
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 
@@ -70,7 +70,7 @@ export default function Home() {
     };
 
     setIsSaving(() => true);
-    handleSubmit(newGroup as Group)
+    handleSubmit(newGroup as unknown as Group)
       .then((res) => {
         if (res.status === 201) return res.json();
       })

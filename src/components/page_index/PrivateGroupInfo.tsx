@@ -32,14 +32,9 @@ export const PrivateGroupInfo = ({
         <h4>PRIVATE:</h4>
         <span>
           <FormControlLabel
-            control={
-              <Switch
-                checked={isPrivate}
-                onChange={handleToggleSwitch}
-              />
-            }
-            inputProps={{ 'aria-label': 'controlled' }}
-          />
+            control={<Switch
+              checked={isPrivate}
+              onChange={handleToggleSwitch} />} label={''}/>
         </span>
       </div>
 

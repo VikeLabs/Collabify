@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 import { getColorPalette } from 'styles/theme';
-import { THEME_STORED } from 'constants';
+import { THEME_STORED } from 'constants/index';
 
 // Gets theme from local storage (personalized theme for the site)
 const themeInStorage =

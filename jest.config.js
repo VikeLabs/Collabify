@@ -9,6 +9,7 @@ const jestConfig = {
   moduleNameMapper: {
     'api-lib(.*)': '<rootDir>/src/api-lib/$1',
     'components(.*)': '<rootDir>/src/components/$1',
+    'constants(.*)': '<rootDir>/src/constants/$1',
     'hooks(.*)': '<rootDir>/src/hooks/$1',
     'pages(.*)': '<rootDir>/src/pages/$1',
   },

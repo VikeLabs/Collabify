@@ -7,7 +7,7 @@ interface PropType {
   visible: boolean;
   close(param: any): void;
   closeAll(param: any): void;
-  children: React.ReactNode;
+  children: any;
 }
 
 export const IntroTooltip = ({ text, visible, close, closeAll, children }: PropType) => {
