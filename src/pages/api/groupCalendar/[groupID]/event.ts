@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Event, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import prisma from 'api-lib/prisma';
 import { sendText } from 'api-lib/twilio';
 import { createEvent, type NewEvent } from 'api-lib/db/event/createEvent';

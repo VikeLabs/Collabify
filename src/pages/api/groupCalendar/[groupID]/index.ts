@@ -4,7 +4,6 @@ import { getEvents } from 'api-lib/db/event';
 import { getGroupByID, updateGroup } from 'api-lib/db/group';
 import { getAvailabilities } from 'api-lib/db/availability';
 import { Group } from '@prisma/client';
-import prisma from 'api-lib/prisma';
 
 export default async function handler(
   req: NextApiRequest,
