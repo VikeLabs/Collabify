@@ -17,6 +17,7 @@ type CreateGroup = (group: Group) => Promise<CreateGroupResult>;
  *   - generate a uuid for `group.privateToken`
  * */
 export const createGroup: CreateGroup = async (group: Group) => {
+  console.log('good over here')
   if (group.isPrivate) {
     if (!group.password || group.password === '') {
       const error = new ApiError(

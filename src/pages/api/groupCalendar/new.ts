@@ -20,6 +20,7 @@ export default async function handler(
 
   try {
     const reqGroup: Group = req.body;
+    console.log('here')
     const { group, error } = await createGroup(reqGroup);
     if (error) {
       res.status(error.statusCode).end();
