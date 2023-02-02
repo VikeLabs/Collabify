@@ -1,4 +1,3 @@
-import { Group } from '@prisma/client';
 import { JsonWebToken as jwt } from 'api-lib/auth';
 import { createGroup } from 'api-lib/db/group';
 
@@ -20,21 +19,9 @@ export default async function handler(
   console.log('Received')
 
   try {
-    const reqGroup: Group = req.body;
-    console.log('here')
-    const { group, error } = await createGroup(reqGroup);
-    if (error) {
-      res.status(error.statusCode).end();
-      return;
-    }
+console.log('here')
 
-    const buf: ResponseBuffer = { groupID: group.id };
-
-    if (reqGroup.isPrivate) {
-      buf.access_token = jwt.signPrivateGroupToken(group.privateToken);
-    }
-
-    res.status(201).json(buf);
+    res.status(201).json('poo');
     return;
   } catch (err) {
     res.status(500).end();
