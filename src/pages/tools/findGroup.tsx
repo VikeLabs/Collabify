@@ -103,14 +103,16 @@ function useSearchDebounced() {
 
         if (res.status === 200) {
           const data = await res.json();
-          console.log(data);
           setGroups(() => data);
           setIsLoading(() => false);
+        } else {
+          throw new Error(`Unhandled status code: ${res.status}`);
         }
       } catch (e) {
         setError(
           () => 'Cannot perform that action right now, try again later.'
         );
+        console.log(e);
       }
     })();
   }, []);
