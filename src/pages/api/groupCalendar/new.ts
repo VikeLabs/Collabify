@@ -17,6 +17,7 @@ export default async function handler(
     res.status(405).end();
     return;
   }
+  console.log('Received')
 
   try {
     const reqGroup: Group = req.body;
