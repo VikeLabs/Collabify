@@ -1,6 +1,3 @@
-import { JsonWebToken as jwt } from 'api-lib/auth';
-import { createGroup } from 'api-lib/db/group';
-
 import { NextApiRequest, NextApiResponse } from 'next';
 
 interface ResponseBuffer {
@@ -16,16 +13,6 @@ export default async function handler(
     res.status(405).end();
     return;
   }
-  console.log('Received')
 
-  try {
-console.log('here')
-
-    res.status(201).json('poo');
-    return;
-  } catch (err) {
-    res.status(500).end();
-    console.log(err);
-    return;
-  }
+  console.log('yup')
 }

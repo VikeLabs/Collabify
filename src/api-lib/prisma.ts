@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-
+console.log('failing as fuck out here')
 let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === 'production') {
