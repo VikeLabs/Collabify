@@ -156,6 +156,7 @@ export default function Home() {
 }
 
 function handleSubmit(body: Group) {
+  console.log('sent!')
   return fetch(`${GROUP}/new`, {
     method: 'POST',
     headers: {
