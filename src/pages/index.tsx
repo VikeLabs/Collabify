@@ -13,7 +13,7 @@ import {
   TimeSlots,
   PrivateGroupInfo,
 } from 'components/page_index';
-import { AllowedIcons, getAllIcons } from 'components/common/MuiIcon';
+import { GroupIcons } from 'components/common/MuiIcon';
 import Button from '@mui/material/Button';
 import { Alert } from '@mui/material'; // `Skeleton` not used
 import { GROUP } from 'constants/index';
@@ -24,7 +24,7 @@ export default function Home() {
   const router = useRouter();
 
   /* GROUP ICON */
-  const [activeIcon, setActiveIcon] = useState<AllowedIcons>(getAllIcons()[0]); // default first icon
+  const [activeIcon, setActiveIcon] = useState(GroupIcons[0]); // default first icon
 
   /* GROUP INFORMAION */
   const [name, setName] = useState('');

@@ -22,7 +22,13 @@ export const AvailabilityCalendar = ({
   const [showWeekend, setShowWeekend] = useState(isMobile ? false : true);
 
   const handleSelect = (selectInfo) => {
-    updateTimes((arr) => [...arr, selectInfo]);
+    updateTimes((arr) => [...arr, {
+      id: selectInfo.id, 
+      start: selectInfo.start, 
+      end: selectInfo.end,
+      startStr: selectInfo.startStr,
+      endStr: selectInfo.endStr
+    }]);
   };
 
   const handleClick = (eventInfo) => {

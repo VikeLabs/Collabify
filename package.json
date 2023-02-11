@@ -26,6 +26,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.8",
     "@mui/styles": "^5.10.10",
+    "@mui/x-date-pickers": "^5.0.18",
     "@prisma/client": "^4.9.0",
     "@tippyjs/react": "^4.2.6",
     "@types/node": "^18.11.18",

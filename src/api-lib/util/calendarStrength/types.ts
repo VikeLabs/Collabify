@@ -15,9 +15,6 @@ export interface TimeSlot {
   end: Date;
   startStr: Date;
   endStr: Date;
-  allDay: boolean;
-  jsEvent: any; // don't care
-  view: any; // don't care
 }
 
 export interface TimeObject {

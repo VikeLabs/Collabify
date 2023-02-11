@@ -1,29 +1,8 @@
 import * as Icons from '@mui/icons-material';
 import { useTheme } from '@mui/material';
 
-enum AllowedIcons {
-  'SportsRugby',
-  'SportsBasketball',
-  'Computer',
-  'MenuBook',
-  'Palette',
-  'MusicNote',
-  'CameraAlt',
-  'LocalFireDepartment',
-  'MiscellaneousServices',
-  'Lock',
-}
-
-const StringIsNumber = (value) => isNaN(Number(value)) === false;
-
-const getAllIcons = () => {
-  return Object.keys(AllowedIcons)
-    .filter(StringIsNumber)
-    .map((key) => AllowedIcons[key]);
-};
-
 interface PropType {
-  icon: AllowedIcons;
+  icon: string;
 }
 
 function MuiIcon({ icon }: PropType) {
@@ -35,4 +14,16 @@ function MuiIcon({ icon }: PropType) {
   return <IconComponent style={{ color: palette.primary.main }} />;
 }
 
-export { AllowedIcons, MuiIcon, getAllIcons };
+const GroupIcons: string[] = [
+  'SportsRugby',
+  'SportsBasketball',
+  'Computer',
+  'MenuBook',
+  'Palette',
+  'MusicNote',
+  'CameraAlt',
+  'LocalFireDepartment',
+  'MiscellaneousServices',
+]
+
+export { MuiIcon, GroupIcons}

@@ -1,17 +1,16 @@
-import { AllowedIcons, getAllIcons, MuiIcon } from 'components/common/MuiIcon';
+import { GroupIcons, MuiIcon } from 'components/common/MuiIcon';
 
 import style from 'styles/pages/home.module.css';
 import utilities from 'styles/utilities.module.css';
 
 interface PropType {
-  activeIcon: AllowedIcons;
-  setActiveIcon(param: AllowedIcons): void;
+  activeIcon: string;
+  setActiveIcon(param: string): void;
 }
 
 export const Icons = ({ setActiveIcon, activeIcon }: PropType) => {
-  const icons = getAllIcons();
   const allIcons = () => {
-    return icons.map((icon: AllowedIcons) => {
+    return GroupIcons.map((icon: string) => {
       return (
         <li
           key={icon}

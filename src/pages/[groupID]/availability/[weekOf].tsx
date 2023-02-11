@@ -9,6 +9,7 @@ import { AvailabilitySkeleton } from 'components/skeletons';
 import { useAsyncFetch, useDeviceDetect } from 'hooks';
 
 import utilities from 'styles/utilities.module.css';
+import AddAvailabilityModal from 'components/page_availability/AddAvailabilityModal';
 
 export default function Availability() {
   const router = useRouter();
@@ -22,12 +23,14 @@ export default function Availability() {
   // User information
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const [times, updateTimes] = useState([]);
 
   // API validator
   const [hasError, setHasError] = useState<string | null>(apiError);
   const [isSaving, setIsSaving] = useState(false);
 
-  const [times, updateTimes] = useState([]);
+  // Modal Info
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   // Save the selected availability
   const saveAvailability = () => {
@@ -61,11 +64,18 @@ export default function Availability() {
 
   return (
     <>
+      <AddAvailabilityModal
+        updateTimes={updateTimes}
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setModalIsOpen}
+      />
       {hasError && <Alert severity='error'>{hasError}</Alert>}
       <Container
         header={data?.group?.name}
         leftIcon={'ArrowBack'}
         leftIconClick={() => router.replace(`/${groupID}`)}
+        rightIcon={'Add'}
+        rightIconClick={() => setModalIsOpen(true)}
       >
         <Spinner isLoading={isSaving} />
         <h2 className={utilities.heading}>
