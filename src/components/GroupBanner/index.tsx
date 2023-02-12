@@ -1,9 +1,8 @@
-import { AllowedIcons, MuiIcon } from 'components/common/MuiIcon';
-import { SetStateAction } from 'react';
+import { MuiIcon } from 'components/common/MuiIcon';
 import style from 'styles/components/groupBanner.module.css';
 
 interface PropType {
-  icon: AllowedIcons;
+  icon: string;
 }
 
 export const GroupBanner = ({ icon }: PropType) => {
