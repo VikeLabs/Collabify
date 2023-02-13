@@ -62,3 +62,9 @@
     border-radius: 5px;
     background-color: #cce0ea;
 }
+
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 90vw;
+  }
+}
