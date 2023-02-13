@@ -78,44 +78,28 @@ export const Container = ({
           />
         )}
         {rightIcon && (
-          <RightIconComponent
-            onClick={rightIconClick}
-            style={{
-              color: 'white',
-              position: 'absolute',
-              marginTop: '0.2em',
-              right: isMobile ? '3vw' : '2.5vw',
-            }}
-          />
-        )}
-        {leftIcon && (
-          <div>
-            <LeftIconComponent
-              onClick={leftIconClick}
-              icon={leftIcon}
-              style={{
-                color: 'white',
-                position: 'absolute',
-                marginTop: '0.2em',
-                cursor: 'pointer',
-              }}
-            />
-          </div>
-        )}
-        {rightIcon && (
-          <div>
+          <IntroTooltip
+          text='add availability manually'
+          visible={(showTooltip === null ?? true) && (rightIcon === "Add" ?? true)}
+          close={() => setShowToolTip(false)}
+          closeAll={() => {
+            setShowToolTip(false);
+            localStorage.setItem(CLOSE_ALL_TOOLTIPS, 'true');
+          }}
+          >
             <RightIconComponent
-              onClick={rightIconClick}
-              icon={rightIcon}
+              onClick={()=> {
+                rightIconClick(); 
+                setShowToolTip(false);
+              }}
               style={{
                 color: 'white',
                 position: 'absolute',
                 marginTop: '0.2em',
                 right: isMobile ? '3vw' : '2.5vw',
-                cursor: 'pointer',
               }}
             />
-          </div>
+          </IntroTooltip>
         )}
         <h1 className={style.header}>{header}</h1>
       </AppBar>
