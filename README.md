@@ -37,14 +37,41 @@ TWILIO_AUTH_TOKEN=<Get from Ben>
 PRIVATE_GROUP_SECRET=<Any random string 8 - 32 chars>
 ```
 
-#### PostGres
+#### PostGres/Docker
 
-For Postgres to work as expected (assuming it's been installed and configured on your machine),
-you will have to create a database `collabify` in the `psql` shell
+- **For Postgres**
 
-```sql
-CREATE DATABASE collabify;
-```
+  ```sql
+  CREATE DATABASE collabify;
+  ```
+
+- For **Docker**:
+
+  - [Docker installation](https://www.docker.com/products/docker-desktop/).
+
+  - You need to change your `DATABASE_URL` in your `.env` file to be:
+
+    ```
+    DATABASE_URL=postgres://postgres:postgres@localhost:5432/collabify
+    ```
+
+    - These are the credentials set in `docker-compose.yml`
+
+  - Start a Postgres container with
+
+    ```sh
+    docker-compose up database -d
+    # flag -d is optional, if you are not interested in seeing the
+    # log for _postgres_
+    ```
+
+  - Stop the Postgres container with
+
+    ```sh
+    docker-compose down
+    ```
+
+  - A `tmp` dir would be created, it's for the Postgres database, don't mod/delete.
 
 DB migration is needed, you only need to do this whenever there's a change in the db schema.
 

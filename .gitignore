@@ -37,5 +37,5 @@ secret
 *.tsbuildinfo
 next-env.d.ts
 
-# text editor config
-*.vim
+/tmp
+

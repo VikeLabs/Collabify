@@ -1,0 +1,27 @@
+.container {
+  display: grid;
+  place-items: center;
+  postion: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+}
+
+.card {
+  box-shadow: 2px 4px 9px hsla(0deg, 0%, 30%, 15%);
+  padding: 1rem;
+}
+
+.textFieldContainer {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}

@@ -51,3 +51,11 @@ model Availability {
   group      Group    @relation(fields: [groupID], references: [id])
   groupID    Int
 }
+
+//*               BLOG STUFF                 *//
+model Admin {
+  @@map("admin")
+  id         Int      @id @default(autoincrement())
+  password   String
+  email      String   @unique
+}
