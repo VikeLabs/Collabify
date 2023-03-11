@@ -37,6 +37,8 @@ export default function GroupHome() {
   // Adds group to recent groups storage
   useAddRecentGroup(data?.group.id);
 
+  console.log(data?.calendarEvents)
+
   // TODO: types for this function
   // unused props: names, numbers <- the server will query the db for this information
   const createEvent = ({ title, description, time, names, numbers }) => {
