@@ -9,11 +9,6 @@ import 'tippy.js/dist/tippy.css';
 import 'styles/globals.css';
 import { BugReport } from 'components/common';
 import { theme } from 'styles/muiglobals';
-import Amplify from 'aws-amplify';
-
-Amplify.configure({
-  ssr: true
-});
 
 function MyApp({ Component, pageProps }) {
   return (
