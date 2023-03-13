@@ -4,6 +4,11 @@ import { createGroup } from 'api-lib/db/group';
 
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { Amplify } from "aws-amplify";
+import config from '../../../aws-exports'
+
+Amplify.configure({ ...config, ssr: true });
+
 interface ResponseBuffer {
   access_token?: string;
   groupID: number;
