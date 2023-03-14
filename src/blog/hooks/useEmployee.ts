@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Credentials } from 'blog/api/types';
+import { useRouter } from 'next/router';
 
 type Input = React.ChangeEvent<HTMLInputElement>;
 
@@ -46,22 +47,28 @@ export function useEmployee() {
     }
   };
 
+  const nav = useRouter();
+
+  const [username, setUserName] = useState<string>('');
+  const onUsername = (e: Input) => setUserName(() => e.target.value);
   const onRegister = async () => {
     try {
       setIsLoading(() => true);
-      const res = await fetch('/api/admin/register', {
+      const res = await fetch('/api/admin/auth/register', {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
         },
-        body: JSON.stringify(credential),
+        body: JSON.stringify({ ...credential, username }),
       });
 
       if (res.status !== 201) {
         setError(() => `server status: ${res.status}`);
+        setIsLoading(() => false);
         return;
       }
-      setIsLoading(() => false);
+
+      nav.back();
     } catch (e) {
       console.log(e);
     }
@@ -72,6 +79,8 @@ export function useEmployee() {
     onEmail,
     onPassword,
     onLogin,
+    onUsername,
+    username,
     onRegister,
     isLoading,
     error,
