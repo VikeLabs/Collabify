@@ -1,28 +1,35 @@
 .listBox {
-    background-color: var(--secondary-light);
-    padding: 1em 1em;
-    border-radius: 4px;
+  background-color: var(--secondary-light);
+  padding: 1em 1em;
+  border-radius: 4px;
 }
 
 .listBox:hover {
-    background-color: var(--secondary-main);
+  background-color: var(--secondary-main);
 }
 
 .listBox h3 {
-    color: var(--primary-main);
+  color: var(--primary-main);
 }
 
 .listBox p {
-    color: #766c78;
+  color: #766c78;
 }
 
 .iconContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    width: 3em;
-    height: 3em;
-    box-shadow: 2px 2px 12px #7c7c7c90;
-    background-color: var(--tertiary-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+  box-shadow: 2px 2px 12px #7c7c7c90;
+  background-color: var(--tertiary-main);
+}
+
+.noGroupsContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  color: hsla(0deg, 0%, 0%, 60%);
 }
