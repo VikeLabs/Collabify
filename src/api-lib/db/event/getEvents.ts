@@ -9,7 +9,7 @@ export interface ParsedEvent {
   backgroundColor: string;
 }
 
-export const getEvents = async (groupID: number) => {
+export const getEvents = async (groupID: number): Promise<ParsedEvent[]> => {
   const events = await prisma.event.findMany({
     where: { groupID },
     select: {
@@ -20,5 +20,13 @@ export const getEvents = async (groupID: number) => {
     },
   });
 
-  return events;
+  return events.map((event) => ({
+    title: event.title,
+    start: event.startTimeStr,
+    end: event.endTimeStr,
+    description: event.description,
+    display: 'block',
+    backgroundColor: '#fb8500',
+    allDay: false,
+  }));
 };
