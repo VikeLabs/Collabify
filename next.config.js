@@ -5,6 +5,7 @@ const withTM = require('next-transpile-modules')([
   '@fullcalendar/interaction',
   '@fullcalendar/react',
   '@fullcalendar/timegrid',
+  '@fullcalendar/common',
 ]);
 
 module.exports = withTM({
