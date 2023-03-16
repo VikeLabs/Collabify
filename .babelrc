@@ -4,5 +4,18 @@
     "test": {
       "plugins": ["@babel/plugin-transform-modules-commonjs"]
     }
-  }
+  },
+  "overrides": [
+    {
+        "include": ["./node_modules"],
+        "plugins": [
+            [
+                "babel-plugin-transform-require-ignore",
+                {
+                    "extensions": [".css"]
+                }
+             ]
+        ]
+    }
+]
 }
