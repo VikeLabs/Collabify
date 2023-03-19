@@ -11,10 +11,10 @@ export interface ParsedAvailabilities extends Time {
 }
 
 export interface TimeSlot {
-  start: Date;
-  end: Date;
-  startStr: Date;
-  endStr: Date;
+  start: string;
+  end: string;
+  startStr: string;
+  endStr: string;
 }
 
 export interface TimeObject {
