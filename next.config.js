@@ -1,14 +1,12 @@
 /** @type {import('next').NextConfig} */
 const withTM = require('next-transpile-modules')([
-  '@fullcalendar/common',
-  '@fullcalendar/common',
+  '@fullcalendar/core',
   '@fullcalendar/daygrid',
   '@fullcalendar/interaction',
   '@fullcalendar/react',
   '@fullcalendar/timegrid',
+  '@fullcalendar/common',
 ]);
 
 module.exports = withTM({
-  reactStrictMode: true,
-  swcMinify: true
 });

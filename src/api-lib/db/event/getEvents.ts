@@ -27,5 +27,6 @@ export const getEvents = async (groupID: number): Promise<ParsedEvent[]> => {
     description: event.description,
     display: 'block',
     backgroundColor: '#fb8500',
+    allDay: false,
   }));
 };

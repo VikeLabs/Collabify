@@ -167,7 +167,6 @@ export const GroupCalendar = ({
         eventLongPressDelay={500}
         selectLongPressDelay={500}
         selectable={true}
-        dayMaxEvents={true}
         allDaySlot={false}
         editable={false}
         height={isMobile ? 'auto' : '60vh'}
