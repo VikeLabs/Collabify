@@ -1,0 +1,82 @@
+.bannerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    background:url('../../../public/assets/GroupMeeting.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.bannerText {
+    color: #f6f5f8;
+    font-size: 32px;
+    letter-spacing: 3px;
+}
+
+.headerText {
+    text-align: center;
+    font-size: 30px;
+    color: var(--primary-main);
+}
+
+.floatContainer {
+    padding: 20px;
+}
+
+.floatChild {
+    width: 50%;
+    height: 25vh;
+    float: left;
+    padding: 20px;
+}
+
+.imageContainer {
+    padding: 20px;
+    height: 25vh;
+    background:url('../../../public/assets/GroupMeeting.png');
+    background-size:cover;
+    background-position:center;
+}
+
+.imageText {
+    color: #f6f5f8;
+    font-size: 34px;
+    letter-spacing: 3px;
+}
+
+.icon {
+    color: var(--tertiary-main);
+    font-size: 38px;
+}
+
+.testimonialContainer {
+    display:flex;
+    margin-top: 20rem;
+    width: 100%;
+    height:40vh;
+    justify-content: center;
+    background-color: var(--primary-main);
+}
+
+.testimonialText {
+    padding-top: 2rem;
+    text-align: center;
+    font-size: 30px;
+    color: #f6f5f8;
+}
+
+.blogContainer {
+    display:flex;
+    margin-top: 3rem;
+    width: 100%;
+    height:40vh;
+    justify-content: center;
+}
+
+.blogText {
+    padding-top: 2rem;
+    text-align: center;
+    font-size: 30px;
+    color: var(--primary-main);
+}
