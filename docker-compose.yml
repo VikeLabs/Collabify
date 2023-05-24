@@ -14,13 +14,3 @@ services:
       - 5432:5432
     volumes:
       - ./tmp/postgresql:/var/lib/postgresql/data
-
-  web:
-    container_name: collabify-web
-    build: .
-    ports:
-      - 3000:3000
-    volumes:
-      - ./:/collabify
-    links:
-      - database

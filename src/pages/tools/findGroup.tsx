@@ -16,13 +16,12 @@ import style from 'styles/pages/tools.module.css';
 import { Stack } from '@mui/system';
 import { ArrowForward, Search } from '@mui/icons-material';
 import Head from 'next/head';
+import s from 'styles/pages/tools.module.css';
 
 export default function RecentGroups() {
   const router = useRouter();
   const { groups, query, handleSearch, isLoading, error } =
     useSearchDebounced();
-
-  if (isLoading) return <ListSkeleton />;
 
   return (
     <>
@@ -46,7 +45,13 @@ export default function RecentGroups() {
           onChange={handleSearch}
           value={query}
         />
-        {groups.length > 0 ? (
+        {isLoading ? (
+          <ListSkeleton />
+        ) : query === '' ? (
+          <div className={s.noGroupsContainer}>
+            <p>Start typing to search for groups</p>
+          </div>
+        ) : groups.length > 0 ? (
           groups
             .filter((e) => e.name.includes(query))
             .map((e) => (
@@ -86,38 +91,46 @@ export default function RecentGroups() {
 }
 
 function useSearchDebounced() {
-  // TODO: add a debounce to this so request
-  const [groups, setGroups] = useState<any[] | null>([]); // TODO: types for this
+  const [groups, setGroups] = useState<any[]>([]); // TODO: types for this
   const [query, setQuery] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    (async () => {
-      setIsLoading(() => true);
-      try {
-        const res = await fetch(`${GROUP}/all`, {
-          method: 'GET',
-          headers: { 'content-type': 'application/json' },
-        });
+  async function getGroups() {
+    const q = new URLSearchParams({ q: query }).toString();
+    try {
+      const response = await fetch(`${GROUP}/find?${q}`);
 
-        if (res.status === 200) {
-          const data = await res.json();
+      switch (response.status) {
+        case 200:
+          const data = await response.json();
           setGroups(() => data);
-          setIsLoading(() => false);
-        } else {
-          throw new Error(`Unhandled status code: ${res.status}`);
-        }
-      } catch (e) {
-        setError(
-          () => 'Cannot perform that action right now, try again later.'
-        );
-        console.log(e);
+          break;
+        case 404:
+          setGroups(() => []);
+          break;
+        default:
+          setError(() => 'Something went wrong, try again later.');
+          console.log(response.status);
+          break;
       }
-    })();
-  }, []);
+    } catch (e) {
+      setError(() => "Server isn't responding, try again later.");
+    } finally {
+      setIsLoading(() => false);
+    }
+  }
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      if (query !== '') getGroups();
+      else setIsLoading(() => false);
+    }, 500);
+    return () => clearTimeout(id);
+  }, [query]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(() => true); // set to false in the finally block
     setQuery(() => e.target.value);
   };
 
