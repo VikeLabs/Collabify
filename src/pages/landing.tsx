@@ -1,5 +1,6 @@
 import { LandingContainer } from 'components/common/LandingContainer'
-import { Box, Button } from '@material-ui/core'
+import { Box, Button, Divider } from '@mui/material'
+import StarIcon from '@mui/icons-material/Star';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from 'styles/pages/landing.module.css'
@@ -45,13 +46,15 @@ export default function Landing() {
         <h2 className={styles.testimonialText}>
           Testimonials from satisfied customers
         </h2>
-
+        <Divider variant='middle'>
+          <StarIcon style={{color: 'white'}}/>
+        </Divider>
       </Box>
       <Box className={styles.blogContainer}>
         <h2 className={styles.blogText}>
           More Collabify topics...
         </h2>
-        <Button variant="contained">Visit Blog</Button>
+        <Button className={styles.blogButton} variant="contained" size='large'>Visit Blog</Button>
       </Box>
     </LandingContainer>
   )

@@ -51,32 +51,28 @@
 }
 
 .testimonialContainer {
-    display:flex;
     margin-top: 20rem;
+    text-align: center;
     width: 100%;
     height:40vh;
-    justify-content: center;
     background-color: var(--primary-main);
 }
 
 .testimonialText {
     padding-top: 2rem;
-    text-align: center;
     font-size: 30px;
     color: #f6f5f8;
 }
 
 .blogContainer {
-    display:flex;
+    text-align: center;
     margin-top: 3rem;
     width: 100%;
     height:40vh;
-    justify-content: center;
 }
 
 .blogText {
     padding-top: 2rem;
-    text-align: center;
     font-size: 30px;
     color: var(--primary-main);
 }
