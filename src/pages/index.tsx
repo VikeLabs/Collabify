@@ -26,14 +26,14 @@ export default function Home() {
   /* GROUP ICON */
   const [activeIcon, setActiveIcon] = useState(GroupIcons[0]); // default first icon
 
-  /* GROUP INFORMAION */
+  /* GROUP INFORMATION */
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [calendarMinTime, setCalendarMinTime] = useState('09:00:00');
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
   /* PRIVATE GROUP */
-  const groupPrivate = useBool(true);
+  const groupPrivate = useBool(false);
   const [password, setPassword] = useState('');
 
   /* FORM VALIDATION */
