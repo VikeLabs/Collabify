@@ -66,7 +66,7 @@ export default function RecentGroups() {
       <Container
         header='recently visited'
         leftIcon={'ArrowBack'}
-        leftIconClick={() => router.replace('/')}
+        leftIconClick={() => router.back()}
       >
         {recentGroups?.length > 0 ? (
           recentGroups?.map((e) => (

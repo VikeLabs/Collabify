@@ -39,6 +39,11 @@
     background-position:center;
 }
 
+.imageContainer:hover {
+    transition: .3s ease-in-out;
+    opacity: .5;
+}
+
 .imageText {
     color: #f6f5f8;
     font-size: 34px;
