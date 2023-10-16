@@ -69,6 +69,21 @@
     color: #f6f5f8;
 }
 
+.videoContainer {
+    margin-top: 20rem;
+    text-align: center;
+    width: 100%;
+    height:40vh;
+    background-color: var(--primary-main);
+}
+
+.videoText {
+    padding-top: 2rem;
+    font-size: 30px;
+    margin-bottom: 1em;
+    color: #f6f5f8;
+}
+
 .blogContainer {
     text-align: center;
     margin-top: 3rem;

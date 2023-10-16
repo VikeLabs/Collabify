@@ -21,7 +21,7 @@ export const LandingContainer = ({
   // Icon component
   const MenuIconComponent = Icons['Menu'];
 
-  if (!isMobile) {
+  if (isMobile) {
     return (
         <div>
           <AppBar className={style.headerContainer} position="static">

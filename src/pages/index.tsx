@@ -44,14 +44,20 @@ export default function Landing() {
           </div>
         </div>
       </Box>
-      <Box className={styles.testimonialContainer}>
+      <Box className={styles.videoContainer}>
+        <h2 className={styles.videoText}>
+          How to use Collabify
+        </h2>
+        <p>w</p>
+      </Box>
+      {/* <Box className={styles.testimonialContainer}>
         <h2 className={styles.testimonialText}>
           Testimonials from satisfied customers
         </h2>
         <Divider variant='middle'>
           <StarIcon style={{color: 'white'}}/>
         </Divider>
-      </Box>
+      </Box> */}
       <Box className={styles.blogContainer}>
         <h2 className={styles.blogText}>
           More Collabify topics...
