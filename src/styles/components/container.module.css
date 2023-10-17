@@ -11,6 +11,10 @@
   color: white;
 }
 
+.navItems {
+  float: right;
+}
+
 .menu {
   cursor: pointer;
 }

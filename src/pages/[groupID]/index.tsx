@@ -112,7 +112,7 @@ export default function GroupHome() {
           {
             icon: 'ArrowBack',
             text: 'Back',
-            onClick: () => router.replace('/'),
+            onClick: () => router.back(),
           },
         ]}
         rightIcon={'EventAvailable'}
