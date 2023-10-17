@@ -7,6 +7,7 @@ import styles from 'styles/pages/landing.module.css'
 import util from 'styles/utilities.module.css'
 import React from 'react'
 import { useRouter } from 'next/router';
+import YouTubePlayer from 'components/common/YouTubePlayer';
 
 export default function Landing() {
   const router = useRouter()
@@ -48,16 +49,8 @@ export default function Landing() {
         <h2 className={styles.videoText}>
           How to use Collabify
         </h2>
-        <p>w</p>
+        <YouTubePlayer videoId={'jcuntRqabCg'}/>
       </Box>
-      {/* <Box className={styles.testimonialContainer}>
-        <h2 className={styles.testimonialText}>
-          Testimonials from satisfied customers
-        </h2>
-        <Divider variant='middle'>
-          <StarIcon style={{color: 'white'}}/>
-        </Divider>
-      </Box> */}
       <Box className={styles.blogContainer}>
         <h2 className={styles.blogText}>
           More Collabify topics...
