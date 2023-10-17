@@ -53,9 +53,9 @@ export default function Landing() {
       </Box>
       <Box className={styles.blogContainer}>
         <h2 className={styles.blogText}>
-          More Collabify topics...
+          Join our community...
         </h2>
-        <Button className={styles.blogButton} variant="contained" size='large'>Visit Blog</Button>
+        <Button onClick={()=> router.push('https://discord.gg/SDSvrzxjGH')} className={styles.blogButton} variant="contained" size='large'>Discord</Button>
       </Box>
     </LandingContainer>
   )
