@@ -33,7 +33,7 @@ export default function Home() {
   const [calendarMaxTime, setCalendarMaxTime] = useState('17:00:00');
 
   /* PRIVATE GROUP */
-  const groupPrivate = useBool(true);
+  const groupPrivate = useBool(false);
   const [password, setPassword] = useState('');
 
   /* FORM VALIDATION */
