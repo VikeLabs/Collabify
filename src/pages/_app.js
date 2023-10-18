@@ -1,4 +1,5 @@
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Head from 'next/head.js';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { GlobalStyle } from '../styles/global.js';
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <GlobalStyle />
+      <Analytics />
       <Head>
         <title>Collabify</title>
         <meta
